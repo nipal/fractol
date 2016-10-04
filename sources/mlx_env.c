@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/04 01:52:36 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/04 09:36:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,15 @@ void		env_mid(t_env *e)
 	e->rot_z = (0.0 / 360.0) * 2 * M_PI;
 }
 
+t_env	*get_env(t_env *e)
+{
+	static	t_env	*env = NULL;
+
+	if (e)
+		env = e;
+	return (env);
+}
+
 void		env(int **map, int size_x, int size_y)
 {
 	t_env		e;
@@ -193,6 +202,7 @@ void		env(int **map, int size_x, int size_y)
 
 	if (!(z_dim = get_max_zdim(map, size_x, size_y)))
 		return ;
+	get_env(&e);
 	e.mult_z = 1;
 	e.size_map_x = size_x;
 	e.size_map_y = size_y;
@@ -208,7 +218,7 @@ void		env(int **map, int size_x, int size_y)
 		return ;
 	e.win = mlx_new_window(e.mlx, SIZE_Y, SIZE_X, "Leu test");
 	e.img = mlx_new_image(e.mlx, SIZE_Y, SIZE_X);
-	e.data = mlx_get_data_addr(e.img, &(e.depth), &(e.size_line), &(e.endian));
+	e.data = (t_pix*)mlx_get_data_addr(e.img, &(e.depth), &(e.size_line), &(e.endian));
 	e.z_buffer = (double*)malloc(sizeof(double) * SIZE_X * SIZE_Y);
 	env_end(&e);
 	matrix_free(&z_dim);

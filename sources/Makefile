@@ -6,12 +6,13 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/03 22:01:01 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/04 08:17:21 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	../fratctol
 SRC		= 	main.c \
+			calcul_madelbrot.c \
 			mlx_env.c \
 			print_somthing.c \
 			hook.c \

@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/04 01:52:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/04 09:36:18 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ typedef	struct			s_mouse
 	int					right_press;
 	int					right_release;
 }						t_mouse;
+
+typedef	union			u_pix
+{
+	int					nb;
+	char				comp[4];
+}						t_pix;
 
 typedef struct			s_key
 {
@@ -138,7 +144,7 @@ typedef struct			s_env
 	void				*mlx;
 	void				*win;
 	void				*img;
-	char				*data;
+	t_pix				*data;
 	double				*z_buffer;
 	int					size_line;
 	int					ecr_x;
@@ -182,6 +188,14 @@ typedef struct			s_env
 	int					nb_frame;
 	double				advence;
 	double				mult_z;
+	
+	int					img_low[SIZE_Y][SIZE_X];
+	int					img_height[SIZE_Y * 2 + 2][SIZE_X * 2 + 2];
+	int					x_maxl;
+	int					y_maxl;
+	int					x_maxh;
+	int					y_maxh;
+	int					iter;
 }						t_env;
 
 typedef struct			s_point
@@ -303,4 +317,14 @@ double					**cast_tab(int **tab, int x, int y);
 
 int	loop_mouse_clic(int button, int x, int y, t_env *e);
 int	loop_mouse_move(int x, int y, t_env *e);
+t_env	*get_env(t_env *e);
+
+
+void	resize_window(double pos[4], double mult, double x, double y);
+void	set_color_fractal(t_env *e);
+void	calc_average(double pos[8], double max[4], t_env *e);
+int		get_iter_average(double mult[2], int val[SIZE_Y * 2 + 2][SIZE_X * 2 + 2]);
+int		get_gray_color(int valu, int max_iter);
+void	calcul_hgrid(t_env *e, double pos[4]);
+int		calcul_one_point(double ct[2], int iter);
 #endif

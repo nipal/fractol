@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/04 08:17:21 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/05 03:20:15 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,9 @@ SRC		= 	main.c \
 
 OBJ		= $(SRC:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror -O3
+FLAGS = -Wall -Wextra -Werror  -fsanitize=address -g3
 
-FLAGS-DEBUG = -g -Wall -Wextra -Werror
+FLAGS-DEBUG = -g3 -Wall -Wextra -Werror
 
 all: $(NAME)
 

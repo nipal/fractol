@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/30 14:38:59 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/01 23:18:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 02:52:14 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_matrix	***copy_vect_map(t_env *e)
 
 void		main_work(t_env *e)
 {
+	ft_putstr("youpi\n");
 	t_matrix	*color;
 	t_matrix	*color2;
 	t_matrix	***map;

@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 07:31:16 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/01 19:13:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 04:13:10 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,21 @@ char	*maps_name(char *str)
 	return (name);
 }
 
-int		main(int ac, char **av)
+int		main(void)
 {
-	int		fd;
+//	int		fd;
 	int		**map;
 	int		size_x;
 	int		size_y;
-	char	*str;
+//	char	*str;
 
-	if (ac == 2)
-		str = av[1];
-	else
-		str = "maps/42.fdf";
-	maps_name(str);
-	fd = open(str, O_RDONLY);
-	if (fd > 0)
-	{
-		if ((map = get_the_map(fd, &size_x, &size_y)))
-			env(map, size_x, size_y);
-	}
-	else
-		perror(str);
+	size_x = 0;
+	size_y = 0;
+	ft_putstr("ahahah\n");
+	map = ft_memalloc(sizeof(int *));
+	map[0] = ft_memalloc(sizeof(int) * 300);
+	env(map, size_x, size_y);
+	env(map, size_x, size_y);
+	ft_putstr("wesh\n");
 	return (0);
 }

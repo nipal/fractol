@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/04 09:36:17 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 04:09:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,29 +197,50 @@ t_env	*get_env(t_env *e)
 
 void		env(int **map, int size_x, int size_y)
 {
+	ft_putstr("a0\n");
 	t_env		e;
 	t_matrix	*z_dim;
 
+	ft_putstr("a0\n");
 	if (!(z_dim = get_max_zdim(map, size_x, size_y)))
 		return ;
+	ft_putstr("a1\n");
 	get_env(&e);
+	ft_putstr("a2\n");
 	e.mult_z = 1;
+	ft_putstr("a3\n");
 	e.size_map_x = size_x;
+	ft_putstr("a4\n");
 	e.size_map_y = size_y;
+	ft_putstr("a5\n");
 	e.z_min = z_dim->m[0];
+	ft_putstr("a6\n");
 	e.z_max = z_dim->m[1];
+ft_putstr("a7\n");
 	env_mid(&e);
+ft_putstr("a8\n");
 	e.map = map;
+ft_putstr("a9\n");
 	if (!(e.map_d = cast_tab(map, size_x, size_y)))
 		return ;
+ft_putstr("a10\n");
 	if (!(map_color_init(&e)))
 		return ;
+ft_putstr("a11\n");
 	if (!(e.mlx = mlx_init()))
 		return ;
+ft_putstr("a12\n");
 	e.win = mlx_new_window(e.mlx, SIZE_Y, SIZE_X, "Leu test");
+ft_putstr("a13\n");
 	e.img = mlx_new_image(e.mlx, SIZE_Y, SIZE_X);
+ft_putstr("a14\n");
 	e.data = (t_pix*)mlx_get_data_addr(e.img, &(e.depth), &(e.size_line), &(e.endian));
+ft_putstr("a15\n");
 	e.z_buffer = (double*)malloc(sizeof(double) * SIZE_X * SIZE_Y);
+ft_putstr("a16\n");
 	env_end(&e);
+ft_putstr("a17\n");
 	matrix_free(&z_dim);
+	ft_putstr("a18\n");
+	return ;
 }

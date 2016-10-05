@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 02:31:41 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/04 09:36:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 02:51:47 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
@@ -79,6 +79,7 @@ void	set_color_fractal(t_env *e)
 	int		i;
 	int		j;
 
+void	calc_average(double pos[8], double max[4], t_env *e);
 	j = 0;
 	while (j < e->y_maxl)
 	{
@@ -182,6 +183,73 @@ void	resize_window(double pos[4], double mult, double x, double y)
 	pos[1] = new_pos[1];
 	pos[2] = new_pos[2];
 	pos[3] = new_pos[3];
+}
+
+int		averaging_height(double coef[6], int img_h[SIZE_Y * 2 + 2][SIZE_X * 2 + 2], int i, int j)
+{
+	double	result;
+	int		k;
+
+	result = 0;
+	k = 0;
+	while (k < 9)
+	{
+		result += coef[3 + (k / 3)] * coef[k % 3] * (double)(img_h[j + (k / 3) - 1][i + (k % 3) - 1]);
+		k++;
+	}
+	return ((int)result);
+}
+
+void	end_average_calc(double du, double pack[12], int img_height[SIZE_Y * 2 + 2][SIZE_X * 2 + 2]
+		, int img_low[SIZE_Y][SIZE_X])
+{
+	double	result;
+	int		k;
+
+	pack[10] = 0;
+	while (pack[10] < SIZE_X)
+	{
+		pack[0] = pack[6];
+		pack[1] = (1 - pack[6] > du) ? du : 1 - pack[6];
+		pack[2] = (1 - pack[6] > du) ? 1 - du - pack[6] : 0;
+		result = 0;
+		k = 0;
+		while (k < 9)
+		{
+			result += pack[3 + (k / 3)] * pack[k % 3]
+				* (double)(img_height[(int)pack[9] + (k / 3) - 1][(int)pack[8] + (k % 3) - 1]);
+			k++;
+		}
+		img_low[(int)pack[11]][(int)pack[10]] = (int)result;
+		pack[6] += (1 - pack[6] > du) ? 2 * du - 1: -du;
+		pack[8] += (1 - pack[6] > du) ? 1 : 2;
+		pack[10]++;
+	}
+}
+
+void	calculate_average(int img_low[SIZE_Y][SIZE_X], int img_height[SIZE_Y * 2 + 2][SIZE_X * 2 + 2],
+			double pos_l[4], double pos_h[4])
+{
+	double	pack[12];
+	double	du;
+
+	pack[6] = 0;
+	pack[7] = 0;
+	du = ((pos_h[2] - pos_h[0]) * SIZE_X ) / 
+		((pos_l[2] - pos_l[0]) * (SIZE_X * 2.0 + 2.0));
+	pack[8] = (pos_l[0] - pos_h[0]) / (pos_h[2] - pos_h[0]) * (SIZE_X * 2 + 2);
+	pack[9] = (pos_l[1] - pos_h[1]) / (pos_h[3] - pos_h[1]) * (SIZE_Y * 2 + 2);
+	pack[11] = 0;
+	while (pack[11] < SIZE_Y)
+	{
+		pack[3] = pack[7];
+		pack[4] = (1 - pack[7] > du) ? du : 1 - pack[7];
+		pack[5] = (1 - pack[7] > du) ? 1 - du - pack[7] : 0;
+		end_average_calc(du, pack, img_height, img_low);
+		pack[7] += (1 - pack[7] > du) ? 2 * du - 1: -du;
+		pack[7] += (1 - pack[7]) ? 1 : 2;
+		pack[11]++;
+	}
 }
 
 

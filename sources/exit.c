@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/09/30 04:56:31 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 20:03:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,73 +14,36 @@
 #include "libft.h"
 #include "fdf.h"
 
-void	free_map(t_matrix ****map, t_env *e)
+void	free_img(int ***img, int size_y)
 {
-	int	i;
 	int	j;
 
-	if (!e
-		|| !map
-		|| !(*map)
-		|| !(**map)
-		|| !(***map))
+	if (!img || !img[0] || !img[0][0])
 		return ;
 	j = 0;
-	while (j < e->size_map_y)
+	while (j < size_y)
 	{
-		i = 0;
-		while (i < e->size_map_x)
+		if (img[j])
 		{
-			matrix_free((*map)[j] + i);
-			i++;
+			free(img[0][j]);
+			img[0] = NULL;
 		}
-		free((*map)[j]);
-		(*map)[j] = NULL;
 		j++;
 	}
-	free(*map);
-	*map = NULL;
-}
-
-int		free_int_map(t_env *e)
-{
-	int	j;
-
-	j = 0;
-	while (j < e->size_map_y)
+	if (img[0])
 	{
-		free(e->map[j]);
-		j++;
+		free(img[0]);
+		img[0] = NULL;
 	}
-	free(e->map);
-	return (0);
 }
 
-int		free_cam(t_env *e)
+int		ft_exit(t_env *e)
 {
-	int	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		matrix_free(e->cam->base + i);
-		i++;
-	}
-	matrix_free(&(e->cam->pos));
-	matrix_free(&(e->cam->dir));
-	matrix_free(&(e->cam->rot));
-	free(e->cam);
-	return (0);
-}
-
-int		ft_exit(t_env **e)
-{
-	free((*e)->z_buffer);
-	free_int_map(*e);
-	free_map(&((*e)->color_map), *e);
-	free_cam(*e);
-	mlx_destroy_image((*e)->mlx, (*e)->img);
-	mlx_destroy_window((*e)->mlx, (*e)->win);
+	free(e->z_buffer);
+	free_img(&(e->img_low), e->y_maxl);
+	free_img(&(e->img_height), e->y_maxh);
+	mlx_destroy_image(e->mlx, e->img);
+	mlx_destroy_window(e->mlx, e->win);
 	exit(0);
 	return (0);
 }

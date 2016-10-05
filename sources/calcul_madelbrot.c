@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 02:31:41 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/05 02:51:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 20:21:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fdf.h"
@@ -116,7 +116,7 @@ void	calc_average(double pos[8], double max[4], t_env *e);
 **			3	h_y_max
 */
 
-int		get_iter_average(double mult[2], int val[SIZE_Y * 2 + 2][SIZE_X * 2 + 2])
+int		get_iter_average(double mult[2], int **val)
 {
 	int		i;
 	int		j;
@@ -185,7 +185,7 @@ void	resize_window(double pos[4], double mult, double x, double y)
 	pos[3] = new_pos[3];
 }
 
-int		averaging_height(double coef[6], int img_h[SIZE_Y * 2 + 2][SIZE_X * 2 + 2], int i, int j)
+int		averaging_height(double coef[6], int **img_h, int i, int j)
 {
 	double	result;
 	int		k;
@@ -200,8 +200,7 @@ int		averaging_height(double coef[6], int img_h[SIZE_Y * 2 + 2][SIZE_X * 2 + 2],
 	return ((int)result);
 }
 
-void	end_average_calc(double du, double pack[12], int img_height[SIZE_Y * 2 + 2][SIZE_X * 2 + 2]
-		, int img_low[SIZE_Y][SIZE_X])
+void	end_average_calc(double du, double pack[12], int **img_height, int **img_low)
 {
 	double	result;
 	int		k;
@@ -227,8 +226,7 @@ void	end_average_calc(double du, double pack[12], int img_height[SIZE_Y * 2 + 2]
 	}
 }
 
-void	calculate_average(int img_low[SIZE_Y][SIZE_X], int img_height[SIZE_Y * 2 + 2][SIZE_X * 2 + 2],
-			double pos_l[4], double pos_h[4])
+void	calculate_average(int **img_low, int **img_height, double pos_l[4], double pos_h[4])
 {
 	double	pack[12];
 	double	du;

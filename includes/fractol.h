@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/05 20:25:01 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/06 07:15:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,23 @@
 # include <string.h>
 
 # define BETA e->beta
+
+# define KEY_PRESS                2
+# define KEY_RELEASE              3
+# define BUTTON_PRESS             4
+# define BUTTON_RELEASE           5
+# define MOTION_NOTIFY            6
+
+typedef	struct			s_average
+{
+	double	du;
+	int		il;
+	int		jl;
+	int		ih;
+	int		ih0;
+	int		jh;
+	double	coef[6];
+}						t_average;
 
 typedef	struct			s_mouse
 {
@@ -49,8 +66,9 @@ typedef	struct			s_cam
 	t_matrix			*rot;
 }						t_cam;
 
-# define SIZE_X 480
-# define SIZE_Y 320
+# define SIZE_X 840
+# define SIZE_Y 840
+# define ITER 1000
 
 typedef struct			s_env
 {
@@ -62,28 +80,34 @@ typedef struct			s_env
 	int					size_line;
 	int					depth;
 	int					endian;
-	int**				img_low;//[SIZE_Y][SIZE_X];
-	int**				img_height;//[SIZE_Y * 2 + 2][SIZE_X * 2 + 2];
+	double				**img_low;//[SIZE_Y][SIZE_X];
+	double				**img_height;//[SIZE_Y * 2 + 2][SIZE_X * 2 + 2];
 	int					x_maxl;
 	int					y_maxl;
 	int					x_maxh;
 	int					y_maxh;
 	int					iter;
+	double				pos_height[4];
+	double				pos_low[4];
 }						t_env;
 
+void		print_map(double **img, int size_x, int size_y);
 /*
 ** hook
 */
 int						key_press(int keycode, t_env *e);
 int						key_release(int keycode, t_env *e);
-
-int						loop_hook(t_env *e);
+int						mouse_motion(int x, int y, t_env *e);
+int 					mouse_press(int button, int x, int y, t_env *e);
+int 					mouse_release(int button, int x, int y, t_env *e);
+void					set_key(int key_code, t_env *e, const int on, const int off);
 
 /*
 ** mlx_env
 */
 void					vectpx_to_img(t_env *e, t_matrix *pos_color);
 void					env(void);
+void					init_pos_ecr(t_env *e);
 
 
 /*
@@ -93,12 +117,10 @@ void					free_map(t_matrix	****map, t_env *e);
 int						free_int_map(t_env *e);
 int						free_cam(t_env *e);
 int						ft_exit(t_env *e);
-
 int						main_work(void);
 
-int						loop_mouse_clic(int button, int x, int y, t_env *e);
-int						loop_mouse_move(int x, int y, t_env *e);
 t_env					*get_env(t_env *e);
+int						get_iter(int valu);
 
 /*
 **	calcul mandelbrot
@@ -107,8 +129,9 @@ t_env					*get_env(t_env *e);
 void					resize_window(double pos[4], double mult, double x, double y);
 void					set_color_fractal(t_env *e);
 void					calc_average(double pos[8], double max[4], t_env *e);
-int						get_iter_average(double mult[2], int **val);
-int						get_gray_color(int valu, int max_iter);
-void					calcul_hgrid(t_env *e, double pos[4]);
+double					get_iter_average(double mult[2], double **val);
+int						get_gray_color(double valu, double max_iter);
+void					calcul_grid(double **img, double pos[4], double max_x, double max_y);
 int						calcul_one_point(double ct[2], int iter);
+void					calculate_average(double **img_low, double **img_height, double pos_l[4], double pos_h[4]);
 #endif

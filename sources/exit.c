@@ -6,13 +6,13 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/05 20:03:22 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/06 02:26:19 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "libft.h"
-#include "fdf.h"
+#include "fractol.h"
 
 void	free_img(int ***img, int size_y)
 {
@@ -39,9 +39,9 @@ void	free_img(int ***img, int size_y)
 
 int		ft_exit(t_env *e)
 {
-	free(e->z_buffer);
-	free_img(&(e->img_low), e->y_maxl);
-	free_img(&(e->img_height), e->y_maxh);
+//	free(e->z_buffer);
+//	free_img(&(e->img_low), e->y_maxl);
+//	free_img(&(e->img_height), e->y_maxh);
 	mlx_destroy_image(e->mlx, e->img);
 	mlx_destroy_window(e->mlx, e->win);
 	exit(0);

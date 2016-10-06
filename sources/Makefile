@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/05 19:17:24 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/05 22:26:36 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ SRC		= 	main.c \
 			mlx_env.c \
 			print_somthing.c \
 			hook.c \
-		 	drawline.c \
-			exit.c \
+			exit.c 
 
 OBJ		= $(SRC:.c=.o)
 

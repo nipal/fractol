@@ -6,13 +6,13 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 07:31:16 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/05 20:06:08 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 21:56:31 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "libft.h"
-#include "fdf.h"
+#include "fractol.h"
 
 int		main(void)
 {

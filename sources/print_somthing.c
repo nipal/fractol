@@ -6,13 +6,13 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 21:50:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/05 20:04:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/05 21:58:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "libft.h"
-#include "fdf.h"
+#include "fractol.h"
 #include <stdio.h>
 
 void		vectpx_to_img(t_env *e, t_matrix *pos_color)

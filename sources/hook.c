@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 07:20:35 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/06 09:21:32 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,40 @@ int mouse_motion(int x, int y, t_env *e)
 	return (1);
 }
 
+void	size_window_copy(double pos_low[4], double pos_height[4])
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		pos_height[i] = pos_low[i];
+		i++;
+	}
+}
+
 int mouse_press(int button, int x, int y, t_env *e)
 {
+	double	delta_x;
 	char	*position;
 
 	position = (mouse_in(x, y) ? "in " : "out");
 	(void)e;
 	if (mouse_in(x, y))
 	{
-		resize_window(e->pos_low, 0.95, x, y);
+		resize_window(e->pos_low, e->zoom, x, y);
 		calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+		set_color_fractal(e);
+		mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+		delta_x = (e->pos_height[2] - e->pos_height[0]) / (e->zoom * (e->pos_low[2] - e->pos_low[0]));
+		if (delta_x > 2)
+		{
+			size_window_copy(e->pos_low, e->pos_height);
+			calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
+			calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+			set_color_fractal(e);
+			mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+		}
 	}
 	dprintf(1, "mousse press	(%s)--> button:%d	x:%d	y:%d\n", position, button, x, y);
 	return (1);
@@ -171,8 +195,6 @@ print_map(e->img_height, e->x_maxh, e->y_maxh);
 char c;
 read(0, &c, 1);
 //*/
-	set_color_fractal(e);
-	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_do_sync(e->mlx);

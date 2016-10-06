@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 07:15:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/06 07:41:02 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void		env_end(t_env *e)
 	e->x_maxl = SIZE_X;
 	e->y_maxh = 2 * SIZE_Y;
 	e->x_maxh = 2 * SIZE_X;
+	e->zoom = ZOOM;
 	
 	if (!(e->img_low = init_tab_d(e->x_maxl, e->y_maxl))
 		|| !(e->img_height = init_tab_d(e->x_maxh + 2,  e->y_maxh + 2)))
@@ -78,6 +79,10 @@ void		env_end(t_env *e)
 	mlx_hook(e->win, BUTTON_RELEASE, (1 << 24) - 1, &mouse_release, e);
 	mlx_hook(e->win, MOTION_NOTIFY, (1 << 24) - 1, &mouse_motion, e);
 	mlx_loop_hook(e->mlx, main_work, e);
+
+	set_color_fractal(e);
+	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 07:15:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/06 07:49:26 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ typedef	struct			s_cam
 	t_matrix			*rot;
 }						t_cam;
 
-# define SIZE_X 840
-# define SIZE_Y 840
-# define ITER 1000
+# define SIZE_X 1200
+# define SIZE_Y 1200
+# define ITER 50
+# define ZOOM 0.95
 
 typedef struct			s_env
 {
@@ -89,6 +90,7 @@ typedef struct			s_env
 	int					iter;
 	double				pos_height[4];
 	double				pos_low[4];
+	double				zoom;
 }						t_env;
 
 void		print_map(double **img, int size_x, int size_y);

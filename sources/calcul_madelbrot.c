@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 02:31:41 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 07:10:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/06 09:15:16 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
@@ -67,17 +67,42 @@ void	calcul_grid(double **img, double pos[4], double max_x, double max_y)
 	}
 }
 
+double		*get_lst_color(int val)
+{
+	int				i;
+	static	int		iter;
+	static	double	*valu = NULL;
+
+	if (valu == NULL)
+	{
+		valu = (double*)malloc(sizeof(double) * (val + 2));
+		iter = val;
+		i = 0;
+		while (i < val + 2)
+		{
+			valu[i] = log(i);
+			i++;
+		}
+	}
+	return (valu);
+}
 int		get_gray_color(double valu, double max_iter)
 {
 	t_pix	pix;
 	int		val;
+//	static	double	*color = NULL;
+//	color = get_lst_color(max_iter);
 
+//	if (color == NULL)
+//		color = get_lst_color(max_iter);
+//	val = 250 *(1 -  (color[(int)valu + 1] / color[(int)max_iter + 1]));
 	val = 250 *(1 -  (log(valu + 1) / log(max_iter + 1)));
 	pix.comp[0] = val;
 	pix.comp[1] = val;
 	pix.comp[2] = val;
 	return (pix.nb);;
 }
+
 
 void	set_color_fractal(t_env *e)
 {

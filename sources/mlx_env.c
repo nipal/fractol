@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 07:41:02 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/07 10:21:26 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,30 @@ void		env_end(t_env *e)
 	e->y_maxh = 2 * SIZE_Y;
 	e->x_maxh = 2 * SIZE_X;
 	e->zoom = ZOOM;
+	e->zoom_on = 0;
+	e->zoom_y = 0;
+	e->zoom_x = 0;
+	e->zoom_finished = 1;
 	
 	if (!(e->img_low = init_tab_d(e->x_maxl, e->y_maxl))
 		|| !(e->img_height = init_tab_d(e->x_maxh + 2,  e->y_maxh + 2)))
 		return ;
-
-	init_pos_ecr(e);
-	calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
-	calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
-//	calcul_grid(e->img_low, e->pos_low, e->x_maxl, e->y_maxl);
-//	print_map(e->img_height, e->x_maxh, e->y_maxh);
-
 	mlx_hook(e->win, KEY_PRESS, (1 << 24) - 1, &key_press , e);
 	mlx_hook(e->win, KEY_RELEASE, (1 << 24) - 1, &key_release, e);
 	mlx_hook(e->win, BUTTON_PRESS, (1 << 24) - 1, &mouse_press, e);
 	mlx_hook(e->win, BUTTON_RELEASE, (1 << 24) - 1, &mouse_release, e);
 	mlx_hook(e->win, MOTION_NOTIFY, (1 << 24) - 1, &mouse_motion, e);
 	mlx_loop_hook(e->mlx, main_work, e);
-
+/*
+	init_pos_ecr(e);
+	calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
+	calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+//	calcul_grid(e->img_low, e->pos_low, e->x_maxl, e->y_maxl);
+//	print_map(e->img_height, e->x_maxh, e->y_maxh);
 	set_color_fractal(e);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-
+*/
+	init_koch(e);
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 }

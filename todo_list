@@ -1,24 +1,48 @@
--On a une genre d'unterface pour les evenement souris et clavier
+################################################################################
+#-On a une genre d'unterface pour les evenement souris et clavir               #
+#                                                                              #
+#-	calculer une image dans un tableau                                         #
+#		->	(x1, y1, x2, y2)		//	position de l'ecran dans la franctale  #
+#		->	(size_x, size_y)		//	resolution de calcule                  #
+#		->	(double	**val_hd)			//	valeur a stoquer en hd             #
+#		->	(double	**val_ecr)			//	valeur calculer pour une image     #
+#                                                                              #
+###########    ZOOM      ##########                                            #
+#                                                                              #
+#	-	zoomer sur un point (basiquement)                                      #
+#	-	stoquer dans une image de reference (pour zoomer dessu)                #
+#	-	zoomer dessu sur une image plus haute resolution                       #
+#                                                                              #
+###########    TRANSLATE  #########                                            #
+#	-	translater l'image                                                     #
+#	-	completer une image translate                                          #
+#                                                                              #
+#                                                                              #
+#On pourrais mapper un peu mieux les event                                     #
+#                                                                              #
+#ceux qui sont enfoncer puis relacher avec une genre de tableau                #
+#			avec tout les evenement possible en boolean                        #
+#	->	ceux qui se relache 				(on peu les annuler)               #
+#	->	ceux qui ne se relache pas donc 	(on les enleve si pas present)     #
+#                                                                              #
+#                                                                              #
+################################################################################
 
--	calculer une image dans un tableau
-		->	(x1, y1, x2, y2)		//	position de l'ecran dans la franctale
-		->	(size_x, size_y)		//	resolution de calcule
-		->	(double	**val_hd)			//	valeur a stoquer en hd
-		->	(double	**val_ecr)			//	valeur calculer pour une image
+******************					MULTI THREAD			*******************
 
-##########    ZOOM      ##########
+	Pour les deux type de calcul
+		-zoom (moyene)
+		-zomm (recalcule)
 
-	-	zoomer sur un point (basiquement)
-	-	stoquer dans une image de reference (pour zoomer dessu)
-	-	zoomer dessu sur une image plus haute resolution
-
-##########    TRANSLATE  #########
-	-	translater l'image
-	-	completer une image translate
+	Il faut determiner a chaque fois les deux type de 
 
 
-On pourrais mapper un peu mieux les event
 
-ceux qui sont enfoncer puis relacher avec une genre de tableau avec tout les evenement possible en boolean
-	->	ceux qui se relache 				(on peu les annuler)
-	->	ceux qui ne se relache pas donc 	(on les enleve si pas present)
+
+
+**************************  	NEW FRACTAL 	 ******************************
+
+	-on fait un traceur de ligne entre deux clique
+	-on recupere le tracage de ligne de fdf
+	-on set une structure pour lew iteration de base, et on reflechi comment
+		stoquer les nuvelle iteration

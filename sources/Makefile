@@ -6,16 +6,22 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/05 22:26:36 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/08 22:41:40 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	../fratctol
 SRC		= 	main.c \
+			draw_line.c \
+			koch_generalise.c \
 			calcul_madelbrot.c \
 			mlx_env.c \
 			print_somthing.c \
 			hook.c \
+			polygone_new.c \
+			polygone_destroy.c \
+			polygone_transfrom.c \
+			polygone_print.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)

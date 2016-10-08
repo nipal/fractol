@@ -6,10 +6,11 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 02:31:41 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 09:15:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/07 03:34:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
+#include "libft.h"
 
 
 # define X 0
@@ -96,7 +97,7 @@ int		get_gray_color(double valu, double max_iter)
 //	if (color == NULL)
 //		color = get_lst_color(max_iter);
 //	val = 250 *(1 -  (color[(int)valu + 1] / color[(int)max_iter + 1]));
-	val = 250 *(1 -  (log(valu + 1) / log(max_iter + 1)));
+	val = 250 * (1 -  ((log(valu + 1)) / log(max_iter + 1)));
 	pix.comp[0] = val;
 	pix.comp[1] = val;
 	pix.comp[2] = val;
@@ -109,6 +110,7 @@ void	set_color_fractal(t_env *e)
 	int		i;
 	int		j;
 
+	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
 	j = 0;
 	while (j < e->y_maxl)
 	{
@@ -196,7 +198,7 @@ void	calc_average(double pos[8], double max[4], t_env *e)
 //	les point calculer sont tout le temps a haute resolution
 //		c'est quand on imprime  une image que l'on fait une moyenne ou pas
 
-void	resize_window(double pos[4], double mult, double x, double y)
+int		resize_window(double pos[4], double mult, double x, double y)
 {
 	double	new_pos[4];
 	t_env	*e;
@@ -212,6 +214,7 @@ void	resize_window(double pos[4], double mult, double x, double y)
 	pos[1] = new_pos[1];
 	pos[2] = new_pos[2];
 	pos[3] = new_pos[3];
+	return (1);
 }
 
 double	averaging_height(double coef[6], double **img_h, int i, int j)
@@ -257,33 +260,23 @@ void	end_average_calc(double du, t_average *moy, double **img_height, double **i
 
 	moy->coef[0] = du;
 	moy->il = 0;
-	moy->ih = moy->ih0;//;(pos_l[0] - pos_h[0]) / (pos_h[2] - pos_h[0]) * (SIZE_X * 2 + 2);
+	moy->ih = moy->ih0;
 	while (moy->il < SIZE_X)
 	{
-//		moy->coef[0] = 0;//moy->coef[0];
 		moy->coef[1] = (moy->coef[0] + du < 1) ? du : 1 - moy->coef[0];
 		moy->coef[2] = (moy->coef[0] + du < 1) ? 1 - du - moy->coef[0] : 0;
 		result = 0;
+		img_low[moy->jl][moy->il] = 0;
 		k = 0;
 		while (k < 9)
 		{
 			i = (int)moy->ih + (k / 3);
 			j = (int)moy->jh + (k % 3);
-//			dprintf(1, "\rmoy->il:%d	k:%d	i:%d	j:%d", moy->il, k, i, j);
 			result += moy->coef[3 + (k / 3)] * moy->coef[k % 3] * (img_height[j][i]);
 
 			k++;
 		}
 		img_low[moy->jl][moy->il] = result;
-/*
-//dprintf()
-char c;
-dprintf(1, "$$\t-\t-\t$$$\nk:%d	img_height[%d][%d]:%d	result:%f\n", k, j, i, img_height[j][i], result);
-dprintf(1, "img_low[%d][%d]:%d\n", moy->jl, moy->il, img_height[moy->jl][moy->il]);
-dprintf(1, "moy->coef[2] > 0 [%d]	::: %f :::\n", (moy->coef[2] > 0), (moy->coef[2]));
-describe_moy(moy);
-read(0, &c, 1);
-//*/
 		moy->coef[0] = (moy->coef[2] > 0) ? du - moy->coef[2] :  du - moy->coef[1];
 		moy->ih += (moy->coef[2] > 0) ? 2 : 1;
 		moy->il++;
@@ -303,18 +296,15 @@ double	delta_xh, delta_xl;
 	moy.jl = 0;
 	delta_xh = (pos_h[2] - pos_h[0]);
 	delta_xl = (pos_l[2] - pos_l[0]);
-//	dprintf(1, "delta_xh:%f	delta_xl:%f\n", delta_xh, delta_xl);
-//	du = (double)(((delta_xh)) / (double)((delta_xl) * 2));
-	du = (double)(((delta_xh) * e->x_maxl) / (double)((delta_xl) * e->x_maxh));
+	du = (((pos_h[2] - pos_h[0]) * e->x_maxl) / ((pos_l[2] - pos_l[0]) * e->x_maxh));
 	du /= 1;
 	moy.ih0 = (pos_l[0] - pos_h[0]) / (pos_h[2] - pos_h[0]) * (SIZE_X * 2 + 2);
 	moy.jh = (pos_l[1] - pos_h[1]) / (pos_h[3] - pos_h[1]) * (SIZE_Y * 2 + 2);
 	moy.jl = 0;
 	moy.du = du;
-	moy.coef[3] = du;//moy.coef[3];
+	moy.coef[3] = du;
 	while (moy.jl < SIZE_Y)
 	{
-	//	moy.coef[3] = moy.coef[3];
 		moy.coef[4] = (1 - moy.coef[3] > du) ? du : 1 - moy.coef[3];
 		moy.coef[5] = (1 - moy.coef[3] > du) ? 1 - du - moy.coef[3] : 0;
 		end_average_calc(du, &moy, img_height, img_low);
@@ -322,9 +312,32 @@ double	delta_xh, delta_xl;
 		moy.jh += (moy.coef[5]  > 0) ? 2 : 1;
 		moy.jl++;
 	}
-//	describe_moy(&moy);
 }
 
+void		do_zoom_simple(t_env *e)
+{
+	double	delta_x;
+
+	if (e->zoom_on == 1)
+	{
+		e->zoom_on = 0;
+		e->zoom_finished = 0;
+		if (resize_window(e->pos_low, e->zoom, e->zoom_x, e->zoom_y))
+		{
+			calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+			set_color_fractal(e);
+		}
+		delta_x = (e->pos_height[2] - e->pos_height[0]) / (e->zoom * (e->pos_low[2] - e->pos_low[0]));
+		if (delta_x > 2)
+		{
+			size_window_copy(e->pos_low, e->pos_height);
+			calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
+			calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+			set_color_fractal(e);
+		}
+		e->zoom_finished = 1;
+	}
+}
 
 //	Quand on a le nouveau cadre on decide si on recalcule ou pas
 

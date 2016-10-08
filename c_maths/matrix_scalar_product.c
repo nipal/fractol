@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/09/14 00:25:54 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/01 18:56:54 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/07 15:24:47 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ t_matrix	*matrix_scalar_product(t_matrix *a, double d)
 		i++;
 	}
 	return (a);
+}
+
+t_matrix	*matrix_scalar_product_in(t_matrix *a, double d, t_matrix *to)
+{
+	int		i;
+	int		size;
+
+	if (!a || !to)
+		return (NULL);
+	i = 0;
+	size = a->x * a->y;
+	while (i < size)
+	{
+		to->m[i] = a->m[i] * d;
+		i++;
+	}
+	return (to);
 }
 
 t_matrix	*matrix_scalar_product_new(t_matrix *a, double d)

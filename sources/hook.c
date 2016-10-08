@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 09:21:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/08 22:19:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	key_press(int key_code, t_env *e)
 //	set_key(key_code, e, 1, 0);
 	(key_code == 53) ? ft_exit(e) : (void)e;
 	dprintf(1, "key_press ~~>	code:   %d\n", key_code);
+	(key_code == 36) ? iterate_transformation(e->base, e->transform): (void)e;
 	return (1);
 }
 
@@ -69,15 +70,6 @@ int	key_release(int key_code, t_env *e)
 	return (1);
 }
 
-int mouse_motion(int x, int y, t_env *e)
-{
-	char	*position;
-
-	position = (mouse_in(x, y) ? "in " : "out");
-	(void)e;
-	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
-	return (1);
-}
 
 void	size_window_copy(double pos_low[4], double pos_height[4])
 {
@@ -91,30 +83,48 @@ void	size_window_copy(double pos_low[4], double pos_height[4])
 	}
 }
 
-int mouse_press(int button, int x, int y, t_env *e)
+void	play_mandel(int x, int y, t_env *e)
 {
-	double	delta_x;
+	e->zoom_finished = 0;
+	e->zoom_on = 1;
+	e->zoom_x = x;
+	e->zoom_y = y;
+}
+
+int mouse_motion(int x, int y, t_env *e)
+{
 	char	*position;
 
 	position = (mouse_in(x, y) ? "in " : "out");
-	(void)e;
-	if (mouse_in(x, y))
+	move_last(x - SIZE_X * 0.5, y - SIZE_Y * 0.5, e);
+//	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
+	return (1);
+}
+
+
+int mouse_press(int button, int x, int y, t_env *e)
+{
+	char	*position;
+
+	position = (mouse_in(x, y) ? "in " : "out");
+	dprintf(1, "mousse press	(%s)--> button:%d	x:%d	y:%d\n", position, button, x, y);
+	if (mouse_in(x, y) && e->zoom_finished)
 	{
-		resize_window(e->pos_low, e->zoom, x, y);
-		calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
-		set_color_fractal(e);
-		mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-		delta_x = (e->pos_height[2] - e->pos_height[0]) / (e->zoom * (e->pos_low[2] - e->pos_low[0]));
-		if (delta_x > 2)
+	//	play_mandel(x, y, e);
+		if (button == 1 &&  (e->draw_base || e->draw_transform))
 		{
-			size_window_copy(e->pos_low, e->pos_height);
-			calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
-			calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
-			set_color_fractal(e);
-			mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+			dprintf(1, "cacacacacaca\n");
+			increm_polygone(x - SIZE_X * 0.5, y - SIZE_Y * 0.5, e);
+		}
+		else if (button == 2)
+		{
+			dprintf(1, "pipipipipipi\n");
+			if (e->draw_base)
+				end_base(e);
+			else if (e->draw_transform)
+				end_transform(e);
 		}
 	}
-	dprintf(1, "mousse press	(%s)--> button:%d	x:%d	y:%d\n", position, button, x, y);
 	return (1);
 }
 
@@ -123,8 +133,8 @@ int mouse_release(int button, int x, int y, t_env *e)
 	char	*position;
 
 	position = (mouse_in(x, y) ? "in " : "out");
-	(void)e;
 	dprintf(1, "mousse release  (%s) ==>button:%d	x:%d	y:%d\n", position, button, x, y);
+	(void)e;	
 	return (1);
 }
 
@@ -169,35 +179,20 @@ void		print_map(double **img, int size_x, int size_y)
 	printf("\n");
 }
 
-
-
 int			main_work()
 {
 	static t_env	*e = NULL;
-	static	int		haha = 0;
 
 	if (!(e = get_env(NULL)))
 		return (0);
-
-//	ft_putstr("a0\n");
-	
-
-
-//	calcul_grid(e->img_low, e->pos_low, e->x_maxl, e->y_maxl);
-//
-
-//	dprintf(1, "\r	low:{%f, %f}{%f, %f}	height{%f, %f}{%f, %f}			%d", e->pos_low[0], e->pos_low[1], e->pos_low[2], e->pos_low[3], e->pos_height[0], e->pos_height[1], e->pos_height[2], e->pos_height[3], haha++);
-
-/*
-print_map(e->img_low, e->x_maxl, e->y_maxl);
-dprintf(1, "\n$$$$$$$$$$$$$$$$$\n\n");
-print_map(e->img_height, e->x_maxh, e->y_maxh);
-char c;
-read(0, &c, 1);
-//*/
+//	do_zoom_simple(e);
+	print_polygone(e, e->beg_actif);
+	print_polygone(e, e->base);
+	print_polygone(e, e->transform);
+	print_polygone(e, e->trans_controle);
 
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_do_sync(e->mlx);
-	haha++;
+	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
 	return (1);
 }

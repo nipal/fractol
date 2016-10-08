@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 14:35:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/03 16:10:29 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/01 19:15:02 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_roots
 	double		x2;
 	double		x3;
 	double		x4;
+	int			size;
 	int			is_real;
 }				t_roots;
 
@@ -53,15 +54,22 @@ t_matrix		*vect_new_horz(double *tab, int size);
 t_matrix		*vect_new_verti(int *tab, int size);
 t_matrix		*vect_new_horzi(int *tab, int size);
 
-t_matrix		*matrix_init(int x, int y);
 void			matrix_display(t_matrix *a);
+t_matrix		*matrix_init(int x, int y);
+t_matrix		*vect_new_horzi(int *tab, int size);
+t_matrix		*vect_new_verti(int *tab, int size);
+t_matrix		*vect_new_horz(double *tab, int size);
+t_matrix		*vect_new_vert(double *tab, int size);
+t_matrix		*vect_new_vertfd(double a, double b, double c);
+
 t_matrix		*matrix_add(t_matrix *a, t_matrix *b);
 t_matrix		*matrix_add_in(t_matrix *a, t_matrix *b, t_matrix *c);
 t_matrix		*matrix_sub(t_matrix *a, t_matrix *b);
-void			matrix_sub_in(t_matrix *a, t_matrix *b, t_matrix *c);
+int				matrix_sub_in(t_matrix *a, t_matrix *b, t_matrix *c);
 t_matrix		*matrix_product(t_matrix *a, t_matrix *b);
 void			matrix_product_in(t_matrix *a, t_matrix *b, t_matrix *c);
 void			vector_product_in(t_matrix *a, t_matrix *b, t_matrix *result);
+
 t_matrix		*matrix_scalar_product(t_matrix *a, double d);
 t_matrix		*matrix_scalar_product_new(t_matrix *a, double d);
 double			matrix_det(t_matrix *a);
@@ -90,8 +98,5 @@ t_matrix		*matrix_put_in_new(double a, double b, double c, double d);
 t_matrix		*set_rotate(double thetx, double thety, double thetz);
 t_matrix		*set_translate(double dx, double dy, double dz);
 t_matrix		*set_scale(double sx, double sy, double sz);
-
-void			print_line(t_matrix *pt1, t_matrix *c1, t_matrix *pt2,
-				t_matrix *c2);
 
 #endif

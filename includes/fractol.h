@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 05:48:26 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 08:20:55 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct	s_env
 	int			zoom_y;
 	int			zoom_finished;
 
+	int			iter_koch;
 	t_polygone	*base;
 	t_polygone	*transform;
 	t_polygone	*beg_actif;
@@ -128,6 +129,8 @@ typedef struct	s_env
 	int			draw_transform;
 	int			add_iter;
 	t_polygone	*trans_controle;
+	t_matrix	*prev_mouse;
+	t_matrix	*mouse;
 //	t_polygone	*transform;
 }				t_env;
 
@@ -231,10 +234,23 @@ t_matrix		*position_transpose(t_matrix *org, t_matrix *ux, t_matrix *uy, t_matri
 t_polygone		*creat_insert(t_polygone *seg, t_polygone *transforme);
 
 
-void	init_trans_control(t_env *e);
-void	describe_one_node(t_polygone *seg);
-void	polygone_describe(t_polygone *node);
-int		reset_koch(t_env *e);
-void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
+void			init_trans_control(t_env *e);
+void			describe_one_node(t_polygone *seg);
+void			polygone_describe(t_polygone *node);
+int				reset_koch(t_env *e);
+void			calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
+
+/*
+**	polygone_maj
+*/
+int				nb_iter_koch(t_polygone *base, t_polygone *mult);
+
+/*
+**	modify_model
+*/
+void			print_circle_color(int cx, int cy, double r, t_matrix *col);
+void			print_circle(int cx, int cy, double r);
+t_polygone		*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist);
+void			print_mouse_close(t_env *e, t_polygone *poly);
 
 #endif

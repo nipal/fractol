@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 04:38:05 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 10:20:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	key_press(int key_code, t_env *e)
 //	set_key(key_code, e, 1, 0);
 	(key_code == 53) ? ft_exit(e) : (void)e;
 	dprintf(1, "key_press ~~>	code:   %d\n", key_code);
-	(key_code == 36) ? iterate_transformation(e->base, e->transform): (void)e;
+	(key_code == 36) ? ++(e->iter_koch) : (void)e;
+	(key_code == 51 && e->iter_koch > 0) ? --(e->iter_koch): (void)e;
 	(key_code == 15) ? reset_koch(e): (void)e;
 	return (1);
 }
@@ -98,6 +99,20 @@ int mouse_motion(int x, int y, t_env *e)
 
 	position = (mouse_in(x, y) ? "in " : "out");
 	move_last(x - SIZE_X * 0.5, y - SIZE_Y * 0.5, e);
+	if (!(e->mouse))
+		e->mouse = matrix_init(1, 3);
+	if (e->mouse)
+	{
+		if (!(e->prev_mouse))
+			e->prev_mouse = matrix_copy(e->mouse);
+		if (e->prev_mouse)
+		{
+			e->prev_mouse->m[0] = e->mouse->m[0];
+			e->prev_mouse->m[1] = e->mouse->m[1];
+		}
+		e->mouse->m[0] = x;
+		e->mouse->m[1] = y;
+	}
 //	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
 	return (1);
 }
@@ -114,12 +129,12 @@ int mouse_press(int button, int x, int y, t_env *e)
 	//	play_mandel(x, y, e);
 		if (button == 1 &&  (e->draw_base || e->draw_transform))
 		{
-			dprintf(1, "cacacacacaca\n");
+//			dprintf(1, "cacacacacaca\n");
 			increm_polygone(x - SIZE_X * 0.5, y - SIZE_Y * 0.5, e);
 		}
 		else if (button == 2)
 		{
-			dprintf(1, "pipipipipipi\n");
+//			dprintf(1, "pipipipipipi\n");
 			if (e->draw_base)
 				end_base(e);
 			else if (e->draw_transform)
@@ -183,13 +198,18 @@ void		print_map(double **img, int size_x, int size_y)
 int			main_work()
 {
 	static t_env	*e = NULL;
+//	int				max;
 
 	if (!(e = get_env(NULL)))
 		return (0);
 //	do_zoom_simple(e);
 	print_polygone(e, e->beg_actif);
 //	print_polygone(e, e->base);
-	calcul_and_print(e->base, e->transform, 4, e);
+//	max =  nb_iter_koch(e->base, e->transform);
+//	max = MIN(max, e->iter_koch);
+//	dprintf(1, "iter max:%d\n", max);
+	print_mouse_close(e, e->trans_controle);
+	calcul_and_print(e->base, e->transform, e->iter_koch, e);
 	print_polygone(e, e->transform);
 	print_polygone(e, e->trans_controle);
 

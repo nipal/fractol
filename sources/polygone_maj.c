@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 05:50:41 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 06:42:21 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,16 @@ int	nb_iter_koch(t_polygone *base, t_polygone *mult)
 	double	min_base;
 	double	min_mult;
 	double	result;
+	double	prev;
 
+	if (!base || !mult)
+		return (0);
 	min_base = get_min_dist(base);
 	min_mult = get_min_dist(mult);
 	i = 0;
 	result = min_base;
-	while (result >= 1)
+	prev = result;
+	while (result >= 1 && result <= prev)
 	{
 		result *= min_mult;
 		i++;
@@ -66,8 +70,10 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 {
 	t_polygone	*cpy;
 	t_polygone	*to_insert;
+	double		dist_2;
+	t_matrix	*diff;
 
-	if (seg && mult)
+	if (seg && mult && (diff = matrix_copy(seg->pos)))
 	{
 		if (iter > 1)
 		{
@@ -76,6 +82,13 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 				cpy = NULL;
 				cpy = copy_node(seg, seg->lvl);
 				cpy->next = copy_node(seg->next, seg->lvl);
+				matrix_sub_in(cpy->pos, cpy->next->pos, diff);
+				dist_2 = matrix_dot_product(diff, diff);
+				if (dist_2 < 4)
+				{
+					print_polygone(e, cpy);
+					return ;
+				}
 				if (!(to_insert = creat_insert(cpy, mult))
 					|| !(insert_portion(&cpy, to_insert)))
 					ft_putstr("error on calcul\n");
@@ -88,5 +101,9 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 		{
 			print_polygone(e, seg);
 		}
+	}
+	else if (seg)
+	{
+		print_polygone(e, seg);
 	}
 }

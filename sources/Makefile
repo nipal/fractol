@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/09 05:46:08 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/09 07:33:54 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRC		= 	main.c \
 			polygone_destroy.c \
 			polygone_transfrom.c \
 			polygone_print.c \
-			polygone_maj.c\
+			polygone_maj.c \
+			modify_model.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)

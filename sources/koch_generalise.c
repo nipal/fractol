@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 00:02:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 04:08:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,17 @@ void	init_koch(t_env *e)
 	e->trans_controle = NULL;
 }
 
+int		reset_koch(t_env *e)
+{
+	destroy_polgone(&(e->transform));
+	destroy_polgone(&(e->beg_actif));
+	destroy_polgone(&(e->trans_controle));
+	destroy_polgone(&(e->base));
+	e->base = NULL;
+	init_koch(e);
+	return (1);
+}
+
 void	add_point(t_polygone **node, int x, int y, int lvl)
 {
 	t_polygone	*last;
@@ -192,6 +203,8 @@ void	end_transform(t_env *e)
 
 	polygone_describe(e->transform);
 	init_trans_control(e);
+	e->beg_actif = NULL;
+	//	ici il faudrait suprimer les polygone actif
 }
 
 

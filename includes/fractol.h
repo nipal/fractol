@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/08 22:49:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 03:58:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct	s_key
 {
 	int			echap;
 	int			add_iter;
+	int			enter;
 }				t_key;
 
 typedef	struct	s_cam
@@ -234,4 +235,5 @@ t_polygone		*creat_insert(t_polygone *seg, t_polygone *transforme);
 void	init_trans_control(t_env *e);
 void	describe_one_node(t_polygone *seg);
 void	polygone_describe(t_polygone *node);
+int		reset_koch(t_env *e);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 08:23:18 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 10:52:30 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,9 @@ void	init_koch(t_env *e)
 	e->iter_koch = 0;
 	e->mouse = NULL;
 	e->prev_mouse = NULL;
+	e->r_select = 20;
+	e->left = 0;
+	e->right = 0;
 }
 
 int		reset_koch(t_env *e)

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 10:20:23 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 10:51:09 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int mouse_motion(int x, int y, t_env *e)
 		}
 		e->mouse->m[0] = x;
 		e->mouse->m[1] = y;
+		if (e->mouse && e->prev_mouse && e->left)
+			translate_node(e, e->trans_controle);
 	}
 //	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
 	return (1);
@@ -140,6 +142,10 @@ int mouse_press(int button, int x, int y, t_env *e)
 			else if (e->draw_transform)
 				end_transform(e);
 		}
+		else if (button == 1)
+			e->left = 1;
+		else if (button == 2)
+			e->right = 1;
 	}
 	return (1);
 }
@@ -151,6 +157,10 @@ int mouse_release(int button, int x, int y, t_env *e)
 	position = (mouse_in(x, y) ? "in " : "out");
 	dprintf(1, "mousse release  (%s) ==>button:%d	x:%d	y:%d\n", position, button, x, y);
 	(void)e;	
+	if (button == 1)
+		e->left = 0;
+	else if (button == 2)
+		e->right = 0;
 	return (1);
 }
 

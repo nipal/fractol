@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 08:20:55 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 10:47:25 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ typedef struct	s_env
 	t_polygone	*trans_controle;
 	t_matrix	*prev_mouse;
 	t_matrix	*mouse;
+	double		r_select;
+
+	int			left;
+	int			right;
 //	t_polygone	*transform;
 }				t_env;
 
@@ -252,5 +256,6 @@ void			print_circle_color(int cx, int cy, double r, t_matrix *col);
 void			print_circle(int cx, int cy, double r);
 t_polygone		*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist);
 void			print_mouse_close(t_env *e, t_polygone *poly);
+void			translate_node(t_env *e, t_polygone *poly);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 04:05:09 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 04:38:05 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,8 @@ int			main_work()
 		return (0);
 //	do_zoom_simple(e);
 	print_polygone(e, e->beg_actif);
-	print_polygone(e, e->base);
+//	print_polygone(e, e->base);
+	calcul_and_print(e->base, e->transform, 4, e);
 	print_polygone(e, e->transform);
 	print_polygone(e, e->trans_controle);
 

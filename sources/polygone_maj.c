@@ -6,9 +6,11 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 03:42:09 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 05:50:41 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "fractol.h"
 
 /*
 **	-iteration maximale ->	affichable ?	<==	depend du zoom
@@ -55,11 +57,36 @@ int	nb_iter_koch(t_polygone *base, t_polygone *mult)
 	while (result >= 1)
 	{
 		result *= min_mult;
-		i++:
+		i++;
 	}
 	return (i);
 }
 
-void	calcul_and_print(t_polygone *base, t_)
+void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 {
+	t_polygone	*cpy;
+	t_polygone	*to_insert;
+
+	if (seg && mult)
+	{
+		if (iter > 1)
+		{
+			while (seg->next)
+			{
+				cpy = NULL;
+				cpy = copy_node(seg, seg->lvl);
+				cpy->next = copy_node(seg->next, seg->lvl);
+				if (!(to_insert = creat_insert(cpy, mult))
+					|| !(insert_portion(&cpy, to_insert)))
+					ft_putstr("error on calcul\n");
+				calcul_and_print(cpy, mult, iter - 1, e);
+				polygone_destroy(&cpy);
+				seg = seg->next;
+			}
+		}
+		else
+		{
+			print_polygone(e, seg);
+		}
+	}
 }

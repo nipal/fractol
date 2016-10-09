@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 03:58:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 05:48:26 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ void			trace_seg_line(t_env *e, t_polygone *node);
 
 void			print_polygone(t_env *e, t_polygone *poly);
 t_polygone		*creat_node(int lvl, double *pos, double *color);
-int				destroy_polgone(t_polygone **begin);
 t_polygone		*get_last(t_polygone *node);
 int				insert_portion(t_polygone **target, t_polygone *src);
 void			push_back(t_polygone **root, t_polygone *node);
@@ -217,7 +216,7 @@ t_polygone		*copy_node(t_polygone *node, int lvl);
 /*
 **	polygone_destroy
 */
-int				destroy_polgone(t_polygone **begin);
+int			polygone_destroy(t_polygone **begin);
 
 /*
 **	polygone_transform
@@ -236,4 +235,6 @@ void	init_trans_control(t_env *e);
 void	describe_one_node(t_polygone *seg);
 void	polygone_describe(t_polygone *node);
 int		reset_koch(t_env *e);
+void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
+
 #endif

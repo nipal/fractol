@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 04:08:04 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/09 05:48:05 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,10 @@ void	init_koch(t_env *e)
 
 int		reset_koch(t_env *e)
 {
-	destroy_polgone(&(e->transform));
-	destroy_polgone(&(e->beg_actif));
-	destroy_polgone(&(e->trans_controle));
-	destroy_polgone(&(e->base));
+	polygone_destroy(&(e->transform));
+	polygone_destroy(&(e->beg_actif));
+	polygone_destroy(&(e->trans_controle));
+	polygone_destroy(&(e->base));
 	e->base = NULL;
 	init_koch(e);
 	return (1);

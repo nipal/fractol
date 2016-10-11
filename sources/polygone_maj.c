@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 06:42:21 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 17:29:38 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,14 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 		{
 			while (seg->next)
 			{
-				cpy = NULL;
 				cpy = copy_node(seg, seg->lvl);
 				cpy->next = copy_node(seg->next, seg->lvl);
+				cpy->next->next = NULL;
 				matrix_sub_in(cpy->pos, cpy->next->pos, diff);
 				dist_2 = matrix_dot_product(diff, diff);
-				if (dist_2 < 4)
-				{
+				if (dist_2 * e->min_val_trans < 4)
 					print_polygone(e, cpy);
-					return ;
-				}
-				if (!(to_insert = creat_insert(cpy, mult))
+				else if (!(to_insert = creat_insert(cpy, mult))
 					|| !(insert_portion(&cpy, to_insert)))
 					ft_putstr("error on calcul\n");
 				calcul_and_print(cpy, mult, iter - 1, e);
@@ -98,12 +95,8 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 			}
 		}
 		else
-		{
 			print_polygone(e, seg);
-		}
 	}
 	else if (seg)
-	{
 		print_polygone(e, seg);
-	}
 }

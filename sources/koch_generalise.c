@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 10:52:30 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 17:12:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,9 @@ void		print_polygone(t_env *e, t_polygone *seg)
 
 t_polygone	*get_last(t_polygone *node)
 {
-//	static	int	count = 0;
-//	static	t_polygone *look = NULL;
 
 	if (node)
 	{
-//		if ((long)node != (long)look)
-//		{
-//			look = node;
-//			count = 0;
-//		}
-//		ft_putstr("b0\n");
-//		dprintf(1, "%ld	-> [%d]\n", (long)look, count++);
 		while (node && node->next)
 			node = node->next;
 	}
@@ -61,29 +52,20 @@ int			insert_portion(t_polygone **target, t_polygone *src)
 {
 	t_polygone	*tmp;
 
-//	ft_putstr("c0\n");
 	if (!target || !src)
 	{
-//	ft_putstr("c-1\n");
 		return (0);
 	}
-//	ft_putstr("c1\n");
 	if (*target)
 	{
-//	ft_putstr("c2\n");
 		if ((tmp = get_last(src)))
 			tmp->next = (*target)->next;
-//	ft_putstr("c3\n");
 		(*target)->next = src;
-//	ft_putstr("c4\n");
 	}
 	else
 	{
-//	ft_putstr("c5\n");
 		*target = src;
-//	ft_putstr("c6\n");
 	}
-//	ft_putstr("c7\n");
 	return (1);
 }
 
@@ -131,6 +113,7 @@ void	init_koch(t_env *e)
 	e->r_select = 20;
 	e->left = 0;
 	e->right = 0;
+	e->min_val_trans = 0;
 }
 
 int		reset_koch(t_env *e)
@@ -185,7 +168,6 @@ void	move_last(int x, int y, t_env *e)
 
 void	end_base(t_env *e)
 {
-//	dprintf(1, "****	end_base\n");
 	t_polygone	*last;
 
 	if (!e->actif || !e->beg_actif || !(last = copy_node(e->beg_actif, 0)))
@@ -200,17 +182,12 @@ void	end_base(t_env *e)
 
 void	end_transform(t_env *e)
 {
-//	dprintf(1, "****	end_transforme\n");
 	e->draw_transform = 0;
-//	e->transform = e->beg_actif;
 	e->actif = NULL;
-//	e->beg_actif = NULL;
 	e->transform = transform(e->beg_actif);
 
-//	polygone_describe(e->transform);
 	init_trans_control(e);
 	e->beg_actif = NULL;
-	//	ici il faudrait suprimer les polygone actif
 }
 
 

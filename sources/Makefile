@@ -6,11 +6,12 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/09 07:33:54 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/11 16:49:43 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	../fratctol
+NAME	=	../fractol
+NAME_SAVE = ../fractol_save
 SRC		= 	main.c \
 			draw_line.c \
 			koch_generalise.c \
@@ -37,7 +38,8 @@ all: $(NAME)
 $(NAME): $(OBJ)
 		gcc -o $(NAME) $(FLAGS) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
-		-lmlx -framework OpenGL -framework AppKit
+		-lmlx -framework OpenGL -framework AppKit 
+		cp -f $(NAME) $(NAME_SAVE) 
 	#	-L /usr/lib/ -lmlx -lm -lX11 -lXext
 
 

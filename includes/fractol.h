@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 10:47:25 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 17:17:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct	s_env
 	t_matrix	*prev_mouse;
 	t_matrix	*mouse;
 	double		r_select;
+	double		min_val_trans;
 
 	int			left;
 	int			right;
@@ -248,6 +249,7 @@ void			calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
 **	polygone_maj
 */
 int				nb_iter_koch(t_polygone *base, t_polygone *mult);
+double			get_min_dist(t_polygone *node);
 
 /*
 **	modify_model

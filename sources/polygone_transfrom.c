@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:35:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/08 23:37:52 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 17:18:01 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ t_polygone	*transform(t_polygone *seg_beg)
 	double		col[3];
 	t_matrix	*unite_x;
 	t_matrix	*unite_y;
+	t_env		*e;
 
+	e = get_env(NULL);
 	init_dtab(pos, 0, 3);	
 	init_dtab(col, 255, 3);
 	seg_end = get_last(seg_beg);
@@ -109,11 +111,10 @@ t_polygone	*transform(t_polygone *seg_beg)
 		push_back(&unite_beg, node_u);
 		node_s = node_s->next;
 	}
+	e->min_val_trans = get_min_dist(unite_beg);
 	matrix_free(&unite_x);
 	matrix_free(&unite_y);
-	ft_putstr("########################		begin tansform		################\n");
 	print_polygone(get_env(NULL), unite_beg);
-	ft_putstr("########################		end   tansform		################\n");
 	return (unite_beg);
 }
 
@@ -137,37 +138,23 @@ t_polygone	*creat_insert(t_polygone *seg, t_polygone *transform)
 	t_matrix	*ux;
 	t_matrix	*uy;
 
-//	ft_putstr("b0\n");
 	if (!seg || !seg->next
 		|| (!(ux = matrix_sub(seg->next->pos, seg->pos)))
 		|| (!(uy = matrix_copy(ux))))
-	{
-//		ft_putstr("b-1\n");
 		return (NULL);
-	}
-//	ft_putstr("b1\n");
 	uy->m[0] = ux->m[1];
 	uy->m[1] = -ux->m[0];
 	beg_new = NULL;
-//	ft_putstr("b2\n");
 	while (transform)
 	{
-//		ft_putstr("b3\n");
 		if (!(node_pos = position_transpose(seg->pos, ux, uy, transform->pos))
 			|| !(node = creat_node_fv(seg->lvl + 1, node_pos, matrix_copy(seg->col))))
-		{
-//			ft_putstr("b-2\n");
 			return (NULL);
-		}
-//		ft_putstr("b4\n");
 		push_back(&beg_new, node);
 		transform = transform->next;
-//		ft_putstr("b5\n");
 	}
-//	ft_putstr("b6\n");
 	matrix_free(&ux);
 	matrix_free(&uy);
-//	ft_putstr("b7\n");
 	return (beg_new);
 }
 
@@ -180,29 +167,16 @@ void		iterate_transformation(t_polygone *polyg, t_polygone *transpose)
 	t_polygone	*next;
 	t_polygone	*to_insert;
 
-//	ft_putstr("a0\n");
 	if (!polyg || !transpose)
-	{
-//	ft_putstr("a-1\n");
 		return ;
-	}
-//	ft_putstr("a1\n");
 	while (polyg->next)
 	{
-//	ft_putstr("a2\n");
 		next = polyg->next;
-//	ft_putstr("a3\n");
 		if (!(to_insert = creat_insert(polyg, transpose))
 			|| !(insert_portion(&polyg, to_insert)))
-		{
-//	ft_putstr("a-2\n");
 			return ;
-		}
-//	print_polygone(get_env(NULL), to_insert);
 		polyg = next;
 	}
-//	print_polygone(to_insert);
-//	ft_putstr("a3\n");
 }
 
 /*

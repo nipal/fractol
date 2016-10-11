@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 22:04:45 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 06:52:33 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 17:28:06 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	init_trans_control(t_env *e)
 	if (!(node = creat_node(0, pos, col)))
 		return ;
 	push_back(&(e->trans_controle), node);
-	
-//	ft_putstr("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n");
 	iterate_transformation(e->trans_controle, e->transform);
-//	ft_putstr("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
 }
 
 void	describe_one_node(t_polygone *seg)

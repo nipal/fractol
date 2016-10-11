@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 07:00:18 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 10:56:01 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 16:35:01 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,36 +92,25 @@ t_polygone	*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist)
 	t_matrix	*diff;
 	t_polygone	*closer;
 	double		dist;
-//	t_matrix	*scale;
 
 	closer = NULL;
-//ft_putstr("b0\n");
 	if (!beg || !beg->next || !mouse || !(diff = matrix_copy(beg->pos)))
 		return (NULL);
-//ft_putstr("b1\n");
 	beg = beg->next;
-//ft_putstr("b2\n");
 	while (beg->next)
 	{
-//ft_putstr("b3\n");
 		matrix_sub_in(beg->pos, mouse, diff);
 		diff->m[2] = 0;
 		diff->m[0] += SIZE_X / 2;
 		diff->m[1] += SIZE_Y / 2;
 		dist = sqrt(matrix_dot_product(diff, diff));
-//dprintf(1, "min_dist:%.2f	dist:%.2f\n", min_dist, dist);
-//dprintf(1, "%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n", beg->pos->m[0], beg->pos->m[1], beg->pos->m[2], mouse->m[0], mouse->m[1], mouse->m[2], diff->m[0], diff->m[1], diff->m[2]);
-//ft_putstr("b4\n");
 		if (dist < min_dist)
 		{
-//ft_putstr("b5\n");
 			min_dist = dist;
 			closer = beg;
 		}
-//ft_putstr("b6\n");
 		beg = beg->next;
 	}
-//ft_putstr("b7\n");
 	return (closer);
 }
 
@@ -141,13 +130,11 @@ void	translate_node(t_env *e, t_polygone *poly)
 {
 	t_polygone *node;
 
-	if ((node = get_closer_node(poly, e->mouse, e->r_select)))
+	if ((node = get_closer_node(poly, e->prev_mouse, e->r_select)))
 	{
 		node->pos->m[0] += e->mouse->m[0] - e->prev_mouse->m[0];
 		node->pos->m[1] += e->mouse->m[1] - e->prev_mouse->m[1];
 		polygone_destroy(&(e->transform));
 		e->transform = transform(poly);
-		//	on recalcule le truc
-		//	on suprime e precedent
 	}
 }

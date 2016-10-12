@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/11 16:49:43 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/12 00:11:33 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC		= 	main.c \
 			polygone_print.c \
 			polygone_maj.c \
 			modify_model.c \
+			color_transpose.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)
@@ -39,7 +40,7 @@ $(NAME): $(OBJ)
 		gcc -o $(NAME) $(FLAGS) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
 		-lmlx -framework OpenGL -framework AppKit 
-		cp -f $(NAME) $(NAME_SAVE) 
+#		&& cp -f $(NAME) $(NAME_SAVE) 
 	#	-L /usr/lib/ -lmlx -lm -lX11 -lXext
 
 

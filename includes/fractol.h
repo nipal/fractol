@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/11 17:17:24 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/12 00:35:33 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,5 +259,14 @@ void			print_circle(int cx, int cy, double r);
 t_polygone		*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist);
 void			print_mouse_close(t_env *e, t_polygone *poly);
 void			translate_node(t_env *e, t_polygone *poly);
+
+/*
+**	color_transpose
+*/
+
+void		rgb_to_tsl_mod(t_matrix *rgb);
+t_matrix	*rgb_to_tsl_new(double t, double s, double l);
+t_matrix	*tsl_to_rvb_new(double t, double s, double l);
+double		modulo(double a, double b);
 
 #endif

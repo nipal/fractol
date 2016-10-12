@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/11 17:29:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/12 01:38:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ double	get_min_dist(t_polygone *node)
 	double		dist;
 	t_matrix	*diff;
 
-	if (node && (diff = matrix_copy(node->pos)))
+	if (node && node->next && (diff = matrix_copy(node->pos)))
 	{
 		matrix_sub_in(node->next->pos, node->pos, diff);
 		min = sqrt(matrix_dot_product(diff, diff));
@@ -40,7 +40,7 @@ double	get_min_dist(t_polygone *node)
 		}
 		return (dist);
 	}
-	return (0);
+	return (1);
 }
 
 int	nb_iter_koch(t_polygone *base, t_polygone *mult)

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/07 08:39:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/12 03:35:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,60 @@ void		trace_line(double *pt1, double *pt2, double *c1, double *c2)
 		return ;
 }
 
-void		trace_seg_line(t_env *e, t_polygone *node)
-{	
-	t_matrix		*mat_line;
 
-	if (!(mat_line = init_mat_line(node->pos, node->next->pos
-				, node->col, node->next->col)))
-		return ;
-	draw_line(e, mat_line);
-	matrix_free(&mat_line);
+//t_matrix	*tsl_to_rvb_new(double t, double s, double l)
+//	la il faut tracer un truc rigolo en fonction de plein de chose, la profondeur deja ensuite la distance
+void		trace_seg_line(t_env *e, t_polygone *node)
+{
+	static	double	increm = 0;
+	double			max = 500;
+	t_matrix		*mat_line;
+	t_matrix		*color1;
+	t_matrix		*color2;
+
+	double			t1;
+	double			t2;
+	double			s1;
+	double			s2;
+	double			l1;
+	double			l2;
+	double			lvl1;
+	double			lvl2;
+	double			iter;
+
+	increm += 0.1;
+
+	if (node && node->next)
+	{
+		lvl1 = node->lvl;
+		lvl2 = node->next->lvl;
+		iter = e->iter_koch;
+		max = MAX(iter, 7);
+		max = MAX(max, lvl1);
+		max = MAX(max, lvl2);
+		t1 = 70;//360 * (1 - ((lvl1) / (max + 1)));
+		t2 = 70;//360 * (1 - ((lvl2)/ max + 1));
+
+
+		s1 = ((lvl1 + 1) / (max + 1));
+		s2 = ((lvl2 + 1) / (max + 1));
+
+		l1 = 1 - ((lvl1) / (max));;
+		l2 = 1 - ((lvl2) / (max));;
+//		dprintf(1, "increm:%.2f	/ max%f.2	=	%f.2\n", increm, max, teinte1);
+	//	dprintf(1, "t1:%f.2\tt2:%f.2\n", teinte1, teinte2);
+		if (!(color1 = tsl_to_rvb_new(t1, s1, l1))
+			|| !(color2 = tsl_to_rvb_new(t2, s2, l2)))
+
+//		if (!(color1 = vect_new_vertfd(255, 255, 255))
+//			|| !(color2 = vect_new_vertfd(255, 255, 255)))
+			return ;
+		if (!(mat_line = init_mat_line(node->pos, node->next->pos
+					, color1, color2)))
+			return ;
+		draw_line(e, mat_line);
+		matrix_free(&color1);
+		matrix_free(&color2);
+		matrix_free(&mat_line);
+	}
 }

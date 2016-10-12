@@ -6,13 +6,13 @@
 /*   By: tboos <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/04 18:24:51 by tboos             #+#    #+#             */
-/*   Updated: 2016/10/01 23:45:50 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/11 23:44:43 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define ABS(x) (x >= 0) ? x : -x
+# define ABS(x) (x >= 0 ? x : -x)
 
 # include <string.h>
 # include <stdlib.h>

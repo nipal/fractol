@@ -1,19 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.c                                        :+:      :+:    :+:   */
+/*   new_printing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/15 20:25:31 by fjanoty          ###   ########.fr       */
+/*   Created: 2016/10/14 00:36:43 by fjanoty           #+#    #+#             */
+/*   Updated: 2016/10/14 02:44:02 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "c_maths.h"
 
-int			draw_line(t_env *e, t_matrix *mat_line)
+void		vectpx_to_img2(t_win *win, t_matrix *pos_color)
+{
+	int		x;
+	int		y;
+
+	x = (int)pos_color->m[0];
+	y = (int)pos_color->m[1];
+	x += SIZE_Y / 2;
+	y += SIZE_X / 2;
+	if (x < 0 || x >= e->x_maxl || y < 0 || y >= e->y_maxl)
+		return ;
+	win->data[y * win->size_x + x].nb = ((int)pos_color->m[2] << 24)
+		| ((int)pos_color->m[3]) << 16 | ((int)pos_color->m[4]) << 8
+		| (int)pos_color->m[5];
+}
+
+int			draw_line2(t_win *win, t_matrix *mat_line)
 {
 	int			i;
 	int			size;
@@ -33,7 +49,7 @@ int			draw_line(t_env *e, t_matrix *mat_line)
 	{
 		if (!(print = matrix_add(org, diff)))
 			return (0);
-		vectpx_to_img(e, print);
+		vectpx_to_img2(win, print);
 		matrix_free(&org);
 		org = print;
 	}
@@ -42,34 +58,7 @@ int			draw_line(t_env *e, t_matrix *mat_line)
 	return (1);
 }
 
-t_matrix	*init_mat_line(t_matrix *pt1, t_matrix *pt2,
-			t_matrix *c1, t_matrix *c2)
-{
-	t_matrix	*mat_line;
-	t_matrix	*diff;
-	double		norme;
-
-	mat_line = NULL;
-	diff = NULL;
-	if (!(mat_line = matrix_init(14, 1))
-		|| !pt1 || !pt2 || !c1 || !c2
-		|| ((!(diff = matrix_sub(pt2, pt1)) && matrix_free(&mat_line))))
-		return (NULL);
-	diff->m[Z] = 0;
-	norme = MAX(ABS(diff->m[0]), ABS(diff->m[1]));
-	mat_line->m[NORME] = norme;
-	matrix_scalar_product(diff, 1 / norme);
-	ft_memmove(mat_line->m, pt1->m, sizeof(double) * 3);
-	ft_memmove(mat_line->m + 3, c1->m, sizeof(double) * 3);
-	ft_memmove(mat_line->m + 6, diff->m, sizeof(double) * 3);
-	matrix_free(&diff);
-	matrix_scalar_product(diff = matrix_sub(c2, c1), 1 / norme);
-	ft_memmove(mat_line->m + 9, diff->m, sizeof(double) * 3);
-	matrix_free(&diff);
-	return (mat_line);
-}
-
-void		trace_line(double *pt1, double *pt2, double *c1, double *c2)
+void		trace_line2(double *pt1, double *pt2, double *c1, double *c2)
 {
 	static	t_env	*e = NULL;
 	t_matrix		*(sum[4]);
@@ -93,10 +82,7 @@ void		trace_line(double *pt1, double *pt2, double *c1, double *c2)
 		return ;
 }
 
-
-//t_matrix	*tsl_to_rvb_new(double t, double s, double l)
-//	la il faut tracer un truc rigolo en fonction de plein de chose, la profondeur deja ensuite la distance
-void		trace_seg_line(t_env *e, t_polygone *node)
+void		trace_seg_line2(t_env *e, t_polygone *node)
 {
 	static	double	increm = 0;
 	double			max = 500;
@@ -117,29 +103,27 @@ void		trace_seg_line(t_env *e, t_polygone *node)
 	double			centre;
 
 
-	focus = 0.2;
-	centre = 0.9;
+	focus = 0.1;
+	centre = 0.6;
 	increm += 0.1;
+
 	if (node && node->next)
 	{
 		lvl1 = node->lvl;
 		lvl2 = node->next->lvl;
 		iter = e->iter_koch;
-		max = MAX(iter, 3);
+		max = MAX(iter, 2);
 		max = MAX(max, lvl1);
 		max = MAX(max, lvl2);
-		t1 = 360 * (((1 - centre)) + focus * ((lvl1 + 1) / (max + 1)));
-		t2 = 360 * (((1 - centre)) + focus * ((lvl2 + 1) / (max + 1)));
+		t1 = 360 * (((1 - centre)) + focus * ((lvl1) / (max)));
+		t2 = 360 * (((1 - centre)) + focus * ((lvl2) / max));
 
 
-		s1 = 0.99 - 0.35 * ((lvl1 + 1.0) / (max + 1.0));
-		s2 = 0.99 - 0.35 * ((lvl2 + 1.0) / (max + 1.0));
+		s1 = ((lvl1 + 1) / (max + 1));
+		s2 = ((lvl2 + 1) / (max + 1));
 
-		l1 = 0.89 - 0.70 * ((lvl1 + 1.0) / (max + 1.0));
-		l2 = 0.89 - 0.70 * ((lvl2 + 1.0) / (max + 1.0));
-		dprintf(1, "lvl:%d\n", node->lvl);
-		dprintf(1, "focus:%.2f	centre:%.2f	max:%.2f	lvl1:%.2f	lvl2:%.2f\n", focus, centre, max, lvl1, lvl2);
-dprintf(1, "t1:%.2f	t2:%.2f	s1:%.2f	s2:%.2f	l1:%.2f	l2:%.2f\n", t1, t2, s1, s2, l1, l2);
+		l1 = 0.9 - 0.8 * ((lvl1 + 1) / (max + 1));;
+		l2 = 0.9 - 0.8 * ((lvl2 + 1) / (max + 1));;
 //		dprintf(1, "increm:%.2f	/ max%f.2	=	%f.2\n", increm, max, teinte1);
 	//	dprintf(1, "t1:%f.2\tt2:%f.2\n", teinte1, teinte2);
 		if (!(color1 = tsl_to_rvb_new(t1, s1, l1))
@@ -155,5 +139,32 @@ dprintf(1, "t1:%.2f	t2:%.2f	s1:%.2f	s2:%.2f	l1:%.2f	l2:%.2f\n", t1, t2, s1, s2, 
 		matrix_free(&color1);
 		matrix_free(&color2);
 		matrix_free(&mat_line);
+	}
+}
+
+void		print_polygone2(t_win *win, t_polygone *seg)
+{
+	if (!seg)
+	{
+//		ft_putstr("preitn_polugone:	NO SEG HAHAHA\n");
+		return ;
+	}
+	while (seg->next)
+	{
+		trace_seg_line2(win, seg);
+		seg = seg->next;
+	}
+}
+
+void	translate_node2(t_env *e, t_polygone *poly)
+{
+	t_polygone *node;
+
+	if ((node = get_closer_node(poly, e->prev_mouse, e->r_select)))
+	{
+		node->pos->m[0] += e->mouse->m[0] - e->prev_mouse->m[0];
+		node->pos->m[1] += e->mouse->m[1] - e->prev_mouse->m[1];
+		polygone_destroy(&(e->transform));
+		e->transform = transform(poly);
 	}
 }

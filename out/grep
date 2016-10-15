@@ -1,0 +1,9 @@
+Binary file ./includes/.fractol.h.swp matches
+./includes/fractol.h:157:void			vectpx_to_img(t_env *e, t_matrix *pos_color);
+Binary file ./fractol_save matches
+Binary file ./fractol matches
+./sources/print_somthing.c:18:void		vectpx_to_img(t_env *e, t_matrix *pos_color)
+Binary file ./sources/.print_somthing.c.swp matches
+Binary file ./sources/print_somthing.o matches
+./sources/draw_line.c:36:		vectpx_to_img(e, print);
+Binary file ./sources/draw_line.o matches

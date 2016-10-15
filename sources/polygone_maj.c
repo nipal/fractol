@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/12 01:38:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/12 07:11:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 				cpy->next->next = NULL;
 				matrix_sub_in(cpy->pos, cpy->next->pos, diff);
 				dist_2 = matrix_dot_product(diff, diff);
-				if (dist_2 * e->min_val_trans < 4)
+				if (dist_2 * e->min_val_trans < 16)
 					print_polygone(e, cpy);
 				else if (!(to_insert = creat_insert(cpy, mult))
 					|| !(insert_portion(&cpy, to_insert)))

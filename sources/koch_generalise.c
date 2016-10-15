@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/11 17:12:22 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/14 01:24:36 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@
 void		print_polygone(t_env *e, t_polygone *seg)
 {
 	if (!seg)
+	{
+//		ft_putstr("preitn_polugone:	NO SEG HAHAHA\n");
 		return ;
+	}
 	while (seg->next)
 	{
 		trace_seg_line(e, seg);

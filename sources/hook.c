@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/09 10:51:09 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/14 00:50:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int mouse_press(int button, int x, int y, t_env *e)
 	//	play_mandel(x, y, e);
 		if (button == 1 &&  (e->draw_base || e->draw_transform))
 		{
+			ft_putstr("BASE || PLYGONE\n");
 //			dprintf(1, "cacacacacaca\n");
 			increm_polygone(x - SIZE_X * 0.5, y - SIZE_Y * 0.5, e);
 		}

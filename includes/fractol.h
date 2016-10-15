@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/12 00:35:33 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/15 19:17:38 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ typedef	union	u_pix
 	int			nb;
 	char		comp[4];
 }				t_pix;
+
+
+typedef	struct	s_win
+{
+	t_pix		*data;
+	void		*win;
+	double		*z_buff;
+	int			is_z_buff;
+	int			size_x;
+	int			size_y;
+}				t_win;
+
+
 
 /*
 **	key_release 	(key_code == release) ?  (1, 2, 0) -> 0 : 1 -> 2

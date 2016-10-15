@@ -46,3 +46,79 @@
 	-on recupere le tracage de ligne de fdf
 	-on set une structure pour lew iteration de base, et on reflechi comment
 		stoquer les nuvelle iteration
+
+################################################################################
+#                                                                              #
+#        -> Nouvelle fenetre                                                   #
+#        -> System de selection rvb/tsl                                        #
+#        -> ajout/suppresion de node                                           #
+#        -> distance, iteration, sommet tr                                     #
+#        -> combinaison / composition: de couleur                              #
+#        -> sauvgarde de parametre de fractal                                  #
+#        -> affichage fluide                                                   #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+################################################################################
+#                                                                              #
+#                       ** NOUVELLE FENETRE **                                 #
+#                                                                              #
+#   ajout:                                                                     #
+#  (OK)    -> structure                                                        #
+#  (O.)       fonction de dessin                                               #
+#  (..)       -> aussi les fonction de cercle                                  #
+#  (..)    -> fonction d'evenement                                             #
+#  (OK)    -> initialisation                                                   #
+#  (OK)    -> destruction                                                      #
+#                                                                              #
+#   migration:                                                                 #
+#          -> changement d'etage de decison du support                         #
+#             (il faut preciser plus tot sur quel fenetre se fait quoi)        #
+#          -> remplacer les SIZE_X SIZE_Y                                      #
+#                                                                              #
+#                                                                              #
+#          -> on peu commencer par cree un contenu nouveau au nouveau format   #
+#             (comme ca on n'a pas trop besoin de faire la migration           #
+#                                                                              #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+#                           ** Affichage fluide  **                            #
+#                                                                              #
+#       -> sauvgarder les indices de chaques recursions                        #
+#          -> multi mode: init, save, normal.                                  #
+#          -> apres(mode: save), avant(retour = -1).                           #
+#                                                                              #
+#       -> chagrer un indice de recursion                                      #
+#           -> test si mode init                                               #
+#       -> sauvgarder un indice de recursion                                   #
+#           -> test si mode save                                               #
+#                                                                              #
+#                                                                              #
+#  ==> On doit fixer un indice de sauvgarde maxixmum donc on ne sauvgarde pas  #
+#      au dela, ou si non on ne zoom pas au dela d'une limite fixe en amon.    #
+#                                                                              #
+#  ==> On doit avoir une fenetre dedier pour ne pas tout re imprimer tout      #
+#      le temp et re imprimer le rest.                                         #
+#                                                                              #
+#  ==> On ne relance pas tout le temps la fonction, ou si non elle sait        #
+#      quelle a deja dessiner quelquechose, ou elle ne bzero pas sa memoire    #
+#                                                                              #
+################################################################################
+
+
+
+################################################################################
+#                                                                              #
+#                ====> multi fenetre <====                                     #
+#                                                                              #
+#     -> redefinir les fonciton de dessin                                      #
+#     -> redefinir les fonciton de d'evenement                                 #
+#                                                                              #
+#                                                                              #
+################################################################################

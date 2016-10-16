@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 21:50:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/05 21:58:17 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/16 18:05:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void		vectpx_to_img(t_env *e, t_matrix *pos_color)
 	y += SIZE_X / 2;
 	if (x < 0 || x >= e->x_maxl || y < 0 || y >= e->y_maxl)
 		return ;
-	e->data[y * e->x_maxl + x].nb = ((int)pos_color->m[2] << 24)
-		| ((int)pos_color->m[3]) << 16 | ((int)pos_color->m[4]) << 8
+	e->data[y * e->x_maxl + x].nb = ((int)pos_color->m[3]) << 16 | ((int)pos_color->m[4]) << 8
 		| (int)pos_color->m[5];
 }

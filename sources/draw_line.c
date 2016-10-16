@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/15 20:25:31 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/16 18:30:03 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ void		trace_seg_line(t_env *e, t_polygone *node)
 
 		l1 = 0.89 - 0.70 * ((lvl1 + 1.0) / (max + 1.0));
 		l2 = 0.89 - 0.70 * ((lvl2 + 1.0) / (max + 1.0));
-		dprintf(1, "lvl:%d\n", node->lvl);
-		dprintf(1, "focus:%.2f	centre:%.2f	max:%.2f	lvl1:%.2f	lvl2:%.2f\n", focus, centre, max, lvl1, lvl2);
-dprintf(1, "t1:%.2f	t2:%.2f	s1:%.2f	s2:%.2f	l1:%.2f	l2:%.2f\n", t1, t2, s1, s2, l1, l2);
+//		dprintf(1, "lvl:%d\n", node->lvl);
+//		dprintf(1, "focus:%.2f	centre:%.2f	max:%.2f	lvl1:%.2f	lvl2:%.2f\n", focus, centre, max, lvl1, lvl2);
+//dprintf(1, "t1:%.2f	t2:%.2f	s1:%.2f	s2:%.2f	l1:%.2f	l2:%.2f\n", t1, t2, s1, s2, l1, l2);
 //		dprintf(1, "increm:%.2f	/ max%f.2	=	%f.2\n", increm, max, teinte1);
 	//	dprintf(1, "t1:%f.2\tt2:%f.2\n", teinte1, teinte2);
 		if (!(color1 = tsl_to_rvb_new(t1, s1, l1))

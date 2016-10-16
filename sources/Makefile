@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/12 00:11:33 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/16 18:30:05 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC		= 	main.c \
 			polygone_maj.c \
 			modify_model.c \
 			color_transpose.c \
+			new_printing.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)

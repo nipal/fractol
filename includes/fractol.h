@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/15 19:17:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/16 18:39:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,9 +277,21 @@ void			translate_node(t_env *e, t_polygone *poly);
 **	color_transpose
 */
 
-void		rgb_to_tsl_mod(t_matrix *rgb);
-t_matrix	*rgb_to_tsl_new(double t, double s, double l);
-t_matrix	*tsl_to_rvb_new(double t, double s, double l);
-double		modulo(double a, double b);
+void			rgb_to_tsl_mod(t_matrix *rgb);
+t_matrix		*rgb_to_tsl_new(double t, double s, double l);
+t_matrix		*tsl_to_rvb_new(double t, double s, double l);
+double			modulo(double a, double b);
 
+
+void			draw_verticies(t_win *w, t_polygone *seg);
+void			draw_vertice(t_win *w, t_polygone *seg);
+void			translate_node2(t_env *e, t_polygone *poly);
+void			print_polygone2(t_win *w, t_polygone *seg);
+void			trace_seg_line2(t_win *w, t_polygone *node);
+void			trace_line2(double *pt1, double *pt2, double *c1, double *c2);
+int				draw_line2(t_win *win, t_matrix *mat_line);
+void			vectpx_to_img2(t_win *win, t_matrix *pos_color);
+
+void			draw_vertice1(t_env *e, t_polygone *seg);
+void			draw_verticies1(t_env *e, t_polygone *seg);
 #endif

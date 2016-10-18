@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 08:38:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/18 19:13:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ typedef	union	u_pix
 	char		comp[4];
 }				t_pix;
 
+typedef	struct	s_env	t_env;
 
 typedef	struct	s_win
 {
+	t_env		*e;
 	t_pix		*data;
+	char		*name;
 	void		*win;
 	double		*z_buff;
 	int			is_z_buff;
@@ -128,7 +131,23 @@ typedef	struct	s_cam
 	t_matrix	*rot;
 }				t_cam;
 
-typedef struct	s_env
+typedef	struct	s_matline
+{
+	t_matrix	*pt1;
+	t_matrix	*pt2;
+	t_matrix	*c1;
+	t_matrix	*c2;
+}				t_matline;
+
+typedef	struct	s_border
+{
+	int	x0;
+	int	x1;
+	int	y0;
+	int	y1;
+}				t_border;
+
+struct			s_env
 {
 	void		*mlx;
 	void		*win;
@@ -138,8 +157,8 @@ typedef struct	s_env
 	int			size_line;
 	int			depth;
 	int			endian;
-	double		**img_low;//[SIZE_Y][SIZE_X];
-	double		**img_height;//[SIZE_Y * 2 + 2][SIZE_X * 2 + 2];
+	double		**img_low;
+	double		**img_height;
 	int			x_maxl;
 	int			y_maxl;
 	int			x_maxh;
@@ -171,8 +190,11 @@ typedef struct	s_env
 	int			right;
 
 	t_win		*param;
+	t_win		*fractal;
+	t_border	border_b;
+	t_border	border_t;
 //	t_polygone	*transform;
-}				t_env;
+};
 
 void			print_map(double **img, int size_x, int size_y);
 /*
@@ -185,6 +207,16 @@ int 			mouse_press(int button, int x, int y, t_env *e);
 int 			mouse_release(int button, int x, int y, t_env *e);
 void			set_key(int key_code, t_env *e, const int on, const int off);
 void			size_window_copy(double pos_low[4], double pos_height[4]);
+
+/*
+**	new_hook
+*/
+int				mouse_inside(int x, int y, t_win *w);
+int				press_key(int key_code, t_win *w);
+int				release_key(int key_code, t_win *w);
+int 			motion_cursor(int x, int y, t_win *w);
+int 			press_button(int button, int x, int y, t_win *w);
+int 			release_button(int button, int x, int y, t_win *w);
 
 /*
 ** mlx_env
@@ -230,8 +262,16 @@ t_matrix		*init_mat_line(t_matrix *pt1, t_matrix *pt2,
 void			trace_seg_line(t_env *e, t_polygone *node);
 
 /*
+**	param_koch.c
+*/
+
+/*
 **	koch
 */
+void	draw_border(t_win *w, t_border *border, t_matrix *color);
+void	init_koch_param_border(t_env *e, t_win *win_param);
+int	reset_base(t_env *e);
+int	reset_transform(t_env *e);
 
 void			print_polygone(t_env *e, t_polygone *poly);
 t_polygone		*creat_node(int lvl, double *pos, double *color);
@@ -243,6 +283,13 @@ void			add_point(t_polygone **node, int x, int y, int lvl);
 void			increm_polygone(int x, int y, t_env *e);
 void			move_last(int x, int y, t_env *e);
 t_polygone		*copy_node(t_polygone *node, int lvl);
+int				init_win_param(t_env *e, int size_x, int size_y, char *name);
+
+/*
+**	init_win
+*/
+t_win	*window_init(t_env *e, int size_x, int size_y, char *name);
+int		window_destroy(t_env *e, t_win **window);
 
 void			end_transform(t_env *e);
 void			end_base(t_env *e);
@@ -304,7 +351,10 @@ t_matrix		*rgb_to_tsl_new(double t, double s, double l);
 t_matrix		*tsl_to_rvb_new(double t, double s, double l);
 double			modulo(double a, double b);
 
-
+/*
+**	new_printing
+*/
+t_matrix		*define_node_color(double dist_frac, double iter, double prog_iter);
 void			draw_verticies(t_win *w, t_polygone *seg);
 void			draw_vertice(t_win *w, t_polygone *seg);
 void			translate_node2(t_env *e, t_polygone *poly);
@@ -312,6 +362,7 @@ void			print_polygone2(t_coef_const *cc, t_coef_draw *cd, double dist, t_polygon
 void			trace_seg_line2(t_win *w, t_polygone *node);
 void			trace_line2(double *pt1, double *pt2, double *c1, double *c2);
 int				draw_line2(t_win *win, t_matrix *mat_line);
+void			draw_line3(t_matline *ml, t_win *w);
 void			vectpx_to_img2(t_win *win, t_matrix *pos_color);
 
 void			draw_vertice1(t_env *e, t_polygone *seg);

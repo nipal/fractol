@@ -5,26 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/17 01:28:49 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 08:52:53 by fjanoty          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   new_printing.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 00:36:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/17 01:28:43 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/18 19:52:18 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "c_maths.h"
 
+
+void	draw_line3(t_matline *ml, t_win *w)
+{
+	t_matrix	*mat_line;
+	t_matrix	*diff;
+	double		norme;
+
+	mat_line = NULL;
+	diff = NULL;
+	if (!ml || !(mat_line = matrix_init(14, 1))
+		|| !ml->pt1 || !ml->pt2 || !ml->c1 || !ml->c2
+		|| ((!(diff = matrix_sub(ml->pt2, ml->pt1)) && matrix_free(&mat_line))))
+		return ;
+	diff->m[Z] = 0;
+	norme = MAX(ABS(diff->m[0]), ABS(diff->m[1]));
+	mat_line->m[NORME] = norme;
+	matrix_scalar_product(diff, 1 / norme);
+	ft_memmove(mat_line->m, ml->pt1->m, sizeof(double) * 3);
+	ft_memmove(mat_line->m + 3, ml->c1->m, sizeof(double) * 3);
+	ft_memmove(mat_line->m + 6, diff->m, sizeof(double) * 3);
+	matrix_free(&diff);
+	matrix_scalar_product(diff = matrix_sub(ml->c2, ml->c1), 1 / norme);
+	ft_memmove(mat_line->m + 9, diff->m, sizeof(double) * 3);
+	matrix_free(&diff);
+	draw_line2(w, mat_line);
+}
 //t_matrix		*tsl_to_rvb_new(double t, double s, double l);
 /*
 **	dist_fractal	=>	perimetre de la fractal
@@ -388,11 +402,15 @@ void	draw_verticies(t_win *w, t_polygone *seg)
 	}
 }
 
+
+//t_matrix	*define_node_color(double dist_frac, double iter, double prog_iter)
 void	draw_vertice1(t_env *e, t_polygone *seg)
 {
 	double		pc[6];
 	t_matrix	*pos_color;
+//	t_matrix	*color;
 
+//	if (!(color = define_node_color()))
 	pc[0] = seg->pos->m[0];
 	pc[1] = seg->pos->m[1];
 	pc[3] = 250;
@@ -402,6 +420,7 @@ void	draw_vertice1(t_env *e, t_polygone *seg)
 		return ;
 	vectpx_to_img(e, pos_color);
 	matrix_free(&pos_color);
+//	matrix_free(&color);
 }
 
 void	draw_verticies1(t_env *e, t_polygone *seg)

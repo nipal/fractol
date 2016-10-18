@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 18:19:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/12 06:08:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/18 19:58:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,14 @@ t_matrix	*tsl_to_rvb_new_old(double t, double s, double l)
 
 t_matrix	*tsl_to_rvb_new(double t, double s, double l)
 {
-	t_matrix	*rvb;
 	int		ix, ic, i0;
-	double	min, max, croma, x, i;
+	double	min;
+	double	max;
+	double	croma;
+	double	x;
+	double	i;
+	t_matrix	*rvb;
 
-//	t = modulo(t, 360);
 	if (!(rvb = matrix_init(1, 3)))
 		return (NULL);
 	max = l * 255;
@@ -148,63 +151,12 @@ t_matrix	*tsl_to_rvb_new(double t, double s, double l)
 	croma = max - min;
 	i = t / 60;
 	x = croma * modulo(i, 2);
-//	dprintf(1, "i:%.2f\n", i);
 	ix = (7 - (int)i) % 3 ;
 	ic = ((int)i % 2 == 0) ? (ix - 1) % 3 : ix + 1 % 3;	
 	i0 = 3 - ic - ix;
-//	dprintf(1, "ix%d	ic:%d	i0:%d\n", ix, ic, i0);
 	rvb->m[ic] = croma + min;
 	rvb->m[ix] = x + min;
 	rvb->m[i0] = x + min;
-	/*
-	if (i < 1)
-	{
-//		dprintf(1, "[%d, %d[\n", (int)i, (int)(i + 1));
-		rvb->m[0] = croma + min;
-		rvb->m[1] = x + min;
-		rvb->m[2] = min;
-	}
-	else if (i >= 1 && i < 2)
-	{
-//		dprintf(1, "[%d, %d[\n", (int)i, (int)(i + 1));
-		rvb->m[0] = x + min;
-		rvb->m[1] = croma + min;
-		rvb->m[2] = min;
-	}
-	else if (i >= 2 && i < 3)
-	{
-//		dprintf(1, "[%d, %d[\n", (int)i, (int)(i + 1));
-		rvb->m[0] = min;
-		rvb->m[1] = croma + min;
-		rvb->m[2] = x + min;
-	}
-	else if (i >= 3 && i < 4)
-	{
-//		dprintf(1, "[%d, %d[\n", (int)i, (int)(i + 1));
-		rvb->m[0] = min;
-		rvb->m[1] = x + min;
-		rvb->m[2] = croma + min;
-	}
-	else if (i >= 4 && i < 5)
-	{
-//		dprintf(1, "[%d, %d[\n", (int)i, (int)(i + 1));
-		rvb->m[0] = x + min;
-		rvb->m[1] = min;
-		rvb->m[2] = croma + min;
-	}
-	else
-	{
-//		dprintf(1, "[%d, %d[\n", (int)i, (int)(i + 1));
-		rvb->m[0] = croma + min;
-		rvb->m[1] = min;
-		rvb->m[2] = x + min;
-	}
-	*/
-//	dprintf(1, "t:%.2f	s:%.2f	l:%.2f\n", t, s, l);
-//	dprintf(1, "r:%.2f	v:%.2f	b:%.2f\n", rvb->m[0], rvb->m[1], rvb->m[2]);
-//	rvb->m[a] = modulo((x + m) * 255, 255);
-//	rvb->m[b] = modulo(((l * s) + m) * 255, 255);
-//	rvb->m[c] = modulo(m * 255, 255);
 	return (rvb);
 }
 

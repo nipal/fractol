@@ -69,7 +69,7 @@
 #  (OK)    -> structure                                                        #
 #  (O.)       fonction de dessin                                               #
 #  (..)       -> aussi les fonction de cercle                                  #
-#  (..)    -> fonction d'evenement                                             #
+#  (O.)    -> fonction d'evenement                                             #
 #  (OK)    -> initialisation                                                   #
 #  (OK)    -> destruction                                                      #
 #                                                                              #
@@ -119,6 +119,17 @@
 #                                                                              #
 #     -> redefinir les fonciton de dessin                                      #
 #     -> redefinir les fonciton de d'evenement                                 #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+################################################################################
+#                                                                              #
+#                  #######   denfetre de control  ######                       #
+#                                                                              #
+#       -> on dessinne la BASE et le MULT dans la fenettre de controle         #
+#                                                                              #
 #                                                                              #
 #                                                                              #
 ################################################################################

@@ -1,0 +1,20 @@
+					
+
+################################################################################
+#                                                                              #
+#                                                                              #
+#                                                                              #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+Il faut que je refasse les focntion de creation de polygone
+
+->	je dessinne la base et le mult	 
+
+	reset_base();
+	reset_transform();
+
+	add_node()
+	remove_node()

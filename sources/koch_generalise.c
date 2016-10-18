@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/16 18:30:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/18 17:03:41 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,3 +210,11 @@ void		zero_double(double *tab1, double *tab2, int size)
 //	on calcule un produit scalaire avec ux et uy sur des vecteur 
 //	sauvgarde transformation e reference
 //	aplication de la franformation
+
+
+int		init_win_param(t_env *e, int size_x, int size_y, char *name)
+{
+	if (!(e->param = window_init(e, size_x, size_y, name)))
+		return (0);
+	return (1);
+}

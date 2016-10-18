@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/14 00:50:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/18 19:51:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,12 +132,10 @@ int mouse_press(int button, int x, int y, t_env *e)
 		if (button == 1 &&  (e->draw_base || e->draw_transform))
 		{
 			ft_putstr("BASE || PLYGONE\n");
-//			dprintf(1, "cacacacacaca\n");
 			increm_polygone(x - SIZE_X * 0.5, y - SIZE_Y * 0.5, e);
 		}
 		else if (button == 2)
 		{
-//			dprintf(1, "pipipipipipi\n");
 			if (e->draw_base)
 				end_base(e);
 			else if (e->draw_transform)
@@ -214,18 +212,27 @@ int			main_work()
 	if (!(e = get_env(NULL)))
 		return (0);
 //	do_zoom_simple(e);
-	print_polygone(e, e->beg_actif);
 //	print_polygone(e, e->base);
 //	max =  nb_iter_koch(e->base, e->transform);
 //	max = MIN(max, e->iter_koch);
 //	dprintf(1, "iter max:%d\n", max);
-	print_mouse_close(e, e->trans_controle);
-	calcul_and_print(e->base, e->transform, e->iter_koch, e);
-	print_polygone(e, e->transform);
-	print_polygone(e, e->trans_controle);
 
-	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-	mlx_do_sync(e->mlx);
-	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
+//	print_polygone(e, e->beg_actif);
+//	print_mouse_close(e, e->trans_controle);
+//	calcul_and_print(e->base, e->transform, e->iter_koch, e);
+//	print_polygone(e, e->transform);
+//	print_polygone(e, e->trans_controle);
+
+//	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+//	mlx_do_sync(e->mlx);
+//	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
+	t_matrix	*color;
+	if (!(color = tsl_to_rvb_new(120, 0.7, 0.8)))
+		return (0);
+	draw_border(e->param, &(e->border_b), color);
+	if (!(color = tsl_to_rvb_new(240, 0.7, 0.8)))
+		return (0);
+	draw_border(e->param, &(e->border_t), color);
+	matrix_free(&color);
 	return (1);
 }

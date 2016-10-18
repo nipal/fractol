@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/16 18:30:05 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/10/18 13:27:14 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,9 @@ SRC		= 	main.c \
 			modify_model.c \
 			color_transpose.c \
 			new_printing.c \
+			init_win.c \
+			new_hook.c \
+			param_koch.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)

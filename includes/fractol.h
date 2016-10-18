@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/16 18:39:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/18 08:38:32 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,26 @@ typedef	struct	s_win
 
 
 
+
+typedef	struct	s_coef_draw
+{
+	int			iter;
+	double		len_seg;
+	double		du_dist;
+	t_polygone	*to_insert;
+}				t_coef_draw;
+
+typedef	struct	s_coef_const
+{
+	int			max_iter;
+	double		dist;
+	double		len_mult;
+	double		min_val_trans;
+	t_polygone	*mult;
+	t_win		*w;
+	t_matrix	*diff;
+}				t_coef_const;
+
 /*
 **	key_release 	(key_code == release) ?  (1, 2, 0) -> 0 : 1 -> 2
 **	key_press		0 -> 1
@@ -149,6 +169,8 @@ typedef struct	s_env
 
 	int			left;
 	int			right;
+
+	t_win		*param;
 //	t_polygone	*transform;
 }				t_env;
 
@@ -286,7 +308,7 @@ double			modulo(double a, double b);
 void			draw_verticies(t_win *w, t_polygone *seg);
 void			draw_vertice(t_win *w, t_polygone *seg);
 void			translate_node2(t_env *e, t_polygone *poly);
-void			print_polygone2(t_win *w, t_polygone *seg);
+void			print_polygone2(t_coef_const *cc, t_coef_draw *cd, double dist, t_polygone *seg);
 void			trace_seg_line2(t_win *w, t_polygone *node);
 void			trace_line2(double *pt1, double *pt2, double *c1, double *c2);
 int				draw_line2(t_win *win, t_matrix *mat_line);

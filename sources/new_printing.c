@@ -5,17 +5,195 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/17 01:28:49 by fjanoty           #+#    #+#             */
+/*   Updated: 2016/10/18 08:52:53 by fjanoty          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   new_printing.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 00:36:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/16 19:22:58 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/17 01:28:43 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "c_maths.h"
 
-t_matrix	*define_node_color(double dist_frac, double u_iter)
+//t_matrix		*tsl_to_rvb_new(double t, double s, double l);
+/*
+**	dist_fractal	=>	perimetre de la fractal
+**	iter			=>	la neme couche de recurtion
+**	prog_iter		=>	le neme maiilon du segment
+**
+**		TOUT LES COEF SONT ENTRE 0 ET 1 (inclus)
+**
+*/
+t_matrix	*define_node_color(double dist_frac, double iter, double prog_iter)
 {
+	t_matrix	*color;
 
+	if (dist_frac < 0 || iter < 0 || prog_iter < 0 || dist_frac > 1 || iter > 1
+			|| prog_iter > 1)
+	{
+		ft_putstr("color param error\n");
+		return (NULL);
+	}
+	return((color = tsl_to_rvb_new(360 * dist_frac, iter, prog_iter)));
+}
+
+void		actual_node_color(t_matrix *col, double dist_frac, double iter, double prog_iter)
+{
+	t_matrix	*color;
+
+	if (dist_frac < 0 || iter < 0 || prog_iter < 0 || dist_frac > 1 || iter > 1
+			|| prog_iter > 1)
+	{
+		ft_putstr("color param error\n");
+		return ;
+	}
+	if (!(color = tsl_to_rvb_new(360 * dist_frac, iter, prog_iter)))
+		return ;
+	col->m[0] = color->m[0];
+	col->m[1] = color->m[1];
+	col->m[2] = color->m[2];
+	matrix_free(&color);
+}
+
+/*
+**	La il faut une fonction qui actualise les couleur pour les point
+*/
+
+double		get_polygone_len(t_polygone *seg)
+{
+	double	i;
+
+	i = 0;
+	while (seg)
+	{
+		seg = seg->next;
+		i++;
+	}
+	return (i);
+}
+
+/*
+void	print_seg(t_win *w, t_polygone *seg)
+{
+	t_matrix	*c1;
+	t_matrix	*c2;
+}
+*/
+
+
+/*
+**	delta_dist = (1 / mult_length) ^ iter;
+**	il faudra aussi initialiser la structure
+*/
+
+/*
+void		init_coef_print()
+{
+	t_coef_print	*coef;
+
+	coef->len_mult = get_polygone_len(coef->mult);
+	coef->diff = matrix_init(1, 3);
+}
+*/
+
+
+/*
+**	il faut une structure qui change et une fix
+*/
+
+int			init_coef_draw(t_coef_draw *cd, t_polygone *seg, double iter, double len_mult)
+{
+	if (!cd || !seg)
+		return (0);
+	cd->iter = iter;
+	cd->len_seg = get_polygone_len(seg);
+	cd->du_dist = pow(1.0 / len_mult, iter) / cd->len_seg;
+	cd->to_insert = NULL;
+	return (1);
+}
+
+int			init_coef_const(t_coef_const *cc, t_polygone *mult, double max_iter, t_win *w)
+{
+	if (!w |! cc || !mult || !(cc->diff = matrix_init(1, 3)))
+		return (0);
+	cc->dist = 0;
+	cc->max_iter = max_iter;
+	cc->mult = mult;
+	cc->w = w;
+	cc->len_mult = get_polygone_len(mult);
+	cc->min_val_trans = get_min_dist(mult);
+	return (1);
+}
+
+int			destroy_coef_const(t_coef_const *cc)
+{
+	if (cc)
+		matrix_free(&(cc->diff));
+	return (1);
+}
+
+void		draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double iter)
+{
+	t_coef_draw	cd;
+	double		i;
+	double		dist_2;
+	t_polygone	*cpy;
+
+	i = 0;
+	if (seg && (init_coef_draw(&cd, seg, iter, cc->len_mult)))
+	{
+		if (cd.iter < cc->max_iter)
+		{
+			while (seg->next)
+			{
+				if (!(cpy = copy_node(seg, seg->lvl))
+					|| !(cpy->next = copy_node(seg->next, seg->lvl)))
+				{
+					cpy->next->next = NULL;
+					matrix_sub_in(cpy->pos, cpy->next->pos, cc->diff);
+					dist_2 = matrix_dot_product(cc->diff, cc->diff);
+					if (dist_2 * cc->min_val_trans < 16)
+						print_polygone2(cc, &cd, dist + i * cd.du_dist , cpy);
+					else if (!(cd.to_insert = creat_insert(cpy, cc->mult))
+						|| !(insert_portion(&(cpy), cd.to_insert)))
+						ft_putstr("error on calcul\n");
+					draw2_koch_general(cpy, cc, dist + cd.du_dist * i, iter + 1);
+					polygone_destroy(&(cpy));
+					seg = seg->next;
+				}
+				i++;
+			}
+		}
+		else
+			print_polygone2(cc, &cd, dist + i * cd.du_dist , seg);
+	}
+	else if (seg)
+		print_polygone2(cc, &cd, dist + i * cd.du_dist , seg);
+}
+
+
+/*
+**	ici on va faire une fonction qui s'occupe de la boucle d'impression generale
+**	c'est entre autre elle qui va gerer le calcule en plusiseur fois
+*/
+
+void		print_loop(t_env *e)
+{
+	t_coef_const	cc;
+	
+	init_coef_const(&cc, e->transform, e->iter_koch, e->param);
+	draw2_koch_general(e->base, &cc, 0, 0);
+	matrix_free(&(cc.diff));
 }
 
 void		vectpx_to_img2(t_win *win, t_matrix *pos_color)
@@ -148,17 +326,27 @@ void		trace_seg_line2(t_win *w, t_polygone *node)
 	}
 }
 
-void		print_polygone2(t_win *win, t_polygone *seg)
+//	void		actual_node_color(t_matrix *col, double dist_frac, double iter, double prog_iter)
+//	On va tranquillement definir dist, iter et prog_iter et puis on actualise les 
+//	Fonction vraiment tailler a la rache pour lutilisation particuliere
+void		print_polygone2(t_coef_const *cc, t_coef_draw *cd, double dist, t_polygone *seg)
 {
-	if (!seg)
+	double	prog_iter;
+
+	prog_iter = 0;
+	if (!seg || ! cc || !cd)
 	{
-//		ft_putstr("preitn_polugone:	NO SEG HAHAHA\n");
+		ft_putstr("preitn_polugone:	NO SEG HAHAHA\n");
 		return ;
 	}
+	if (seg)
+		actual_node_color(seg->col, dist + prog_iter * cd->du_dist, cd->iter, prog_iter);
 	while (seg->next)
 	{
-		trace_seg_line2(win, seg);
+		actual_node_color(seg->next->col, dist + prog_iter * cd->du_dist, cd->iter, prog_iter);
+		trace_seg_line2(cc->w, seg);
 		seg = seg->next;
+		prog_iter++;
 	}
 }
 

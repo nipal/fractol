@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/16 19:24:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/16 19:34:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 				matrix_sub_in(cpy->pos, cpy->next->pos, diff);
 				dist_2 = matrix_dot_product(diff, diff);
 				if (dist_2 * e->min_val_trans < 16)
-					//draw_verticies1(e, cpy);
+			//		draw_verticies1(e, cpy);
 					print_polygone(e, cpy);
 				else if (!(to_insert = creat_insert(cpy, mult))
 					|| !(insert_portion(&cpy, to_insert)))
@@ -97,10 +97,10 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 			}
 		}
 		else
-			//draw_verticies1(e, seg);
+	//		draw_verticies1(e, seg);
 			print_polygone(e, seg);
 	}
 	else if (seg)
-		//draw_verticies1(e, seg);
+//		draw_verticies1(e, seg);
 		print_polygone(e, seg);
 }

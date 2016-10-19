@@ -71,13 +71,11 @@ void	calcul_grid(double **img, double pos[4], double max_x, double max_y)
 double		*get_lst_color(int val)
 {
 	int				i;
-	static	int		iter;
 	static	double	*valu = NULL;
 
 	if (valu == NULL)
 	{
 		valu = (double*)malloc(sizeof(double) * (val + 2));
-		iter = val;
 		i = 0;
 		while (i < val + 2)
 		{
@@ -289,13 +287,13 @@ void	calculate_average(double **img_low, double **img_height, double pos_l[4], d
 	t_average	moy;
 	t_env		*e;
 
-double	delta_xh, delta_xl;
+//double	delta_xh, delta_xl;
 
 	e = get_env(NULL);
 	moy.il = 0;
 	moy.jl = 0;
-	delta_xh = (pos_h[2] - pos_h[0]);
-	delta_xl = (pos_l[2] - pos_l[0]);
+//	delta_xh = (pos_h[2] - pos_h[0]);
+//	delta_xl = (pos_l[2] - pos_l[0]);
 	du = (((pos_h[2] - pos_h[0]) * e->x_maxl) / ((pos_l[2] - pos_l[0]) * e->x_maxh));
 	du /= 1;
 	moy.ih0 = (pos_l[0] - pos_h[0]) / (pos_h[2] - pos_h[0]) * (SIZE_X * 2 + 2);

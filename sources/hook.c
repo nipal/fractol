@@ -115,7 +115,7 @@ int mouse_motion(int x, int y, t_env *e)
 		if (e->mouse && e->prev_mouse && e->left)
 			translate_node(e, e->trans_controle);
 	}
-//	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
+	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
 	return (1);
 }
 

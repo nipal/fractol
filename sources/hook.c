@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 19:51:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 01:49:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int mouse_motion(int x, int y, t_env *e)
 		e->mouse->m[0] = x;
 		e->mouse->m[1] = y;
 		if (e->mouse && e->prev_mouse && e->left)
-			translate_node(e, e->trans_controle);
+			translate_node(e, e->trans_model);
 	}
 	dprintf(1, "mouse motion 	(%s)-->		x:%d	y:%d\n", position, x, y);
 	return (1);
@@ -226,13 +226,9 @@ int			main_work()
 //	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 //	mlx_do_sync(e->mlx);
 //	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
-	t_matrix	*color;
-	if (!(color = tsl_to_rvb_new(120, 0.7, 0.8)))
-		return (0);
-	draw_border(e->param, &(e->border_b), color);
-	if (!(color = tsl_to_rvb_new(240, 0.7, 0.8)))
-		return (0);
-	draw_border(e->param, &(e->border_t), color);
-	matrix_free(&color);
+	draw_the_2_border(e);
+	draw_simple_polygone(e->param, e->trans_model);
+	draw_simple_polygone(e->param, e->base_model);
+	actu_win_rest(e->param);
 	return (1);
 }

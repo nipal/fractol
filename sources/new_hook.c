@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 10:37:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 12:25:33 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 03:34:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ int motion_cursor(int x, int y, t_win *w)
 	position = (mouse_inside(x, y, w)) ? "in " : "out";
 	(void)position;
 //	dprintf(1, "(%s ==> %s)		x:%d	y:%d\n", w->name, position, x, y);
+	w->prev_mouse->m[0] = w->mouse->m[0];
+	w->prev_mouse->m[1] = w->mouse->m[1];
+	w->mouse->m[0] = x;
+	w->mouse->m[1] = y;
+	if (!ft_strcmp(w->name, "param"))
+		actu_polygone_io(w->e, w);
+//	check_border_io(w->e, w, &(w->e->border_b));
+//	check_border_io(w->e, w, &(w->e->border_t));
+	//	ici on apele le petit chec des famille
 	return (1);
 }
 
@@ -48,6 +57,7 @@ int press_button(int button, int x, int y, t_win *w)
 
 	position = (mouse_inside(x, y, w)) ? "in " : "out";
 	dprintf(1, "(%s ==> %s)		x:%d	y:%d	button:%d\n", w->name, position, x, y, button);
+	complet_polygone(w);
 	return (1);
 }
 

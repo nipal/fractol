@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 22:04:45 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/11 17:28:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 01:50:44 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_trans_control(t_env *e)
 	double	col[3];
 	t_polygone	*node;
 
-	e->trans_controle = NULL;
+	e->trans_model = NULL;
 	pos[1] = SIZE_Y * 0.35;
 	pos[0] = SIZE_X * 0.20;
 	pos[2] = 0;
@@ -33,12 +33,12 @@ void	init_trans_control(t_env *e)
 	col[2] = 250;
 	if (!(node = creat_node(0, pos, col)))
 		return ;
-	push_back(&(e->trans_controle), node);
+	push_back(&(e->trans_model), node);
 	pos[0] = SIZE_X * 0.45;
 	if (!(node = creat_node(0, pos, col)))
 		return ;
-	push_back(&(e->trans_controle), node);
-	iterate_transformation(e->trans_controle, e->transform);
+	push_back(&(e->trans_model), node);
+	iterate_transformation(e->trans_model, e->transform);
 }
 
 void	describe_one_node(t_polygone *seg)

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 09:57:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 03:32:11 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,77 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 	else if (seg)
 //		draw_verticies1(e, seg);
 		print_polygone(e, seg);
+}
+
+void	polygone_push_back(t_polygone **begin, t_polygone *node)
+{
+	t_polygone	*elem;
+
+//	ft_putstr("push_back\n");
+	if (!begin)
+	{
+//	ft_putstr("end\n");
+		return ;
+	}
+	elem = *begin;
+	if (!elem)
+		*begin = node;
+	else
+	{
+		while (elem->next)
+			elem = elem->next;
+		elem->next = node;
+	}
+//	ft_putstr("end\n");
+}
+
+void	polygone_push_befor_last(t_polygone **begin, t_polygone *node)
+{
+	t_polygone	*elem;
+
+//	ft_putstr("push_befor_last\n");
+	if (!begin)
+	{
+//ft_putstr("end\n");
+		return ;
+	}
+	elem = *begin;
+	if (!elem)
+		*begin = node;
+	else
+	{
+		if (!elem->next)
+		{
+			node->next = elem;
+			*begin = node;
+//ft_putstr("end\n");
+			return ;
+		}
+		while (elem->next->next)
+			elem = elem->next;
+		node->next = elem->next;
+		elem->next = node;
+	}
+//ft_putstr("end\n");
+}
+
+void	polygone_forget_last(t_polygone **begin)
+{
+	t_polygone	*elem;
+
+	if (!begin)
+		return ;
+	elem = *begin;
+//	ft_putstr("forget_last\n");
+	if (!elem || !elem->next)
+	{
+//ft_putstr("end\n");
+		if (elem && !elem->next)
+			*begin = NULL;
+		return ;
+	}
+	while (elem->next->next)
+		elem = elem->next;
+	elem->next = NULL;
+//	ft_putstr("end\n");
 }

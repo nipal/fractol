@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 18:19:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 19:58:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/20 18:03:46 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,9 @@ t_matrix	*tsl_to_rvb_new(double t, double s, double l)
 	i = t / 60;
 	x = croma * modulo(i, 2);
 	ix = (7 - (int)i) % 3 ;
-	ic = ((int)i % 2 == 0) ? (ix - 1) % 3 : ix + 1 % 3;	
-	i0 = 3 - ic - ix;
+	ic = (((int)i % 2) == 0) ? (ix + 2) % 3 : (ix + 1) % 3;	
+	i0 = (3 - ic - ix) % 3;	
+//	dprintf(1, "ix:%d	ic%d	i0:%d\n", ix, ic, i0);
 	rvb->m[ic] = croma + min;
 	rvb->m[ix] = x + min;
 	rvb->m[i0] = x + min;

@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 19:48:12 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 02:23:44 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void		env(void)
 	if (!(e.mlx = mlx_init()))
 		return ;
 	if (!(e.fractal = window_init(&e, SIZE_X, SIZE_Y, "fractal"))
-		|| !(e.param = window_init(&e, 700, 700, "control")))
+		|| !(e.param = window_init(&e, 700, 700, "param")))
 		return ;
 	init_win_event(e.fractal, &e);
 	init_win_event(e.param, &e);

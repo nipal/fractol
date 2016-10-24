@@ -133,3 +133,37 @@
 #                                                                              #
 #                                                                              #
 ################################################################################
+
+#
+#	On a une fonction d'impression general.
+#	->	Il faut un polygone de comptrole pour la BASE et le TRANSFROM
+#	->	Des fonction de transformation, rescaling en fonction de la fenetre en fonction de celle de la frractale
+#		donc on va definir la hauteur des case en fonction du scaling de la preimier feneter
+#
+#		->	Au max on prend 1/2 de largeur ou 2/3 de hauteur
+#
+#
+#
+#
+#
+#
+#
+
+
+
+
+################################################################################
+#
+#			afficher les clique qui sont gere
+#			afficher la base dans l'autre fenetre
+#			deplacer les point
+#				-> pour la base
+#				-> pour l'extremite de la transform
+#				-> pour l'interieur de la transform
+#			metre tout bout a bout
+
+##		=>	definir un arret d'ajout de point par cadre
+#		=>	definir un reset de cadre
+#
+#
+#

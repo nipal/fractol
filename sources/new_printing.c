@@ -6,13 +6,21 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 00:36:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 19:52:18 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 03:32:10 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include "c_maths.h"
+#include <mlx.h>
 
+void	actu_win_rest(t_win *w)
+{
+//	describe_window(w);
+	mlx_put_image_to_window(w->e->mlx, w->win, w->img, 0, 0);
+	mlx_do_sync(w->e->mlx);
+	ft_bzero(w->data, sizeof(t_pix) * w->size_x * w->size_y);
+}
 
 void	draw_line3(t_matline *ml, t_win *w)
 {
@@ -199,6 +207,7 @@ void		draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double 
 /*
 **	ici on va faire une fonction qui s'occupe de la boucle d'impression generale
 **	c'est entre autre elle qui va gerer le calcule en plusiseur fois
+**	normalement c'est [lus fait pour etre recursif donc voila
 */
 
 void		print_loop(t_env *e)
@@ -217,8 +226,8 @@ void		vectpx_to_img2(t_win *win, t_matrix *pos_color)
 
 	x = (int)pos_color->m[0];
 	y = (int)pos_color->m[1];
-	x += SIZE_Y / 2;
-	y += SIZE_X / 2;
+//	x -= win->size_x / 2;
+//	y -= win->size_y / 2;
 	if (x < 0 || x >= win->size_x || y < 0 || y >= win->size_y)
 		return ;
 	win->data[y * win->size_x + x].nb = ((int)pos_color->m[3]) << 16
@@ -431,4 +440,20 @@ void	draw_verticies1(t_env *e, t_polygone *seg)
 		seg = seg->next;
 	}
 
+}
+
+void	draw_simple_polygone(t_win *w, t_polygone *node)
+{
+	t_matrix		*mat_line;
+	//	ici on va dessiner un polygone tout simple
+	if (!node)
+		return;
+	while (node->next)
+	{
+		if (!(mat_line = init_mat_line(node->pos, node->next->pos, node->col, node->next->col)))
+			return ;
+		draw_line2(w, mat_line);
+		matrix_free(&mat_line);
+		node = node->next;
+	}
 }

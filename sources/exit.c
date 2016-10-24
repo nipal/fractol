@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 12:18:10 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/20 18:44:49 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ int		ft_exit(t_env *e)
 //	free_img(&(e->img_height), e->y_maxh);
 //	mlx_destroy_image(e->mlx, e->img);
 //	mlx_destroy_window(e->mlx, e->win);
-	window_destroy(e, &(e->fractal));
-	window_destroy(e, &(e->param));
+//	window_destroy(e, &(e->fractal));
+//	window_destroy(e, &(e->param));
+	(void)e;
 	exit(0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/18 17:03:41 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 01:49:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void	init_koch(t_env *e)
 	e->draw_transform = 0;
 	e->add_iter = 0;
 	e->transform = NULL;
-	e->trans_controle = NULL;
+	e->trans_model = NULL;
+	e->base_model = NULL;
 	e->iter_koch = 0;
 	e->mouse = NULL;
 	e->prev_mouse = NULL;
@@ -117,13 +118,16 @@ void	init_koch(t_env *e)
 	e->left = 0;
 	e->right = 0;
 	e->min_val_trans = 0;
+	e->actif = NULL;
+	e->base = NULL;
+	e->transform = NULL;
 }
 
 int		reset_koch(t_env *e)
 {
 	polygone_destroy(&(e->transform));
 	polygone_destroy(&(e->beg_actif));
-	polygone_destroy(&(e->trans_controle));
+	polygone_destroy(&(e->trans_model));
 	polygone_destroy(&(e->base));
 	e->base = NULL;
 	init_koch(e);

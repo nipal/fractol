@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 03:04:29 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 06:00:56 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,9 @@ struct			s_env
 	t_win		*fractal;
 	t_border	border_b;
 	t_border	border_t;
+
+	int			base_add;
+	int			trans_add;
 //	t_polygone	*transform;
 };
 

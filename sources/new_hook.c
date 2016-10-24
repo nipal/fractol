@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 10:37:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 03:34:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 06:32:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,25 @@ int press_button(int button, int x, int y, t_win *w)
 	char	*position;
 
 	position = (mouse_inside(x, y, w)) ? "in " : "out";
-	dprintf(1, "(%s ==> %s)		x:%d	y:%d	button:%d\n", w->name, position, x, y, button);
-	complet_polygone(w);
+	if (button == 1)
+		complet_polygone(w);
+	if (button == 2 && !ft_strcmp(w->name, "param"))
+	{
+		if ((w->e->base_add += (mouse_in_border(&(w->e->border_b), w->mouse)) ? 1 : 0) % 2)
+			polygone_forget_last(&(w->e->base_model));
+//		else if ((w->e->base_add % 2) == 0)
+//			polygone_push_back(&(w->e->base_model), w->e->actif);
+
+
+
+		if ((w->e->trans_add += (mouse_in_border(&(w->e->border_t), w->mouse)) ? 1 : 0) % 2)
+			polygone_forget_last(&(w->e->trans_model));
+//		else if ((w->e->trans_add % 2) == 0)
+//			polygone_push_back(&(w->e->trans_model), w->e->actif);
+		dprintf(1, "base:%d	trans:%d\n", w->e->base_add, w->e->trans_add);
+	}
+			
+	dprintf(1, "press	(%s ==> %s)		x:%d	y:%d	button:%d\n", w->name, position, x, y, button);
 	return (1);
 }
 
@@ -66,7 +83,7 @@ int release_button(int button, int x, int y, t_win *w)
 	char	*position;
 
 	position = (mouse_inside(x, y, w)) ? "in " : "out";
-	dprintf(1, "(%s ==> %s)		x:%d	y:%d	button:%d\n", w->name, position, x, y, button);
+	dprintf(1, "release	(%s ==> %s)		x:%d	y:%d	button:%d\n", w->name, position, x, y, button);
 	return (1);
 }
 

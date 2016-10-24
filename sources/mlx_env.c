@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 02:23:44 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/24 04:00:19 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void		env_end(t_env *e)
 	e->zoom_y = 0;
 	e->zoom_x = 0;
 	e->zoom_finished = 1;
+	e->base_add = 0;
+	e->trans_add = 0;
 	
 	if (!(e->img_low = init_tab_d(e->x_maxl, e->y_maxl))
 		|| !(e->img_height = init_tab_d(e->x_maxh + 2,  e->y_maxh + 2)))

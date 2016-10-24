@@ -1,3 +1,5 @@
 *.o
 *.a
 fractol
+.*.swo
+.*.swp

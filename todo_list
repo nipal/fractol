@@ -166,5 +166,15 @@
 #			=>	clique droit == on switch
 #		=>	definir un reset de cadre
 #
+
+
+
+
+################################################################################
+#			gestion des segment
 #
+#			creation/modification des segment :
+#				 -base/transforme
 #
+#			-phase de construction 		(avec un point a chaque fois a la fin)
+#			-phase d'ajout				(avec la touche espace)

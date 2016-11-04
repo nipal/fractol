@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 14:35:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/07 16:25:26 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/04 06:14:33 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void			vector_product_in(t_matrix *a, t_matrix *b, t_matrix *result);
 double			matrix_dot_product(t_matrix *a, t_matrix *b);
 
 t_matrix		*matrix_copy(t_matrix *src);
+t_matrix		*matrix_copy_in(t_matrix *src, t_matrix *copy);
 int				free_matrix(t_matrix *mat);
 int				matrix_free(t_matrix **mat);
 

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 03:32:11 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/10/25 10:31:54 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	nb_iter_koch(t_polygone *base, t_polygone *mult)
 	return (i);
 }
 
-//void	draw_verticies(t_win *w, t_polygone *seg)
 void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 {
 	t_polygone	*cpy;
@@ -86,7 +85,6 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 				matrix_sub_in(cpy->pos, cpy->next->pos, diff);
 				dist_2 = matrix_dot_product(diff, diff);
 				if (dist_2 * e->min_val_trans < 4)
-			//		draw_verticies1(e, cpy);
 					print_polygone(e, cpy);
 				else if (!(to_insert = creat_insert(cpy, mult))
 					|| !(insert_portion(&cpy, to_insert)))
@@ -97,11 +95,9 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 			}
 		}
 		else
-	//		draw_verticies1(e, seg);
 			print_polygone(e, seg);
 	}
 	else if (seg)
-//		draw_verticies1(e, seg);
 		print_polygone(e, seg);
 }
 
@@ -109,10 +105,8 @@ void	polygone_push_back(t_polygone **begin, t_polygone *node)
 {
 	t_polygone	*elem;
 
-//	ft_putstr("push_back\n");
 	if (!begin)
 	{
-//	ft_putstr("end\n");
 		return ;
 	}
 	elem = *begin;
@@ -124,17 +118,14 @@ void	polygone_push_back(t_polygone **begin, t_polygone *node)
 			elem = elem->next;
 		elem->next = node;
 	}
-//	ft_putstr("end\n");
 }
 
 void	polygone_push_befor_last(t_polygone **begin, t_polygone *node)
 {
 	t_polygone	*elem;
 
-//	ft_putstr("push_befor_last\n");
 	if (!begin)
 	{
-//ft_putstr("end\n");
 		return ;
 	}
 	elem = *begin;
@@ -146,7 +137,6 @@ void	polygone_push_befor_last(t_polygone **begin, t_polygone *node)
 		{
 			node->next = elem;
 			*begin = node;
-//ft_putstr("end\n");
 			return ;
 		}
 		while (elem->next->next)
@@ -154,7 +144,6 @@ void	polygone_push_befor_last(t_polygone **begin, t_polygone *node)
 		node->next = elem->next;
 		elem->next = node;
 	}
-//ft_putstr("end\n");
 }
 
 void	polygone_forget_last(t_polygone **begin)
@@ -164,10 +153,8 @@ void	polygone_forget_last(t_polygone **begin)
 	if (!begin)
 		return ;
 	elem = *begin;
-//	ft_putstr("forget_last\n");
 	if (!elem || !elem->next)
 	{
-//ft_putstr("end\n");
 		if (elem && !elem->next)
 			*begin = NULL;
 		return ;
@@ -175,5 +162,4 @@ void	polygone_forget_last(t_polygone **begin)
 	while (elem->next->next)
 		elem = elem->next;
 	elem->next = NULL;
-//	ft_putstr("end\n");
 }

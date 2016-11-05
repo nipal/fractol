@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 10:37:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/04 04:35:04 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 06:50:02 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,26 @@ int		mouse_inside(int x, int y, t_win *w)
 
 int	press_key(int key_code, t_win *w)
 {
+/*
 	ft_putstr("haha\n");
 	dprintf(1, "(%s)	press_key:		%d\n", w->name, key_code);
+*/
+
+	(key_code == 53) ? ft_exit(w->e) : (void)w;
+	dprintf(1, "key_press ~~>	code:   %d\n", key_code);
+	(key_code == 36) ? ++(w->e->iter_koch) : (void)w;
+	(key_code == 51 && w->e->iter_koch > 0) ? --(w->e->iter_koch): (void)w;
+	if (key_code == 15 && ft_strcmp(w->name, "param") == 0)
+	{
+		if (mouse_in_border(&(w->e->border_b), w->mouse))
+		{
+			reset_base(w->e);
+		}
+		else if (mouse_in_border(&(w->e->border_t), w->mouse))
+		{
+			reset_transform(w->e);
+		}
+	}
 	return (1);
 }
 
@@ -62,20 +80,15 @@ int press_button(int button, int x, int y, t_win *w)
 	{
 		if (mouse_in_border(&(w->e->border_b), w->mouse))
 		{
-			if ((w->e->base_add++) % 2 == 0)
+			if ((w->e->base_add++) == 0)
 				polygone_forget_last(&(w->e->base_model));
 		}
-//		else if ((w->e->base_add % 2) == 0)
-//			polygone_push_back(&(w->e->base_model), w->e->actif);
-
 		if (mouse_in_border(&(w->e->border_t), w->mouse))
 		{
-			if ((w->e->trans_add++) % 2 == 0)
+			if ((w->e->trans_add++) == 0)
 				polygone_forget_last(&(w->e->trans_model));
 		}
-//		else if ((w->e->trans_add % 2) == 0)
-//			polygone_push_back(&(w->e->trans_model), w->e->actif);
-		dprintf(1, "base:%d	trans:%d\n", w->e->base_add, w->e->trans_add);
+//		dprintf(1, "base:%d	trans:%d\n", w->e->base_add, w->e->trans_add);
 	}
 			
 	dprintf(1, "press	(%s ==> %s)		x:%d	y:%d	button:%d\n", w->name, position, x, y, button);

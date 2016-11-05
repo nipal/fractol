@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 06:00:56 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 01:06:25 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,7 +340,6 @@ t_polygone		*creat_insert(t_polygone *seg, t_polygone *transforme);
 void			init_trans_control(t_env *e);
 void			describe_one_node(t_polygone *seg);
 void			polygone_describe(t_polygone *node);
-int				reset_koch(t_env *e);
 void			calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
 
 /*

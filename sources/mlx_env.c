@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 04:00:19 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 02:00:18 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		get_iter(int valu)
 void	init_win_event(t_win *w, t_env *e)
 {
 	(void)e;
-	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, key_press , w);
+	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, press_key , w);
 	mlx_hook(w->win, KEY_RELEASE, (1 << 24) - 1, release_key, w);
 	mlx_hook(w->win, BUTTON_PRESS, (1 << 24) - 1, press_button, w);
 	mlx_hook(w->win, BUTTON_RELEASE, (1 << 24) - 1, release_button, w);

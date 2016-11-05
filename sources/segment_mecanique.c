@@ -6,51 +6,30 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 04:37:12 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/04 18:37:46 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 08:23:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//	ici on va gere comment se consrtuit et se deconstruit notre super triangle
-//
-//
+#include	"fractol.h"
 
-	if (button == 1)
-		complet_polygone(w);
-	if (button == 2 && !ft_strcmp(w->name, "param"))
-	{
-		if (mouse_in_border(&(w->e->border_b), w->mouse))
-		{
-			if ((w->e->base_add++) % 2 == 0)
-				polygone_forget_last(&(w->e->base_model));
-		}
-//		else if ((w->e->base_add % 2) == 0)
-//			polygone_push_back(&(w->e->base_model), w->e->actif);
+/*
+**	BUTTON [1]
+**		quand on clique (si on est dans un cadre b/t ) on peu: 
+**			-fixer un node entre deux (si l'option espace st activer)
+**				(rajouter un node en mode branch)
+**			-rajouter a la fin
+**	
+**	BUTTON [2]
+**		quand on clique on peu (si on est dans une fenetre):
+**			-changer le mode ajout_fin/ajout_mid(si epace)
+**	
+**	pour ajouter entre deux il faut savoie quel segment est le plus pret
+**
+**	quand on se deplace hors du cadre on peu
+**
+**	LE NODE MOUSE ==> lvl = void		set_2d_landmark_incpy(double x, double y, t_matrix *dx, t_matrix *dy)
+*/
 
-		if (mouse_in_border(&(w->e->border_t), w->mouse))
-		{
-			if ((w->e->trans_add++) % 2 == 0)
-				polygone_forget_last(&(w->e->trans_model));
-		}
-//		else if ((w->e->trans_add % 2) == 0)
-//			polygone_push_back(&(w->e->trans_model), w->e->actif);
-		dprintf(1, "base:%d	trans:%d\n", w->e->base_add, w->e->trans_add);
-	}
-
-//	BUTTON [1]
-//		quand on clique (si on est dans un cadre b/t ) on peu: 
-//			-fixer un node entre deux (si l'option espace st activer)
-//				(rajouter un node en mode branch)
-//			-rajouter a la fin
-//	
-//	BUTTON [2]
-//		quand on clique on peu (si on est dans une fenetre):
-//			-changer le mode ajout_fin/ajout_mid(si epace)
-//	
-//	pour ajouter entre deux il faut savoie quel segment est le plus pret
-
-//	quand on se deplace hors du cadre on peu
-//
-//	LE NODE MOUSE ==> lvl = void		set_2d_landmark_incpy(double x, double y, t_matrix *dx, t_matrix *dy)
 {
 void		set_2d_landmark_incpy(t_matrix *diff, t_matrix *dx, t_matrix *dy)
 {
@@ -114,4 +93,8 @@ t_polygone	*get_cluster_seg(t_polygone *begin, double x, double y)
 	return (closer);
 }
 
-//	On pourrait faire une fonction qui defini une base em malloc || copy
+/*
+** //	On pourrait faire une fonction qui defini une base em malloc || copy
+*/
+
+

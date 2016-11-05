@@ -1,0 +1,34 @@
+
+
+
+
+modification model:
+
+	-apres le clique droit
+
+
+	(A)-apres ajout de point
+		(phase d'ajout aussi ?)
+	(B)-apres deplacement de point
+
+On peu odifier tout les point donc mesm les extremite
+
+(A)	==> # phase d'ajout:
+
+	- (segment le+ proche) ET (dist <  DIST_MAX)
+	- on desinne deux liens en gris tant que on est pas sur
+		--> on clique et on fix le point
+
+(B)	==> # sur la prochaine fonction motion des point
+
+(C) ==>	les fonction de motion vont definir le dessin de la fenetre
+
+
+
+==============================================================
+
+On va faire les fontion de dessin sur la grande fenetre
+	(BASE )-->	on fait juste un vieux scale
+	(TRANS)-->	on reprend 
+
+il faut aussi regarder la fonction de dessin chelou

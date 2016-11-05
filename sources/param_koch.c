@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 13:27:00 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 06:11:30 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 08:23:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 
 int	reset_base(t_env *e)
 {
-	polygone_destroy(&(e->beg_actif));
-	polygone_destroy(&(e->trans_model));
+	e->base_add = 0;
+	polygone_destroy(&(e->base_model));
 	polygone_destroy(&(e->base));
-	e->actif = NULL;
-	e->beg_actif = NULL;
-	return (0);
+	e->base_model = e->actif;
+	//	il faudra aussi reinitialiser la base (en mode scaling)
+	return (1);
 }
 
 int	reset_transform(t_env *e)
 {
-	polygone_destroy(&(e->transform));
-	polygone_destroy(&(e->beg_actif));
+	e->trans_add = 0;
 	polygone_destroy(&(e->trans_model));
-	e->actif = NULL;
-	e->beg_actif = NULL;
-	return (0);
+	polygone_destroy(&(e->transform));
+	e->trans_model = e->actif;
+	//	il faudra aussi actualiser le truc de transformation
+	return (1);
 }
 
 /*
@@ -51,6 +51,7 @@ void	init_koch_param_border(t_env *e, t_win *win_param)
 	e->border_t.y0 = top;
 	e->border_t.x1 = win_param->size_x - border;
 	e->border_t.y1 = win_param->size_y - border;
+	//	oui
 }
 
 void	draw_border(t_win *w, t_border *border, t_matrix *color)
@@ -132,13 +133,13 @@ void	actu_polygone_io(t_env *e, t_win *w)
 
 	if (!e->actif)
 		e->actif = creat_node_fv(0, w->mouse, vect_new_vertfd(255, 255, 255));
-	if ((ret = check_border_io(e, w, &(e->border_b))) > 0 && (e->base_add % 2) == 0)
+	if ((ret = check_border_io(e, w, &(e->border_b))) > 0 && (e->base_add) == 0)
 		polygone_push_back(&(e->base_model), e->actif);
-	else if (ret < 0 && (e->base_add % 2) == 0)
+	else if (ret < 0 && (e->base_add) == 0)
 		polygone_forget_last(&(e->base_model));
-	if ((ret = check_border_io(e, w, &(e->border_t))) > 0 && (e->trans_add % 2) == 0)
+	if ((ret = check_border_io(e, w, &(e->border_t))) > 0 && (e->trans_add) == 0)
 		polygone_push_back(&(e->trans_model), e->actif);
-	else if (ret < 0 && (e->trans_add % 2) == 0)
+	else if (ret < 0 && (e->trans_add) == 0)
 		polygone_forget_last(&(e->trans_model));
 }
 
@@ -147,9 +148,9 @@ void	complet_polygone(t_win *w)
 {
 	if (ft_strcmp(w->name, "param"))
 		return ;
-	if (mouse_in_border(&(w->e->border_b), w->mouse) && (w->e->base_add % 2) == 0)
+	if (mouse_in_border(&(w->e->border_b), w->mouse) && (w->e->base_add) == 0)
 		polygone_push_befor_last(&(w->e->base_model), copy_node(w->e->actif, 0));
-	if (mouse_in_border(&(w->e->border_t), w->mouse) && (w->e->trans_add % 2) == 0)
+	if (mouse_in_border(&(w->e->border_t), w->mouse) && (w->e->trans_add) == 0)
 		polygone_push_befor_last(&(w->e->trans_model), copy_node(w->e->actif, 0));
 }
 

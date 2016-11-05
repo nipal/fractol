@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 01:49:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 08:23:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	key_press(int key_code, t_env *e)
 	dprintf(1, "key_press ~~>	code:   %d\n", key_code);
 	(key_code == 36) ? ++(e->iter_koch) : (void)e;
 	(key_code == 51 && e->iter_koch > 0) ? --(e->iter_koch): (void)e;
-	(key_code == 15) ? reset_koch(e): (void)e;
+//	(key_code == 15) ? /*reset_koch(e)*/: (void)e;
 	return (1);
 }
 

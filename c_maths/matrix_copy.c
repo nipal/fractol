@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 09:25:33 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/04 06:14:45 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/04 22:32:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_matrix	*matrix_copy(t_matrix *src)
 
 t_matrix	*matrix_copy_in(t_matrix *src, t_matrix *copy)
 {
-	t_matrix	*copy;
 	int			i;
 	int			size;
 

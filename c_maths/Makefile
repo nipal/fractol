@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
+#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/09/27 08:31:26 by fjanoty          ###   ########.fr        #
+#    Created: 2014/09/13 19:48:58 by fjanoty           #+#    #+#              #
+#    Updated: 2016/11/10 18:37:57 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ SRC		=	matrix_init.c \
 			free_mat.c \
 			matrix_new.c \
 			set_scale.c
-FLAGS		= -Wall -Wextra -Werror
+
+#CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address 
+
 OBJ		= $(SRC:.c=.o)
 
 all: $(NAME)
@@ -42,7 +44,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 %.o:%.c
-	gcc -Ofast  -c $(SRC) $(FLAGS) -I ./
+	gcc -Ofast  -c $(SRC) $(CFLAGS) -I ./
 #	gcc -Ofast $(FLAGS) -I ../includes/ -c $(SRC)
 
 clean:

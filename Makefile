@@ -3,14 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
+#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/01/05 01:28:32 by jpirsch           #+#    #+#              #
-#    Updated: 2016/10/11 16:42:55 by fjanoty          ###   ########.fr        #
+#    Created: 2015/01/05 01:28:32 by fjanoty           #+#    #+#              #
+#    Updated: 2016/11/11 16:57:39 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-export FLAGS	= -Wall -Wextra -Werror
+#-g -fsanitize=address 
+export CFLAGS	= -Wall -Wextra -Werror -Ofast 
+#export CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address  
+
+
 NAME			= fdf
 SRC_DIR			= ./sources
 LIB_FT			= ./libft

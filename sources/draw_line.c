@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/16 18:30:03 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/10 00:19:36 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			draw_line(t_env *e, t_matrix *mat_line)
 	ft_memmove(org->m, mat_line->m, sizeof(double) * 6);
 	ft_memmove(diff->m, mat_line->m + 6, sizeof(double) * 6);
 	size = (int)(mat_line->m[NORME] + 0.5);
-	while (++i < size)
+	while (++i <= size)
 	{
 		if (!(print = matrix_add(org, diff)))
 			return (0);

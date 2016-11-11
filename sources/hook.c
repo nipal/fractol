@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/05 08:23:15 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/11 20:50:38 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,29 +206,52 @@ void		print_map(double **img, int size_x, int size_y)
 
 int			main_work()
 {
-	static t_env	*e = NULL;
+	static	t_env	*e = NULL;
+	t_polygone		*to_color;
+//	t_coef_const	cc;
+//	t_coef_draw		cd;
 //	int				max;
 
 	if (!(e = get_env(NULL)))
 		return (0);
+	to_color = NULL;
+	//ft_bzero(&cc, sizeof(t_coef_const));
 //	do_zoom_simple(e);
-//	print_polygone(e, e->base);
-//	max =  nb_iter_koch(e->base, e->transform);
-//	max = MIN(max, e->iter_koch);
-//	dprintf(1, "iter max:%d\n", max);
-
-//	print_polygone(e, e->beg_actif);
-//	print_mouse_close(e, e->trans_controle);
-//	calcul_and_print(e->base, e->transform, e->iter_koch, e);
-//	print_polygone(e, e->transform);
-//	print_polygone(e, e->trans_controle);
-
-//	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-//	mlx_do_sync(e->mlx);
-//	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
 	draw_the_2_border(e);
 	draw_simple_polygone(e->param, e->trans_model);
 	draw_simple_polygone(e->param, e->base_model);
+	if (mouse_in_border(&(e->border_b), e->param->mouse) && e->base_add > 0)
+		to_color = get_closer_node(e->base_model, e->param->mouse, e->r_select);
+	if (mouse_in_border(&(e->border_t), e->param->mouse) && e->trans_add > 0)
+		to_color = get_closer_node(e->trans_model, e->param->mouse, e->r_select);
+	if (to_color)
+		print_circle2(to_color->pos, NULL, e->r_select, e->param);
+	if (e->id_scrol >= 0)
+		scroling_button(e->param, e->sliders[e->id_scrol / 2], e->id_scrol % 2);
+//	if (!ft_strcmp(w->name, "param"))
+		(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param) : (void)e;
+	draw_the_sliders(e->param, e->sliders);
+	//	la on va dessiner la forme
+//	draw_verticies(e->fractal, e->base_model);
+//int				init_coef_const(t_coef_const *cc, t_polygone *mult, double max_iter, t_win *w);
+//void			print_polygone2(t_coef_const *cc, t_coef_draw *cd, double dist, t_polygone *seg);
+//	init_coef_const(&cc, e->transform, e->max_iter, e->fractal);
+//	draw2_koch_general(e->base, &cc, 0, 0);
+//	print_polygone2(&cc, &cd, 0, 0);
+//	(key_code == 36) ? ++(w->e->iter_koch) : (void)w;
+//	dprintf(1, "max_iter:%d\n", e->max_iter);
+	//*/
+	
+
+
+/*
+t_koch_changing	init_kch(t_polygone *seg, double iteration, double dist, double prev_du)
+void		init_koch_const(t_koch_const *kco, t_polygone *transform, t_win *w, double *data)
+void	draw_seg_koch(t_koch_const *kco, t_koch_changing kch, t_polygone *seg, double i)
+void	 print_koch_fractale(t_koch_const *kco, t_koch_changing kch)
+*/
+
 	actu_win_rest(e->param);
 	return (1);
 }
+

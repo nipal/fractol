@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 09:25:33 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/04 22:32:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/10 10:56:34 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_matrix	*matrix_copy(t_matrix *src)
 	int			size;
 
 	copy = NULL;
-	if (src && !(copy = matrix_init(src->x, src->y)))
+	if (!src || !(copy = matrix_init(src->x, src->y)))
 		return (NULL);
 	i = 0;
 	copy->x = src->x;
@@ -39,7 +39,7 @@ t_matrix	*matrix_copy_in(t_matrix *src, t_matrix *copy)
 	int			size;
 
 	copy = NULL;
-	if (src && copy && copy->x == src->x && copy->y == src->y)
+	if (!src || !copy || copy->x != src->x || copy->y != src->y)
 		return (NULL);
 	i = 0;
 	size = src->x * src->y;

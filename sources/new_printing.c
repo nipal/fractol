@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 00:36:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 03:32:10 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/08 07:57:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	actu_win_rest(t_win *w)
 	mlx_put_image_to_window(w->e->mlx, w->win, w->img, 0, 0);
 	mlx_do_sync(w->e->mlx);
 	ft_bzero(w->data, sizeof(t_pix) * w->size_x * w->size_y);
+}
+
+void	actu_win(t_win *w)
+{
+	mlx_put_image_to_window(w->e->mlx, w->win, w->img, 0, 0);
+	mlx_do_sync(w->e->mlx);
 }
 
 void	draw_line3(t_matline *ml, t_win *w)
@@ -73,10 +79,12 @@ void		actual_node_color(t_matrix *col, double dist_frac, double iter, double pro
 {
 	t_matrix	*color;
 
-	if (dist_frac < 0 || iter < 0 || prog_iter < 0 || dist_frac > 1 || iter > 1
-			|| prog_iter > 1)
+	if (dist_frac < 0 || iter < 0 || prog_iter < 0 || dist_frac > 1 || iter > 1)
+	// || prog_iter > 1)
 	{
 		ft_putstr("color param error\n");
+		char *let = NULL;
+		ft_putstr(let + 3);
 		return ;
 	}
 	if (!(color = tsl_to_rvb_new(360 * dist_frac, iter, prog_iter)))
@@ -104,34 +112,12 @@ double		get_polygone_len(t_polygone *seg)
 	return (i);
 }
 
-/*
-void	print_seg(t_win *w, t_polygone *seg)
-{
-	t_matrix	*c1;
-	t_matrix	*c2;
-}
-*/
-
-
-/*
-**	delta_dist = (1 / mult_length) ^ iter;
-**	il faudra aussi initialiser la structure
-*/
-
-/*
-void		init_coef_print()
-{
-	t_coef_print	*coef;
-
-	coef->len_mult = get_polygone_len(coef->mult);
-	coef->diff = matrix_init(1, 3);
-}
-*/
-
 
 /*
 **	il faut une structure qui change et une fix
 */
+
+
 
 int			init_coef_draw(t_coef_draw *cd, t_polygone *seg, double iter, double len_mult)
 {
@@ -150,10 +136,14 @@ int			init_coef_const(t_coef_const *cc, t_polygone *mult, double max_iter, t_win
 		return (0);
 	cc->dist = 0;
 	cc->max_iter = max_iter;
-	cc->mult = mult;
-	cc->w = w;
 	cc->len_mult = get_polygone_len(mult);
 	cc->min_val_trans = get_min_dist(mult);
+	cc->mult = mult;
+	cc->w = w;
+	if (!(cc->diff = matrix_init(1, 3)))
+		return (0);
+	cc->mouse = w->mouse;
+	cc->prev_mouse = w->prev_mouse;
 	return (1);
 }
 
@@ -164,6 +154,7 @@ int			destroy_coef_const(t_coef_const *cc)
 	return (1);
 }
 
+
 void		draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double iter)
 {
 	t_coef_draw	cd;
@@ -172,12 +163,16 @@ void		draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double 
 	t_polygone	*cpy;
 
 	i = 0;
+	if (!seg || !cc->mult)
+		return ;
 	if (seg && (init_coef_draw(&cd, seg, iter, cc->len_mult)))
 	{
 		if (cd.iter < cc->max_iter)
 		{
 			while (seg->next)
 			{
+				dprintf(1, "turn:%d\n", (int)i);
+			//	printf("%p\n", seg);
 				if (!(cpy = copy_node(seg, seg->lvl))
 					|| !(cpy->next = copy_node(seg->next, seg->lvl)))
 				{
@@ -185,22 +180,31 @@ void		draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double 
 					matrix_sub_in(cpy->pos, cpy->next->pos, cc->diff);
 					dist_2 = matrix_dot_product(cc->diff, cc->diff);
 					if (dist_2 * cc->min_val_trans < 16)
+					{
+						dprintf(1, "too small\n");
 						print_polygone2(cc, &cd, dist + i * cd.du_dist , cpy);
+					}
 					else if (!(cd.to_insert = creat_insert(cpy, cc->mult))
 						|| !(insert_portion(&(cpy), cd.to_insert)))
 						ft_putstr("error on calcul\n");
 					draw2_koch_general(cpy, cc, dist + cd.du_dist * i, iter + 1);
 					polygone_destroy(&(cpy));
-					seg = seg->next;
 				}
+				seg = seg->next;
 				i++;
 			}
 		}
 		else
-			print_polygone2(cc, &cd, dist + i * cd.du_dist , seg);
+		{
+			dprintf(1, "max of operation\n");
+			print_polygone2(cc, &cd, dist , seg);
+		}
 	}
 	else if (seg)
-		print_polygone2(cc, &cd, dist + i * cd.du_dist , seg);
+	{
+		dprintf(1, "other fail\n");
+		print_polygone2(cc, &cd, dist, seg);
+	}
 }
 
 
@@ -228,10 +232,12 @@ void		vectpx_to_img2(t_win *win, t_matrix *pos_color)
 	y = (int)pos_color->m[1];
 //	x -= win->size_x / 2;
 //	y -= win->size_y / 2;
-	if (x < 0 || x >= win->size_x || y < 0 || y >= win->size_y)
+	if (!win || !pos_color || x < 0 || x >= win->size_x || y < 0 || y >= win->size_y)
 		return ;
-	win->data[y * win->size_x + x].nb = ((int)pos_color->m[3]) << 16
-		| ((int)pos_color->m[4]) << 8 | (int)pos_color->m[5];
+//	dprintf(1, "%p\n", win->data);
+//	dprintf(1, "%d\n", (int)win->data[0].nb);
+	win->data[y * win->size_x + x].nb = ((int)(pos_color->m[3])) << 16
+		| ((int)(pos_color->m[4])) << 8 | (int)pos_color->m[5];
 }
 
 int			draw_line2(t_win *win, t_matrix *mat_line)
@@ -447,11 +453,17 @@ void	draw_simple_polygone(t_win *w, t_polygone *node)
 	t_matrix		*mat_line;
 	//	ici on va dessiner un polygone tout simple
 	if (!node)
+	{
+//		dprintf(1, "no nooooooooooode\n");
 		return;
+	}
 	while (node->next)
 	{
 		if (!(mat_line = init_mat_line(node->pos, node->next->pos, node->col, node->next->col)))
+		{
+//			dprintf(1, "\n\n\n\n\nhuhuhhhhhhhhhhhhhhhhhhhh\n\n\n\n");
 			return ;
+		}
 		draw_line2(w, mat_line);
 		matrix_free(&mat_line);
 		node = node->next;

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:35:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 01:13:48 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/07 23:36:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_polygone	*transform(t_polygone *seg_beg)
 	init_dtab(pos, 0, 3);	
 	init_dtab(col, 255, 3);
 	seg_end = get_last(seg_beg);
-	if (!(unite_x = matrix_sub(seg_end->pos, seg_beg->pos))
+	if (!seg_beg || !(unite_x = matrix_sub(seg_end->pos, seg_beg->pos))
 		|| !(unite_y = matrix_init(1, 3))
 		|| !(dist = matrix_dot_product(unite_x, unite_x)))
 		return (NULL);
@@ -114,7 +114,7 @@ t_polygone	*transform(t_polygone *seg_beg)
 	e->min_val_trans = get_min_dist(unite_beg);
 	matrix_free(&unite_x);
 	matrix_free(&unite_y);
-	print_polygone(get_env(NULL), unite_beg);
+//	print_polygone(get_env(NULL), unite_beg);
 	return (unite_beg);
 }
 
@@ -129,7 +129,7 @@ t_matrix	*position_transpose(t_matrix *org, t_matrix *ux, t_matrix *uy, t_matrix
 	return (pos);
 }
 
-//	on cree le polygone a oinserre a partir d'un segment
+//	on cree le polygone a oinserre a partir d'un segment en cosiderant selement les deux premier
 t_polygone	*creat_insert(t_polygone *seg, t_polygone *transform)
 {
 	t_polygone	*beg_new;

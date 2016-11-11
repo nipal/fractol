@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/25 10:31:54 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/05 12:21:44 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ void	calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e)
 		print_polygone(e, seg);
 }
 
-void	polygone_push_back(t_polygone **begin, t_polygone *node)
+int		polygone_push_back(t_polygone **begin, t_polygone *node)
 {
 	t_polygone	*elem;
 
 	if (!begin)
 	{
-		return ;
+		return (0);
 	}
 	elem = *begin;
 	if (!elem)
@@ -118,15 +118,16 @@ void	polygone_push_back(t_polygone **begin, t_polygone *node)
 			elem = elem->next;
 		elem->next = node;
 	}
+	return (1);
 }
 
-void	polygone_push_befor_last(t_polygone **begin, t_polygone *node)
+int		polygone_push_befor_last(t_polygone **begin, t_polygone *node)
 {
 	t_polygone	*elem;
 
 	if (!begin)
 	{
-		return ;
+		return (0);
 	}
 	elem = *begin;
 	if (!elem)
@@ -137,29 +138,31 @@ void	polygone_push_befor_last(t_polygone **begin, t_polygone *node)
 		{
 			node->next = elem;
 			*begin = node;
-			return ;
+			return (0);
 		}
 		while (elem->next->next)
 			elem = elem->next;
 		node->next = elem->next;
 		elem->next = node;
 	}
+	return (1);
 }
 
-void	polygone_forget_last(t_polygone **begin)
+int		polygone_forget_last(t_polygone **begin)
 {
 	t_polygone	*elem;
 
 	if (!begin)
-		return ;
+		return (0);
 	elem = *begin;
 	if (!elem || !elem->next)
 	{
 		if (elem && !elem->next)
 			*begin = NULL;
-		return ;
+		return (0);
 	}
 	while (elem->next->next)
 		elem = elem->next;
 	elem->next = NULL;
+	return (1);
 }

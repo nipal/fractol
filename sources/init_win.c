@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/15 18:47:38 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/23 11:03:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/07 07:15:30 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ t_win	*window_init(t_env *e, int size_x, int size_y, char *name)
 	w->is_z_buff = 1;	
 	w->size_x = size_x;
 	w->size_y = size_y;
+	w->mx = 0;
+	w->my = 0;
 //	describe_window(w);
 	return (w);
 }

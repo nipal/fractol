@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 07:00:18 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/11 16:35:01 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/07 09:25:05 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,17 @@ t_polygone	*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist)
 	double		dist;
 
 	closer = NULL;
+	min_dist *= min_dist;
 	if (!beg || !beg->next || !mouse || !(diff = matrix_copy(beg->pos)))
 		return (NULL);
-	beg = beg->next;
-	while (beg->next)
+//	beg = beg->next;
+	while (beg)
 	{
 		matrix_sub_in(beg->pos, mouse, diff);
 		diff->m[2] = 0;
-		diff->m[0] += SIZE_X / 2;
-		diff->m[1] += SIZE_Y / 2;
-		dist = sqrt(matrix_dot_product(diff, diff));
+	//	diff->m[0] += SIZE_X / 2;
+	//	diff->m[1] += SIZE_Y / 2;
+		dist = (matrix_dot_product(diff, diff));
 		if (dist < min_dist)
 		{
 			min_dist = dist;
@@ -138,3 +139,4 @@ void	translate_node(t_env *e, t_polygone *poly)
 		e->transform = transform(poly);
 	}
 }
+

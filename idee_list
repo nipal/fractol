@@ -32,3 +32,31 @@ On va faire les fontion de dessin sur la grande fenetre
 	(TRANS)-->	on reprend 
 
 il faut aussi regarder la fonction de dessin chelou
+
+
+
+============================================================
+============================================================
+============================================================
+
+->	modifier la position de chaqu'un des noeud avec une aura
+		->	dessin d'un cercle
+		->	noeud le plus proche
+		->	translation quand clique
+
+
+->	ajouter un point:	(on ajoute toujours un point entre deux)
+		->	dessin deux segment en gris
+		->	segment le plus proche
+		->	insertion d'un nouveau noeux
+
+============================================================
+
+gestion de la couleur en mode youpi
+
+tmin, tmax		=>	delta
+smin, smax		=>	delta
+lmin, lmax		=>	delta
+
+{avec progression appartien a [0, 1] }
+tmin + delta * (progression)

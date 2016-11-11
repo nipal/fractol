@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 18:19:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/20 18:03:46 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/10 14:53:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,43 @@ t_matrix	*tsl_to_rvb_new(double t, double s, double l)
 	return (rvb);
 }
 
+void		tsl_to_rvb_in(double t, double s, double l, t_matrix *rvb)
+{
+	int		ix, ic, i0;
+	double	min;
+	double	max;
+	double	croma;
+	double	x;
+	double	i;
+
+	if (!rvb)
+		return ;
+	max = l * 255;
+	min = (1 - s) * l * 255;
+	croma = max - min;
+	i = t / 60;
+	x = croma * modulo(i, 2);
+	ix = (7 - (int)i) % 3 ;
+	ic = (((int)i % 2) == 0) ? (ix + 2) % 3 : (ix + 1) % 3;	
+	i0 = (3 - ic - ix) % 3;	
+//	dprintf(1, "ix:%d	ic%d	i0:%d\n", ix, ic, i0);
+	rvb->m[ic] = croma + min;
+	rvb->m[ix] = x + min;
+	rvb->m[i0] = x + min;
+}
+
+int			init_range_tsl(t_range_tsl *range)
+{
+	if (!range)
+		return (0);
+	range->tmin = 0;
+	range->tmax = 1;
+	range->smin = 0;
+	range->smax = 1;
+	range->lmin = 0;
+	range->lmax = 1;
+	return (1);
+}
 
 /*
 **	c x .	[0, 1[

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/05 08:23:29 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/11 19:07:14 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,21 @@ int			insert_portion(t_polygone **target, t_polygone *src)
 	return (1);
 }
 
+int			insert_one_node(t_polygone **target, t_polygone *src)
+{
+	if (!target || !src)
+		return (0);
+	if (*target)
+	{
+		src->next = (*target)->next;
+		(*target)->next = src;
+	}
+	else
+		*target = src;
+	return (1);
+}
+
+
 
 //	description de transformation
 //		homotecie puis translation
@@ -123,8 +138,13 @@ void	init_koch(t_env *e)
 	e->transform = NULL;
 	e->base_add = 0;
 	e->trans_add = 0;
+	e->param->button1 = 0;
+	e->max_iter = 0;
+	e->nb_sliders = 3;
+	e->sliders = NULL;
+	e->id_scrol = -1;
+	e->add_point = 0;
 }
-
 
 /*
 int		reset_koch(t_env *e)

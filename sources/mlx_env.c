@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/05 02:00:18 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/11 20:50:34 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void		env_end(t_env *e)
 */
 	mlx_loop_hook(e->mlx, main_work, e);
 	init_koch(e);
+	init_the_sliders(e->param, &(e->border_b));
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 }
@@ -114,12 +115,15 @@ int		get_iter(int valu)
 void	init_win_event(t_win *w, t_env *e)
 {
 	(void)e;
-	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, press_key , w);
-	mlx_hook(w->win, KEY_RELEASE, (1 << 24) - 1, release_key, w);
-	mlx_hook(w->win, BUTTON_PRESS, (1 << 24) - 1, press_button, w);
-	mlx_hook(w->win, BUTTON_RELEASE, (1 << 24) - 1, release_button, w);
-	mlx_hook(w->win, MOTION_NOTIFY, (1 << 24) - 1, motion_cursor, w);
+	mlx_hook(w->win, KEY_PRESS, (1 << 25) - 1, press_key , w);
+	mlx_hook(w->win, KEY_RELEASE, (1 << 25) - 1, release_key, w);
+	mlx_hook(w->win, BUTTON_PRESS, (1 << 25) - 1, press_button, w);
+	mlx_hook(w->win, BUTTON_RELEASE, (1 << 25) - 1, release_button, w);
+	mlx_hook(w->win, MOTION_NOTIFY, (1 << 25) - 1, motion_cursor, w);
 }
+
+//	100000000000000000000000
+//	011111111111111111111111
 
 void		env(void)
 {
@@ -135,7 +139,6 @@ void		env(void)
 	init_win_event(e.fractal, &e);
 	init_win_event(e.param, &e);
 	init_koch_param_border(&e, e.param);
-
 //	e.win = mlx_new_window(e.mlx, SIZE_X, SIZE_Y, "Leu test");
 //	e.img = mlx_new_image(e.mlx, SIZE_X, SIZE_Y);
 //	e.data = (t_pix*)mlx_get_data_addr(e.img, &(e.depth), &(e.size_line), &(e.endian));

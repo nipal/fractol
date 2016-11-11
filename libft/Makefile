@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
+#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/09/11 00:09:38 by fjanoty          ###   ########.fr        #
+#    Created: 2014/09/13 19:48:58 by fjanoty           #+#    #+#              #
+#    Updated: 2016/11/10 18:37:49 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,9 @@ SRC		= ft_atoi.c \
 		  overflow_test.c \
 		  get_next_line.c \
 		  ft_toupper.c 
-CFLAGS = -Wall -Wextra -Werror
+
+#CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
+
 OBJ		= $(SRC:.c=.o)
 
 all: $(NAME)
@@ -83,7 +85,7 @@ $(NAME): $(OBJ)
 
 #%.o: %.c
 $(OBJ):
-	    gcc $(FLAGS) -I ../includes/ -c $(SRC)
+	    gcc $(CFLAGS) -I ../includes/ -c $(SRC)
 
 clean:
 	rm -f $(OBJ)

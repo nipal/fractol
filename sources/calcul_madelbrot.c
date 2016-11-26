@@ -6,14 +6,16 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 02:31:41 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 09:15:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/26 20:03:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "fractol.h"
+#include "libft.h"
 
 
 # define X 0
 # define Y 1
+/*
 int		calcul_one_point(double ct[2], int iter)
 {
 	int		i;
@@ -66,17 +68,16 @@ void	calcul_grid(double **img, double pos[4], double max_x, double max_y)
 		j++;
 	}
 }
+*/
 
 double		*get_lst_color(int val)
 {
 	int				i;
-	static	int		iter;
 	static	double	*valu = NULL;
 
 	if (valu == NULL)
 	{
 		valu = (double*)malloc(sizeof(double) * (val + 2));
-		iter = val;
 		i = 0;
 		while (i < val + 2)
 		{
@@ -86,7 +87,8 @@ double		*get_lst_color(int val)
 	}
 	return (valu);
 }
-int		get_gray_color(double valu, double max_iter)
+
+static	inline	int		get_gray_color(double valu, double max_iter)
 {
 	t_pix	pix;
 	int		val;
@@ -96,29 +98,96 @@ int		get_gray_color(double valu, double max_iter)
 //	if (color == NULL)
 //		color = get_lst_color(max_iter);
 //	val = 250 *(1 -  (color[(int)valu + 1] / color[(int)max_iter + 1]));
-	val = 250 *(1 -  (log(valu + 1) / log(max_iter + 1)));
+	val = 255 - (250 * (((log(valu + 1)) / log(max_iter + 1))));
 	pix.comp[0] = val;
 	pix.comp[1] = val;
 	pix.comp[2] = val;
 	return (pix.nb);;
 }
 
-
-void	set_color_fractal(t_env *e)
+/*
+static	inline	int		get_gray_color_nrm(double valu, double max_iter, double min)
 {
-	int		i;
-	int		j;
+	t_pix	pix;
+	int		val;
+//	static	double	*color = NULL;
+//	color = get_lst_color(max_iter);
 
-	j = 0;
-	while (j < e->y_maxl)
+//	if (color == NULL)
+//		color = get_lst_color(max_iter);
+//	val = 250 *(1 -  (color[(int)valu + 1] / color[(int)max_iter + 1]));
+	val = 255 - (250 * (((log(valu + 1 - min)) / log(max_iter + 1))));
+	pix.comp[0] = val;
+	pix.comp[1] = val;
+	pix.comp[2] = val;
+	return (pix.nb);;
+}
+
+*/
+void	set_color_fractal(t_win *w)
+{
+	double			*img_low;
+	t_mandel_color	mc;
+	int				id;
+	double			val;
+
+//	ft_bzero(e->data, sizeof(t_pix) * SIZE_X * SIZE_Y);
+	img_low = w->e->img_low;
+	mc.y_maxl = w->e->y_maxl;
+	mc.x_maxl = w->e->x_maxl;
+	mc.j = 0;
+	mc.iter = w->e->iter;
+	id = 0;
+	get_gray_color(img_low[id], mc.iter);
+
+	while (mc.j < mc.y_maxl)
 	{
-		i = 0;
-		while (i < e->x_maxl)
+		mc.i = 0;
+//		printf("line:%d	", mc.j);
+		while (mc.i < mc.x_maxl)
 		{
-			e->data[i + j * e->x_maxl].nb = get_gray_color(e->img_low[j][i], e->iter);
-			i++;
+			val = log((double)(img_low[id] + 1)) / log((double)mc.iter + 1);
+			w->data[id].nb =  tsl_to_rvb_int( ((1 - (0.4 +  val * 0.6) * val)) * 360 , val , 1 - (0.2 + val * 0.8));
+//			printf("%d ", mc.i);
+	//		w->data[id].nb =  get_gray_color(img_low[id] , mc.iter);
+//			w->data[id].nb = get_gray_color(img_low[id], mc.iter);
+//			w->data[id].nb = 0;
+//			w->data[id].comp[0] = img_low[id] / mc.iter * 255;
+//			w->data[id].comp[1]= (img_low[id] / mc.iter) * (img_low[id] / mc.iter) * 255;
+//			w->data[id].comp[2]= (img_low[id] / mc.iter) * (img_low[id] / mc.iter) * (img_low[id] / mc.iter) * 255;
+			++id;
+			++mc.i;
 		}
-		j++;
+//		printf("\n");
+		++mc.j;
+	}
+//	printf("eeeeeeeeeeeeeeeeeeeeeeend\n");
+}
+
+void	set_color_fractal2(t_win *w)
+{
+	double			*img_low;
+	t_mandel_color	mc;
+	int				id;
+	double			val;
+
+	img_low = w->e->img_low;
+	mc.y_maxl = w->e->y_maxl;
+	mc.x_maxl = w->e->x_maxl;
+	mc.j = 0;
+	mc.iter = w->e->iter;
+	id = 0;
+	while (mc.j < mc.y_maxl)
+	{
+		mc.i = 0;
+		while (mc.i < mc.x_maxl)
+		{
+			val = img_low[id] / (double)mc.iter;
+			w->data[id].nb =  tsl_to_rvb_int(val * 360 , 0.7, 0.8);
+			++id;
+			++mc.i;
+		}
+		++mc.j;
 	}
 }
 
@@ -166,6 +235,8 @@ double		get_iter_average(double mult[2], double **val)
 
 //	foncctionne que si on fait une moyenne de 4 au max et que la fenettre low
 //	est comnpletement inclus dans la height au point de s'en foutre du i + 1 et j + 1
+
+/*
 void	calc_average(double pos[8], double max[4], t_env *e)
 {
 	int		ind[2];
@@ -193,10 +264,11 @@ void	calc_average(double pos[8], double max[4], t_env *e)
 		curs[1] += add[1];
 	}
 }
+*/
 //	les point calculer sont tout le temps a haute resolution
 //		c'est quand on imprime  une image que l'on fait une moyenne ou pas
 
-void	resize_window(double pos[4], double mult, double x, double y)
+int		resize_window(double pos[4], double mult, double x, double y)
 {
 	double	new_pos[4];
 	t_env	*e;
@@ -212,8 +284,10 @@ void	resize_window(double pos[4], double mult, double x, double y)
 	pos[1] = new_pos[1];
 	pos[2] = new_pos[2];
 	pos[3] = new_pos[3];
+	return (1);
 }
 
+/*
 double	averaging_height(double coef[6], double **img_h, int i, int j)
 {
 	double	result;
@@ -228,6 +302,7 @@ double	averaging_height(double coef[6], double **img_h, int i, int j)
 	}
 	return (result);
 }
+//*/
 
 void	describe_moy(t_average *moy)
 {
@@ -257,37 +332,39 @@ void	end_average_calc(double du, t_average *moy, double **img_height, double **i
 
 	moy->coef[0] = du;
 	moy->il = 0;
-	moy->ih = moy->ih0;//;(pos_l[0] - pos_h[0]) / (pos_h[2] - pos_h[0]) * (SIZE_X * 2 + 2);
+	moy->ih = moy->ih0;
 	while (moy->il < SIZE_X)
 	{
-//		moy->coef[0] = 0;//moy->coef[0];
 		moy->coef[1] = (moy->coef[0] + du < 1) ? du : 1 - moy->coef[0];
 		moy->coef[2] = (moy->coef[0] + du < 1) ? 1 - du - moy->coef[0] : 0;
 		result = 0;
+		img_low[moy->jl][moy->il] = 0;
 		k = 0;
+//		printf("il:%d ih:%d", moy->il, moy->ih);
+//		printf("line[%d]	", moy->ih);
 		while (k < 9)
 		{
 			i = (int)moy->ih + (k / 3);
 			j = (int)moy->jh + (k % 3);
-//			dprintf(1, "\rmoy->il:%d	k:%d	i:%d	j:%d", moy->il, k, i, j);
-			result += moy->coef[3 + (k / 3)] * moy->coef[k % 3] * (img_height[j][i]);
-
+/*
+			printf("i:%d j:%d k:%d ", i, j, k);
+			printf("k:%d id:%d i:%d j:%d\n", k, (3 + (k / 3)), i, j);
+			printf(" - ");
+			printf("\n[%d][%d]:\n", j, i);
+			printf("%f\n", img_height[j][i]);
+			printf(" __ \n");
+*/
+			if (j >= 0 && i >= 0 && i < SIZE_X2 && j < SIZE_Y2)
+				result += moy->coef[3 + (k / 3)] * moy->coef[k % 3] * (img_height[j][i]);
 			k++;
 		}
 		img_low[moy->jl][moy->il] = result;
-/*
-//dprintf()
-char c;
-dprintf(1, "$$\t-\t-\t$$$\nk:%d	img_height[%d][%d]:%d	result:%f\n", k, j, i, img_height[j][i], result);
-dprintf(1, "img_low[%d][%d]:%d\n", moy->jl, moy->il, img_height[moy->jl][moy->il]);
-dprintf(1, "moy->coef[2] > 0 [%d]	::: %f :::\n", (moy->coef[2] > 0), (moy->coef[2]));
-describe_moy(moy);
-read(0, &c, 1);
-//*/
 		moy->coef[0] = (moy->coef[2] > 0) ? du - moy->coef[2] :  du - moy->coef[1];
 		moy->ih += (moy->coef[2] > 0) ? 2 : 1;
 		moy->il++;
+//		printf("\n");
 	}
+//	printf("\n\n------------------------------------\n\n");
 }
 
 void	calculate_average(double **img_low, double **img_height, double pos_l[4], double pos_h[4])
@@ -296,25 +373,22 @@ void	calculate_average(double **img_low, double **img_height, double pos_l[4], d
 	t_average	moy;
 	t_env		*e;
 
-double	delta_xh, delta_xl;
+//double	delta_xh, delta_xl;
 
 	e = get_env(NULL);
 	moy.il = 0;
 	moy.jl = 0;
-	delta_xh = (pos_h[2] - pos_h[0]);
-	delta_xl = (pos_l[2] - pos_l[0]);
-//	dprintf(1, "delta_xh:%f	delta_xl:%f\n", delta_xh, delta_xl);
-//	du = (double)(((delta_xh)) / (double)((delta_xl) * 2));
-	du = (double)(((delta_xh) * e->x_maxl) / (double)((delta_xl) * e->x_maxh));
+//	delta_xh = (pos_h[2] - pos_h[0]);
+//	delta_xl = (pos_l[2] - pos_l[0]);
+	du = (((pos_h[2] - pos_h[0]) * e->x_maxl) / ((pos_l[2] - pos_l[0]) * e->x_maxh));
 	du /= 1;
 	moy.ih0 = (pos_l[0] - pos_h[0]) / (pos_h[2] - pos_h[0]) * (SIZE_X * 2 + 2);
 	moy.jh = (pos_l[1] - pos_h[1]) / (pos_h[3] - pos_h[1]) * (SIZE_Y * 2 + 2);
 	moy.jl = 0;
 	moy.du = du;
-	moy.coef[3] = du;//moy.coef[3];
+	moy.coef[3] = du;
 	while (moy.jl < SIZE_Y)
 	{
-	//	moy.coef[3] = moy.coef[3];
 		moy.coef[4] = (1 - moy.coef[3] > du) ? du : 1 - moy.coef[3];
 		moy.coef[5] = (1 - moy.coef[3] > du) ? 1 - du - moy.coef[3] : 0;
 		end_average_calc(du, &moy, img_height, img_low);
@@ -322,10 +396,43 @@ double	delta_xh, delta_xl;
 		moy.jh += (moy.coef[5]  > 0) ? 2 : 1;
 		moy.jl++;
 	}
-//	describe_moy(&moy);
 }
 
+/*
+void		do_zoom_simple(t_env *e)
+{
+	double	delta_x;
 
+	if (e->zoom_on == 1)
+	{
+		e->zoom_on = 0;
+		et_colo
+		->zoom_finished = 0;
+		if (e->zoom_on == 1)
+			resize_window(e->pos_low, e->zoom, e->zoom_x, e->zoom_y);
+		else
+			resize_window(e->pos_low, 1 / e->zoom, e->zoom_x, e->zoom_y);
+		delta_x = (e->pos_height[2] - e->pos_height[0]) / (e->zoom * (e->pos_low[2] - e->pos_low[0]));
+		if (delta_x > 2)
+		{
+			size_window_copy(e->pos_low, e->pos_height);
+			calcul_grid(e->img_height, e->pos_height, e->x_maxh, e->y_maxh);
+			calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+			set_color_fractal(e->fractal);
+		}
+		else if (delta_x < 0.5)
+		{
+			size_window_copy(e->pos_low, e->pos_height);
+			calcul_grid(e->img_height, e->pos_height, e->x_maxh, e->y_maxh);
+			calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+			set_color_fractal(e->fractal);
+		}
+		calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
+		set_color_fractal(e->fractal);
+		e->zoom_finished = 1;
+	}
+}
+*/
 //	Quand on a le nouveau cadre on decide si on recalcule ou pas
 
 

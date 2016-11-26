@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 07:41:02 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/25 03:20:16 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ double			**init_tab_d(int size_x, int size_y)
 	return (tab);
 }
 
+
 void		env_end(t_env *e)
 {
 	e->y_maxl = SIZE_Y;
@@ -62,27 +63,33 @@ void		env_end(t_env *e)
 	e->y_maxh = 2 * SIZE_Y;
 	e->x_maxh = 2 * SIZE_X;
 	e->zoom = ZOOM;
+	e->zoom_on = 0;
+	e->zoom_y = 0;
+	e->zoom_x = 0;
+	e->zoom_finished = 1;
+	e->base_add = 0;
+	e->trans_add = 0;
 	
-	if (!(e->img_low = init_tab_d(e->x_maxl, e->y_maxl))
-		|| !(e->img_height = init_tab_d(e->x_maxh + 2,  e->y_maxh + 2)))
-		return ;
-
+//	if (!(e->img_low = init_tab_d(e->x_maxl, e->y_maxl))
+//		|| !(e->img_height = init_tab_d(e->x_maxh + 2,  e->y_maxh + 2)))
+//		return ;
+//	mlx_hook(e->win, KEY_PRESS, (1 << 24) - 1, &key_press , e);
+//	mlx_hook(e->win, KEY_RELEASE, (1 << 24) - 1, &key_release, e);
+//	mlx_hook(e->win, BUTTON_PRESS, (1 << 24) - 1, &mouse_press, e);
+//	mlx_hook(e->win, BUTTON_RELEASE, (1 << 24) - 1, &mouse_release, e);
+//	mlx_hook(e->win, MOTION_NOTIFY, (1 << 24) - 1, &mouse_motion, e);
+/*
 	init_pos_ecr(e);
 	calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
 	calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
 //	calcul_grid(e->img_low, e->pos_low, e->x_maxl, e->y_maxl);
 //	print_map(e->img_height, e->x_maxh, e->y_maxh);
-
-	mlx_hook(e->win, KEY_PRESS, (1 << 24) - 1, &key_press , e);
-	mlx_hook(e->win, KEY_RELEASE, (1 << 24) - 1, &key_release, e);
-	mlx_hook(e->win, BUTTON_PRESS, (1 << 24) - 1, &mouse_press, e);
-	mlx_hook(e->win, BUTTON_RELEASE, (1 << 24) - 1, &mouse_release, e);
-	mlx_hook(e->win, MOTION_NOTIFY, (1 << 24) - 1, &mouse_motion, e);
-	mlx_loop_hook(e->mlx, main_work, e);
-
 	set_color_fractal(e);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-
+*/
+	mlx_loop_hook(e->mlx, main_work, e);
+	init_koch(e);
+	init_the_sliders(e->param, &(e->border_b));
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 }
@@ -105,18 +112,37 @@ int		get_iter(int valu)
 	return (iter);
 }
 
-void		env(void)
+void	init_win_event(t_win *w, t_env *e)
 {
-	t_env		e;
+	(void)e;
+	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, press_key , w);
+	mlx_hook(w->win, KEY_RELEASE, (1 << 24) - 1, release_key, w);
+	mlx_hook(w->win, BUTTON_PRESS, (1 << 24) - 1, press_button, w);
+	mlx_hook(w->win, BUTTON_RELEASE, (1 << 24) - 1, release_button, w);
+	mlx_hook(w->win, MOTION_NOTIFY, (1 << 24) - 1, motion_cursor, w);
+}
 
-	get_env(&e);
-	e.iter = get_iter(ITER);
-	if (!(e.mlx = mlx_init()))
+void		init_border_totranslate(t_border *b, t_win *w, double *pt_translate)
+{
+	b->x0 = 0;
+	b->y0 = 0;
+	b->x1 = w->size_x;
+	b->y1 = w->size_y;
+	pt_translate[0] = 0;
+	pt_translate[1] = 0;
+}
+
+void		env(t_env *e)
+{
+	if (!e || !(e->mlx = mlx_init()))
 		return ;
-	e.win = mlx_new_window(e.mlx, SIZE_X, SIZE_Y, "Leu test");
-	e.img = mlx_new_image(e.mlx, SIZE_X, SIZE_Y);
-	e.data = (t_pix*)mlx_get_data_addr(e.img, &(e.depth), &(e.size_line), &(e.endian));
-	e.z_buffer = (double*)malloc(sizeof(double) * SIZE_X * SIZE_Y);
-	env_end(&e);
+	if (!(e->fractal = window_init(e, SIZE_X, SIZE_Y, "fractal"))
+		|| !(e->param = window_init(e, 700, 700, "param")))
+		return ;
+	init_win_event(e->fractal, e);
+	init_win_event(e->param, e);
+	init_koch_param_border(e, e->param);
+	init_border_totranslate(&(e->base_cadre), e->fractal, e->tr_base);
+	env_end(e);
 	return ;
 }

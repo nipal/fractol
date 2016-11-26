@@ -6,11 +6,13 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/09/27 08:31:26 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/11/22 15:50:42 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	libc_maths.a
+.PHONY: clean all fclean re
+
+NAME	=	libc_maths.a
 SRC		=	matrix_init.c \
 			matrix_display.c \
 			matrix_add.c \
@@ -31,8 +33,11 @@ SRC		=	matrix_init.c \
 			matrix_copy.c \
 			free_mat.c \
 			matrix_new.c \
+			matrix_normalise.c \
 			set_scale.c
-FLAGS		= -Wall -Wextra -Werror
+
+#CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address 
+
 OBJ		= $(SRC:.c=.o)
 
 all: $(NAME)
@@ -42,7 +47,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 %.o:%.c
-	gcc -Ofast  -c $(SRC) $(FLAGS) -I ./
+	gcc -Ofast  -c $(SRC) $(CFLAGS) -I ./
 #	gcc -Ofast $(FLAGS) -I ../includes/ -c $(SRC)
 
 clean:

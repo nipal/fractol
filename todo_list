@@ -1,24 +1,252 @@
--On a une genre d'unterface pour les evenement souris et clavier
+################################################################################
+#-On a une genre d'unterface pour les evenement souris et clavir               #
+#                                                                              #
+#-	calculer une image dans un tableau                                         #
+#		->	(x1, y1, x2, y2)		//	position de l'ecran dans la franctale  #
+#		->	(size_x, size_y)		//	resolution de calcule                  #
+#		->	(double	**val_hd)			//	valeur a stoquer en hd             #
+#		->	(double	**val_ecr)			//	valeur calculer pour une image     #
+#                                                                              #
+###########    ZOOM      ##########                                            #
+#                                                                              #
+#	-	zoomer sur un point (basiquement)                                      #
+#	-	stoquer dans une image de reference (pour zoomer dessu)                #
+#	-	zoomer dessu sur une image plus haute resolution                       #
+#                                                                              #
+###########    TRANSLATE  #########                                            #
+#	-	translater l'image                                                     #
+#	-	completer une image translate                                          #
+#                                                                              #
+#                                                                              #
+#On pourrais mapper un peu mieux les event                                     #
+#                                                                              #
+#ceux qui sont enfoncer puis relacher avec une genre de tableau                #
+#			avec tout les evenement possible en boolean                        #
+#	->	ceux qui se relache 				(on peu les annuler)               #
+#	->	ceux qui ne se relache pas donc 	(on les enleve si pas present)     #
+#                                                                              #
+#                                                                              #
+################################################################################
 
--	calculer une image dans un tableau
-		->	(x1, y1, x2, y2)		//	position de l'ecran dans la franctale
-		->	(size_x, size_y)		//	resolution de calcule
-		->	(double	**val_hd)			//	valeur a stoquer en hd
-		->	(double	**val_ecr)			//	valeur calculer pour une image
+******************					MULTI THREAD			*******************
 
-##########    ZOOM      ##########
+	Pour les deux type de calcul
+		-zoom (moyene)
+		-zomm (recalcule)
 
-	-	zoomer sur un point (basiquement)
-	-	stoquer dans une image de reference (pour zoomer dessu)
-	-	zoomer dessu sur une image plus haute resolution
-
-##########    TRANSLATE  #########
-	-	translater l'image
-	-	completer une image translate
+	Il faut determiner a chaque fois les deux type de 
 
 
-On pourrais mapper un peu mieux les event
 
-ceux qui sont enfoncer puis relacher avec une genre de tableau avec tout les evenement possible en boolean
-	->	ceux qui se relache 				(on peu les annuler)
-	->	ceux qui ne se relache pas donc 	(on les enleve si pas present)
+
+
+**************************  	NEW FRACTAL 	 ******************************
+
+	-on fait un traceur de ligne entre deux clique
+	-on recupere le tracage de ligne de fdf
+	-on set une structure pour lew iteration de base, et on reflechi comment
+		stoquer les nuvelle iteration
+
+################################################################################
+#                                                                              #
+#        -> Nouvelle fenetre                                                   #
+#        -> System de selection rvb/tsl                                        #
+#        -> ajout/suppresion de node                                           #
+#        -> distance, iteration, sommet tr                                     #
+#        -> combinaison / composition: de couleur                              #
+#        -> sauvgarde de parametre de fractal                                  #
+#        -> affichage fluide                                                   #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+################################################################################
+#                                                                              #
+#                       ** NOUVELLE FENETRE **                                 #
+#                                                                              #
+#   ajout:                                                                     #
+#  (OK)    -> structure                                                        #
+#  (O.)       fonction de dessin                                               #
+#  (..)       -> aussi les fonction de cercle                                  #
+#  (O.)    -> fonction d'evenement                                             #
+#  (OK)    -> initialisation                                                   #
+#  (OK)    -> destruction                                                      #
+#                                                                              #
+#   migration:                                                                 #
+#          -> changement d'etage de decison du support                         #
+#             (il faut preciser plus tot sur quel fenetre se fait quoi)        #
+#          -> remplacer les SIZE_X SIZE_Y                                      #
+#                                                                              #
+#                                                                              #
+#          -> on peu commencer par cree un contenu nouveau au nouveau format   #
+#             (comme ca on n'a pas trop besoin de faire la migration           #
+#                                                                              #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+################################################################################
+#                                                                              #
+#                           ** Affichage fluide  **                            #
+#                                                                              #
+#       -> sauvgarder les indices de chaques recursions                        #
+#          -> multi mode: init, save, normal.                                  #
+#          -> apres(mode: save), avant(retour = -1).                           #
+#                                                                              #
+#       -> chagrer un indice de recursion                                      #
+#           -> test si mode init                                               #
+#       -> sauvgarder un indice de recursion                                   #
+#           -> test si mode save                                               #
+#                                                                              #
+#                                                                              #
+#  ==> On doit fixer un indice de sauvgarde maxixmum donc on ne sauvgarde pas  #
+#      au dela, ou si non on ne zoom pas au dela d'une limite fixe en amon.    #
+#                                                                              #
+#  ==> On doit avoir une fenetre dedier pour ne pas tout re imprimer tout      #
+#      le temp et re imprimer le rest.                                         #
+#                                                                              #
+#  ==> On ne relance pas tout le temps la fonction, ou si non elle sait        #
+#      quelle a deja dessiner quelquechose, ou elle ne bzero pas sa memoire    #
+#                                                                              #
+################################################################################
+
+
+
+################################################################################
+#                                                                              #
+#                ====> multi fenetre <====                                     #
+#                                                                              #
+#     -> redefinir les fonciton de dessin                                      #
+#     -> redefinir les fonciton de d'evenement                                 #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+
+################################################################################
+#                                                                              #
+#                  #######   denfetre de control  ######                       #
+#                                                                              #
+#       -> on dessinne la BASE et le MULT dans la fenettre de controle         #
+#                                                                              #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+#
+#	On a une fonction d'impression general.
+#	->	Il faut un polygone de comptrole pour la BASE et le TRANSFROM
+#	->	Des fonction de transformation, rescaling en fonction de la fenetre en fonction de celle de la frractale
+#		donc on va definir la hauteur des case en fonction du scaling de la preimier feneter
+#
+#		->	Au max on prend 1/2 de largeur ou 2/3 de hauteur
+#
+#
+#
+#
+#
+#
+#
+
+
+
+
+################################################################################
+#
+#			afficher les clique qui sont gere
+#			afficher la base dans l'autre fenetre
+#			deplacer les point
+#				-> pour la base
+#				-> pour l'extremite de la transform
+#				-> pour l'interieur de la transform
+#			metre tout bout a bout
+
+##		=>	definir un arret d'ajout de point par cadre
+#			=>	clique droit == on switch
+#		=>	definir un reset de cadre
+#
+
+
+
+
+################################################################################
+#			gestion des segment
+#
+#			creation/modification des segment :
+#				 -base/transforme
+#
+#			-phase de construction 		(avec un point a chaque fois a la fin)
+#			-phase d'ajout				(avec la touche espace)
+#
+#
+#
+################################################################################
+
+
+################################################################################
+#					On va essayer de manipuler la fractale
+#
+#		->	"molette avant-droit" sur la fenetre "fractal" et on	 zoom:		largeur * 0.8
+#		->	"molette arriere-gauche" sur la fenetre "fractal" et on dezoome:	largeur * 1.25;
+#		->	DRAG & DROP:	translation
+#
+#
+#		ZOOM:
+#			pos = (pos - org) * mult + org;
+#
+#		TRANSLATION:
+#			pos += mouse - prev_mouse
+#
+#		il faut aussi afficher la ligne uniquement si un des deux points est dans la fenetre
+#		on pourrait aussi savoir si une ligne a une interaction avec la fenetre et ou
+#
+#		[ A &&  B]		-> 
+#		[~A &&  B]
+#		[ A && ~B]
+#		[~A && ~B]
+#
+#		equation a resoudre
+#
+#
+#
+################################################################################
+
+
+################################################################################
+#
+#
+#		(A): constante (mandel, julia)				->	(0-1)
+#		(B): iteration ((abs, neg) x (x, y))		->	(0-1, 0-1, 0-1, 0-1)
+#		(C): evaluation distance (orbit crobs)		->	((px, py), (dx:(x0, x1), dy:(x0, x1)))  [pos, dirX, dirY]
+#
+#
+#	(A) et (B):
+#		avec une varaible qui porte tout les masque (5)
+#
+#	(C):
+#		on a besoin de 5 vecteur (de 2 ou 3 dimention)
+#
+#	le vecteur position c'est celle du centre du repere.
+#	en suite c'est une matrice de rotation, ou d'homotetie (aplication lineaire)
+#
+#	--> cote a => (POSITION, forme)
+#
+#
+#
+################################################################################
+
+
+
+################################################################################
+#
+#		juste la avant de partit:
+#
+#			on met en place une structur rudimentaire pour tester la solidite
+#		 parsing et	avoir plusieur cas different a lancer + tout les enchenement
+#		 possible 
+#
+#		-{1} {1|2...} 			DONE
+#			{1 | 2}				Facile
+#				{3 | 4}			Facile
+################################################################################

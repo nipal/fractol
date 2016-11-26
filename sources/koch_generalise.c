@@ -1,0 +1,169 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   koch_generalise.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
+/*   Updated: 2016/11/21 01:13:54 by fjanoty          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fractol.h"
+
+t_polygone	*get_last(t_polygone *node)
+{
+	if (node)
+		while (node->next)
+			node = node->next;
+	return (node);
+}
+
+int			insert_portion(t_polygone **target, t_polygone *src)
+{
+	t_polygone	*tmp;
+
+	if (!target || !src)
+	{
+		return (0);
+	}
+	if (*target)
+	{
+		if ((tmp = get_last(src)))
+			tmp->next = (*target)->next;
+		(*target)->next = src;
+	}
+	else
+	{
+		*target = src;
+	}
+	return (1);
+}
+
+void		push_back(t_polygone **root, t_polygone *node)
+{
+	t_polygone	*tmp;
+
+	if (!root)
+		return ;
+	else if (*root)
+	{
+		if ((tmp = get_last(*root)))
+			tmp->next = node;
+		node->next = NULL;
+	}
+	else
+		*root = node;
+}
+
+void		init_koch(t_env *e)
+{
+	e->actif = NULL;
+	e->beg_actif = NULL;
+	e->draw_transform = 0;
+	e->add_iter = 0;
+	e->transform = NULL;
+	e->trans_model = NULL;
+	e->base_model = NULL;
+	e->iter_koch = 0;
+	e->mouse = NULL;
+	e->prev_mouse = NULL;
+	e->left = 0;
+	e->right = 0;
+	e->min_val_trans = 0;
+	e->actif = NULL;
+	e->base = NULL;
+	e->transform = NULL;
+	e->base_add = 0;
+	e->trans_add = 0;
+	e->param->button1 = 0;
+	e->max_iter = 0;
+	e->sliders = NULL;
+	e->draw_base = 1;
+	e->r_select = 20;
+	e->nb_sliders = 3;
+	e->id_scrol = -1;
+	e->add_point = 0;
+	e->move_set = 0;
+}
+
+void		add_point(t_polygone **node, int x, int y, int lvl)
+{
+	t_polygone	*last;
+	double		pos[3];
+	double		col[3];
+
+	if (!node)
+		return ;
+	pos[0] = x;
+	pos[1] = y;
+	pos[2] = 0;
+	col[0] = 250;
+	col[1] = 250;
+	col[2] = 250;
+	if (!(last = creat_node(lvl, pos, col)))
+		return ;
+	if (*node)
+		(*node)->next = last;
+	*node = last;
+	(*node)->next = NULL;
+}
+
+void		increm_polygone(int x, int y, t_env *e)
+{
+	add_point(&(e->actif), x, y, 0);
+	if (!(e->beg_actif))
+		e->beg_actif = e->actif;
+}
+
+void		move_last(int x, int y, t_env *e)
+{
+	if (e->actif)
+	{
+		e->actif->pos->m[0] = x;
+		e->actif->pos->m[1] = y;
+	}
+}
+
+void		end_base(t_env *e)
+{
+	t_polygone	*last;
+
+	if (!e->actif || !e->beg_actif || !(last = copy_node(e->beg_actif, 0)))
+		return ;
+	e->draw_base = 0;
+	e->draw_transform = 1;
+	e->base = e->beg_actif;
+	e->actif = NULL;
+	e->beg_actif = NULL;
+}
+
+void		end_transform(t_env *e)
+{
+	e->draw_transform = 0;
+	e->actif = NULL;
+	e->transform = transform(e->beg_actif);
+	init_trans_control(e);
+	e->beg_actif = NULL;
+}
+
+void		zero_double(double *tab1, double *tab2, int size)
+{
+	int i;
+
+	i = 0;
+	while (i < size)
+	{
+		tab1[i] = 0;
+		tab2[i] = 0;
+		i++;
+	}
+}
+
+int			init_win_param(t_env *e, int size_x, int size_y, char *name)
+{
+	if (!(e->param = window_init(e, size_x, size_y, name)))
+		return (0);
+	return (1);
+}

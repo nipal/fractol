@@ -6,13 +6,13 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/09/13 19:32:46 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/01 18:51:53 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/25 00:56:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char *str)
+int		ft_putstr(char *str)
 {
 	size_t i;
 
@@ -20,4 +20,5 @@ void	ft_putstr(char *str)
 	while (str[i])
 		i++;
 	write(1, str, i);
+	return ((int)i);
 }

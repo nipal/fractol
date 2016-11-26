@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hook.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/06 02:26:19 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/11/18 20:37:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,8 @@ void	free_img(int ***img, int size_y)
 
 int		ft_exit(t_env *e)
 {
-//	free(e->z_buffer);
-//	free_img(&(e->img_low), e->y_maxl);
-//	free_img(&(e->img_height), e->y_maxh);
-	mlx_destroy_image(e->mlx, e->img);
-	mlx_destroy_window(e->mlx, e->win);
+//**	la il faudra un peu reflechir a quoi free a la fin
+	(void)e;
 	exit(0);
 	return (0);
 }

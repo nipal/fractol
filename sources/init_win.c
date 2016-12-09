@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/15 18:47:38 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/18 20:33:10 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/09 01:51:52 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_win		*window_init(t_env *e, int size_x, int size_y, char *name)
 			|| !(w->name = ft_strdup(name))
 			|| !(w->z_buff = (double*)malloc(sizeof(double) * size_x * size_y)))
 		return (NULL);
+push_addr(4, "", w);
+push_addr(5, "", w->z_buff);
 	w->e = e;
 	w->is_z_buff = 1;
 	w->size_x = size_x;

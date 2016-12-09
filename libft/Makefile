@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/11/10 15:15:19 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/12/09 07:51:38 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ $(NAME): $(OBJ)
 
 #%.o: %.c
 $(OBJ):
-	    gcc $(CFLAGS) -I ../includes/ -c $(SRC)
+	    $(CC) $(CFLAGS) -I ../includes/ -c $(SRC)
 
 clean:
 	rm -f $(OBJ)

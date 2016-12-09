@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 18:19:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/26 16:15:01 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/07 05:32:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,23 @@ void		tsl_to_rvb_in(double t, double s, double l, t_matrix *rvb)
 	double	x;
 	double	i;
 
-	if (!rvb)
+	if (!rvb || !rvb->m)
 		return ;
 	mm[1] = (int)(l * 255);
 	mm[0] = (int)((1 - s) * l * 255);
 	croma = mm[1] - mm[0];
 	i = t / 60;
 	x = croma * modulo(i, 2);
-	ind[0] = (7 - (int)i) % 3;
+	ind[0] = (10 - (int)i) % 3;
 	ind[1] = (((int)i % 2) == 0) ? (ind[0] + 2) % 3 : (ind[0] + 1) % 3;
-	ind[2] = (3 - ind[1] - ind[0]) % 3;
+	ind[2] = (9 - ind[1] - ind[0]) % 3;
+	ind[0] += (ind[0] < 0) ? 3: 0;
+	ind[1] += (ind[1] < 0) ? 3: 0;
+	ind[2] += (ind[2] < 0) ? 3: 0;
 	rvb->m[ind[1]] = croma + mm[0];
 	rvb->m[ind[0]] = x + mm[0];
 	rvb->m[ind[2]] = x + mm[0];
 }
-
 
 int			tsl_to_rvb_int(double t, double s, double l)
 {
@@ -83,21 +85,21 @@ int			tsl_to_rvb_int(double t, double s, double l)
 
 	if (!(rvb = tsl_to_rvb_new(t, s, l)))
 		return (-1);
-	color = ((unsigned char)rvb->m[0]); 
-	color |= ((unsigned char)rvb->m[1]) << 8; 
-	color |= ((unsigned char)rvb->m[2]) << 16; 
+	color = ((unsigned char)rvb->m[0]);
+	color |= ((unsigned char)rvb->m[1]) << 8;
+	color |= ((unsigned char)rvb->m[2]) << 16;
 	return (color);
 }
 
-int			init_range_tsl(t_range_tsl *range)
+void		set_in_grey(t_polygone *node, double value)
 {
-	if (!range)
-		return (0);
-	range->tmin = 0;
-	range->tmax = 1;
-	range->smin = 0;
-	range->smax = 1;
-	range->lmin = 0;
-	range->lmax = 1;
-	return (1);
+	value = (value < 0) ? 0 : value;
+	value = (value > 255) ? 255 : value;
+	while (node)
+	{
+		node->col->m[0] = value;
+		node->col->m[1] = value;
+		node->col->m[2] = value;
+		node = node->next;
+	}
 }

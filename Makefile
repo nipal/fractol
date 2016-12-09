@@ -6,14 +6,17 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:28:32 by jpirsch           #+#    #+#              #
-#    Updated: 2016/11/22 15:46:04 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/12/09 09:41:12 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: clean all fclean re gdb
 
 #-g -fsanitize=address 
-export CFLAGS	= -Wall -Wextra -Werror -Ofast 
+export CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address  
+export CC	= clang
+
+#-g -fsanitize=address
 
 
 NAME			= fdf

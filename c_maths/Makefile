@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/11/22 15:50:42 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/12/09 07:51:16 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 %.o:%.c
-	gcc -Ofast  -c $(SRC) $(CFLAGS) -I ./
+	$(CC)  $(CFLAGS) -c $(SRC) -I ./
 #	gcc -Ofast $(FLAGS) -I ../includes/ -c $(SRC)
 
 clean:

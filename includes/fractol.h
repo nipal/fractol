@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
@@ -6,12 +5,14 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/26 19:51:08 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/01 00:25:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+
+# include "anti_leak.h"
 
 # define NB_NAME_FRAC 31
 # define NB_NAME_ALT 10
@@ -19,6 +20,13 @@
 
 # define SIZE_X 500
 # define SIZE_Y 500
+
+# define SIZE_PARAM_X 600
+# define SIZE_PARAM_Y 600
+
+
+# define SIZE_KOCH_X 1200
+# define SIZE_KOCH_Y 1200
 
 # define SIZE_Y2 2*SIZE_Y
 # define SIZE_X2 2*SIZE_X
@@ -42,7 +50,14 @@
 
 # define MAX_DIST_ADD 50
 
+# include "key.h"
+
 #include <stdio.h>
+
+# define MOUSE_IN mouse_in_border
+
+# define X 0
+# define Y 1
 
 typedef	struct	s_polygone t_polygone;
 
@@ -272,6 +287,16 @@ struct			s_env
 	double		cty;
 };
 
+typedef	struct	s_mandel_pt
+{
+	double		min;
+	double		max;
+	double		v0;
+	double		v1;
+	double		v2;
+	double		v3;
+}				t_mandel_pt;
+
 typedef	struct	s_mandel_color
 {
 	int			i;
@@ -281,21 +306,70 @@ typedef	struct	s_mandel_color
 	int			iter;
 }				t_mandel_color;
 
-void			print_map(double **img, int size_x, int size_y);
+typedef	struct	s_pt2d
+{
+	double		x;
+	double		y;	
+}				t_pt2d;
+
+typedef	struct	s_pt2i
+{
+	int			x;
+	int			y;	
+}				t_pt2i;
+
+typedef	struct	s_calc_gr
+{
+	int			i;
+	int			j;
+	int			id;
+	int			iter;
+}				t_calc_gr;
+
+typedef	struct	s_cop_julia
+{
+	double		*beg_x;
+	double		*beg_y;
+	double		ctx;
+	double		cty;
+}				t_cop_julia;
+
+typedef	struct	s_d3
+{
+	double	v0;
+	double	v1;
+	double	v2;
+}				t_d3;
+
+typedef	struct	s_dp
+{
+	t_matrix	*pt1;
+	t_matrix	*pt2;
+	double		r;
+	t_win		*w;
+}				t_dp;
+
+typedef	struct	s_lim
+{
+	int			v;
+	int			h;
+}				t_lim;
+
 /*
 ** hook
 */
+
 int				key_press(int keycode, t_env *e);
 int				key_release(int keycode, t_env *e);
 int				mouse_motion(int x, int y, t_env *e);
 int 			mouse_press(int button, int x, int y, t_env *e);
 int 			mouse_release(int button, int x, int y, t_env *e);
-void			set_key(int key_code, t_env *e, const int on, const int off);
 void			size_window_copy(double pos_low[4], double pos_height[4]);
 
 /*
 **	new_hook
 */
+
 int				mouse_inside(int x, int y, t_win *w);
 int				press_key(int key_code, t_win *w);
 int				release_key(int key_code, t_win *w);
@@ -307,6 +381,7 @@ void			actu_mouse_pos(t_win *w, int x, int y);
 /*
 ** mlx_env
 */
+
 void			vectpx_to_img(t_env *e, t_matrix *pos_color);
 void			env(t_env *e);
 void			init_pos_ecr(t_env *e);
@@ -316,14 +391,12 @@ void			init_win_event(t_win *w, t_env *e);
 /*
 **	exit.c
 */
+
 void			free_map(t_matrix	****map, t_env *e);
 int				free_int_map(t_env *e);
 int				free_cam(t_env *e);
 int				ft_exit(t_env *e);
-int				main_work(void);
-
-t_env			*get_env(t_env *e);
-int				get_iter(int valu);
+int				main_work(t_env *e);
 
 /*
 **	new_calcul_mandel
@@ -334,20 +407,18 @@ int				get_iter(int valu);
 */
 
 void			do_zoom_simple(t_env *e);
-int				resize_window(double pos[4], double mult, double x, double y);
+int				resize_window(double pos[4], double mult, t_pt2d size, t_env *e);
 void			set_color_fractal(t_win *w);
 void			calc_average(double pos[8], double max[4], t_env *e);
 double			get_iter_average(double mult[2], double **val);
-//int				get_gray_color(double valu, double max_iter);
-void			calcul_grid(double *img, double pos[4], double max_x, double max_y);
-//int				calcul_one_point(double ct[2], int iter);
+void			calcul_grid(double *img, double pos[4], t_pt2d max, t_env *e);
 void			calculate_average(double **img_low, double **img_height, double pos_l[4], double pos_h[4]);
 
 /*
 **	drawline
 */
-void			trace_line(double *pt1, double *pt2, double *c1, double *c2);
-int				draw_line(t_env *e, t_matrix *mat_line);
+
+//int				draw_line(t_env *e, t_matrix *mat_line);
 t_matrix		*init_mat_line(t_matrix *pt1, t_matrix *pt2,
 				t_matrix *c1, t_matrix *c2);
 void			trace_seg_line(t_env *e, t_polygone *node);
@@ -355,6 +426,7 @@ void			trace_seg_line(t_env *e, t_polygone *node);
 /*
 **	param_koch.c
 */
+
 void			draw_the_2_border(t_env *e);
 void			init_koch_param_border(t_env *e, t_win *win_param);
 void			draw_border(t_win *w, t_border *border, t_matrix *color);
@@ -388,13 +460,13 @@ int				init_win_param(t_env *e, int size_x, int size_y, char *name);
 /*
 **	init_win
 */
+
 void	describe_window(t_win *w);
 t_win	*window_init(t_env *e, int size_x, int size_y, char *name);
 int		window_destroy(t_win **window);
 
 void			end_transform(t_env *e);
 void			end_base(t_env *e);
-void			zero_double(double *tab1, double *tab2, int size);
 
 /*
 **	poygone_new
@@ -407,26 +479,21 @@ t_polygone		*copy_node(t_polygone *node, int lvl);
 /*
 **	polygone_destroy
 */
+
 int				polygone_destroy(t_polygone **begin);
 int				polygone_destroy_one(t_polygone **node);
 
 /*
 **	polygone_transform
 */
-void		iterate_transformation(t_polygone *polyg, t_polygone *transpose);
 
+void		iterate_transformation(t_polygone *polyg, t_polygone *transpose);
 double			dist_to_end(t_polygone *seg);
-void			init_dtab(double *tab, double valu, int size);
 t_polygone		*adate_to_unite(t_matrix *ux, t_matrix *uy, t_matrix *org, t_polygone *src);
 t_polygone		*transform(t_polygone *seg_beg);
-t_matrix		*position_transpose(t_matrix *org, t_matrix *ux, t_matrix *uy, t_matrix *dir);
 t_polygone		*creat_insert(t_polygone *seg, t_polygone *transforme);
-t_polygone		*creat_insert_scale(t_polygone *seg, t_polygone *transforme, double dx, double dy);
-
 
 void			init_trans_control(t_env *e);
-void			describe_one_node(t_polygone *seg);
-void			polygone_describe(t_polygone *node);
 void			calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
 
 /*
@@ -441,10 +508,8 @@ int				polygone_forget_last(t_polygone **begin);
 /*
 **	modify_model
 */
-void			print_circle_color(int cx, int cy, double r, t_matrix *col);
-void			print_circle(int cx, int cy, double r);
+
 t_polygone		*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist);
-void			print_mouse_close(t_env *e, t_polygone *poly);
 void			translate_node(t_env *e, t_polygone *poly);
 
 /*
@@ -461,21 +526,18 @@ int				tsl_to_rvb_int(double t, double s, double l);
 /*
 **	new_printing
 */
+
 void			actu_win_rest(t_win *w);
 void			actu_win(t_win *w);
 t_matrix		*define_node_color(double dist_frac, double iter, double prog_iter);
 void			draw_verticies(t_win *w, t_polygone *seg);
 void			draw_vertice(t_win *w, t_polygone *seg);
 void			translate_node2(t_env *e, t_polygone *poly);
-void			print_polygone2(t_coef_const *cc, t_coef_draw *cd, double dist, t_polygone *seg);
-void			trace_seg_line2(t_win *w, t_polygone *node);
-void			trace_line2(double *pt1, double *pt2, double *c1, double *c2);
 int				draw_line2(t_win *win, t_matrix *mat_line);
 void			draw_line3(t_matline *ml, t_win *w);
 void			vectpx_to_img2(t_win *win, t_matrix *pos_color);
 void			draw_simple_polygone(t_win *w, t_polygone *node);
 int				init_coef_const(t_coef_const *cc, t_polygone *mult, double max_iter, t_win *w);
-void			draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double iter);
 double			get_polygone_len(t_polygone *seg);
 
 void			draw_vertice1(t_env *e, t_polygone *seg);
@@ -484,6 +546,7 @@ void			draw_verticies1(t_env *e, t_polygone *seg);
 /*
 **	segment_mecanique
 */
+
 void			set_2d_landmark_incpy(t_matrix *diff, t_matrix *dx, t_matrix *dy, double *dist);
 double			set_dist_sepc(double *data, t_matrix *dx, t_matrix *dy, t_polygone *node);
 t_polygone		*get_cluster_seg(t_polygone *begin, double x, double y);
@@ -500,17 +563,18 @@ int				remove_one_node(t_env *e);
 /*
 **	printing_koch_final
 */
+
 double			diff_2(t_matrix *pt1, t_matrix *pt2);
 t_koch_changing	init_kc(t_polygone *seg, double iteration, double dist, double prev_du);
 void			init_koch_const(t_koch_const *kco, t_polygone *transform, t_win *w, double *data);
-void			print_koch_fractale(t_koch_const *kco, t_koch_changing kch);
+void			print_koch_fractale(t_koch_const *kco, t_koch_changing kch, double i);
 void			print_koch_fractale_anime(t_koch_const *kco, t_koch_changing kch, double anime);
-t_koch_changing	init_kch(t_polygone *seg, double iteration, double dist, double prev_du);
 void			print_fractal(t_env *e);
 
 /*
 **	sliding_button
 */
+
 void			paint_circle(t_matrix *mid, t_matrix *col, double r, t_win *w);
 t_slider		**init_tab_slider(int nb, t_border *inside, t_matrix *color, double margin);
 int				slider_free(t_slider **slide);
@@ -539,6 +603,10 @@ int				mandel_release_key(int key_code, t_win *w);
 int				mandel_motion_cursor(int x, int y, t_win *w);
 int				mandel_press_button(int button, int x, int y, t_win *w);
 int				mandel_release_button(int button, int x, int y, t_win *w);
+int			do_the_translation(t_env *e, double ux, double uy);
+
+int				do_the_zoom_simple(t_env *e, int x, int y, double mult);
+int		do_the_translation(t_env *e, double ux, double uy);
 
 /*
 **	init_mandel
@@ -548,4 +616,21 @@ int				init_mandel_event(t_win *w);
 int				bcl_mandel(void);
 double			**init_data_tab(int size_x, int size_y);
 int				init_mandel(t_env *e, int id);
+
+/*
+** mini_parseur	
+*/
+
+void			print_usage(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME], char *name);
+int				check_one_id(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME], char *name, int *id);
+int				check_id(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME], int ac, char **av, int *id);
+int				check_syntax(int *id);
+int				parse_imput(int ac, char **av, char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]);
+void			print_binary(int nb);
+
+/*
+**	main.c
+*/
+
+void			init_fractol(int id);
 #endif

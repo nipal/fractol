@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/11/24 10:51:31 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/12/09 08:56:44 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,11 @@
 NAME	=	../fractol
 NAME_SAVE = ../fractol_save
 DEPS = ../includes/fractol.h
+
 SRC		= 	main.c \
 			draw_line.c \
 			koch_generalise.c \
+			segment_manipule_basic.c \
 			calcul_madelbrot.c \
 			init_mandel.c \
 			new_calcul_mandel.c \
@@ -28,42 +30,49 @@ SRC		= 	main.c \
 			polygone_new.c \
 			polygone_destroy.c \
 			polygone_transfrom.c \
-			polygone_print.c \
+			creat_insert_polygone.c \
 			polygone_maj.c \
 			modify_model.c \
 			color_transpose.c \
 			new_printing.c \
 			init_win.c \
 			new_hook.c \
+			hook_button_koch.c \
 			param_koch.c \
+			border.c \
+			base_ifs.c \
 			segment_mecanique.c \
+			polygone_manip_node.c \
 			printing_koch_final.c \
+			init_printing_koch.c \
 			sliding_button.c \
+			manage_sliding_button.c \
+			drawing_button.c \
 			zoom_koch.c \
 			mandel_event.c \
+			mandel_zoom.c \
+			actu_polygone.c \
+			mini_parseur.c \
+			anti_leak.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)
 
- CFLAGS = -Wall -Wextra -Werror
- 
- #-g -fsanitize=address 
-
+# CFLAGS =  -Wall -Wextra -Werror
 
 #FLAGS-DEBUG = -g3 -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		gcc -o $(NAME) $(CFLAGS) $(OBJ) -L ../libft/ -lft \
+		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
+		-L  minilibx_macos/ \
 		-lmlx -framework OpenGL -framework AppKit
-#		-L /usr/lib/ -lmlx -lm -lX11 -lXext
-#		 cp -f $(NAME) $(NAME_SAVE) 
 
 
 %.o: %.c $(DEPS)
-	gcc -ofast -o $@ -c $< -I ../includes -I ../c_maths $(CFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths
 	# -I /usr/includes/
 
 clean:
@@ -75,7 +84,12 @@ fclean: clean
 re: fclean all
 
 gdb: fclean
-		gcc -c $(FLAGS-DEBUG) $(SRC) -I ../includes -I ../c_maths# -I /usr/includes/
-		gcc -o $(NAME) $(FLAGS-DEBUG) $(OBJ) -L ../libft/ -lft \
+		$(CC) -c $(FLAGS-DEBUG) $(SRC) -I ../includes -I ../c_maths# -I /usr/includes/
+		$(CC) -o $(NAME) $(FLAGS-DEBUG) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
 		-L /usr/lib/ -lmlx -lm -lX11 -lXext
+
+#		-L /usr/lib/ -lmlx -lm -lX11 -lXext
+#		 cp -f $(NAME) $(NAME_SAVE) 
+
+

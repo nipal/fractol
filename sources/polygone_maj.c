@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/09 02:02:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/18 18:21:27 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/07 01:07:57 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ double	get_min_dist(t_polygone *node)
 				min = dist;
 			node = node->next;
 		}
+		matrix_free(&diff);
 		return (dist);
 	}
 	return (1);
 }
 
-int	nb_iter_koch(t_polygone *base, t_polygone *mult)
+int		nb_iter_koch(t_polygone *base, t_polygone *mult)
 {
 	int		i;
 	double	min_base;
@@ -65,7 +66,6 @@ int	nb_iter_koch(t_polygone *base, t_polygone *mult)
 	}
 	return (i);
 }
-
 
 int		polygone_push_back(t_polygone **begin, t_polygone *node)
 {

@@ -13,7 +13,7 @@
 .PHONY: clean all fclean re gdb
 
 #-g -fsanitize=address 
-export CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address  
+export CFLAGS	=  -g -fsanitize=address  
 export CC	= clang
 
 #-g -fsanitize=address

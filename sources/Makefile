@@ -68,7 +68,9 @@ $(NAME): $(OBJ)
 		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
 		-L  minilibx_macos/ \
-		-lmlx -framework OpenGL -framework AppKit
+		-L /usr/lib/ -lmlx -lm -lX11 -lXext
+
+#		-lmlx -framework OpenGL -framework AppKit
 
 
 %.o: %.c $(DEPS)

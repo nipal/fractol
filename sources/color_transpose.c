@@ -88,6 +88,7 @@ int			tsl_to_rvb_int(double t, double s, double l)
 	color = ((unsigned char)rvb->m[0]);
 	color |= ((unsigned char)rvb->m[1]) << 8;
 	color |= ((unsigned char)rvb->m[2]) << 16;
+	matrix_free(&rvb);
 	return (color);
 }
 

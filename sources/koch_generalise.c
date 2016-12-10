@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 04:10:47 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/05 05:49:34 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 10:23:31 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		init_koch(t_env *e)
 {
+	e->img_low = NULL;
 	e->draw_base = 1;
 	e->r_select = 20;
 	e->nb_sliders = 3;

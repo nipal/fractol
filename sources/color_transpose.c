@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/11 18:19:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/07 05:32:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 09:22:33 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void		tsl_to_rvb_in(double t, double s, double l, t_matrix *rvb)
 	ind[0] = (10 - (int)i) % 3;
 	ind[1] = (((int)i % 2) == 0) ? (ind[0] + 2) % 3 : (ind[0] + 1) % 3;
 	ind[2] = (9 - ind[1] - ind[0]) % 3;
-	ind[0] += (ind[0] < 0) ? 3: 0;
-	ind[1] += (ind[1] < 0) ? 3: 0;
-	ind[2] += (ind[2] < 0) ? 3: 0;
+	ind[0] += (ind[0] < 0) ? 3 : 0;
+	ind[1] += (ind[1] < 0) ? 3 : 0;
+	ind[2] += (ind[2] < 0) ? 3 : 0;
 	rvb->m[ind[1]] = croma + mm[0];
 	rvb->m[ind[0]] = x + mm[0];
 	rvb->m[ind[2]] = x + mm[0];

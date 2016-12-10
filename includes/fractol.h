@@ -12,7 +12,7 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include "anti_leak.h"
+//# include "anti_leak.h"
 
 # define NB_NAME_FRAC 31
 # define NB_NAME_ALT 10
@@ -639,5 +639,5 @@ void			init_fractol(int id);
 */
 int			init_statment(t_env *e);
 void		sliders_set_valu(t_slider *slide, double v1, double v2);
-t_polygone	*init_segment(double valu[4][2], int nb, t_border *boder);
+t_polygone	*init_segment(double valu[4][2], int nb, t_border *boder, double min);
 #endif

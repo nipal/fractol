@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 07:23:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 08:15:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void		init_pos_ecr(t_env *e)
 
 int			main_work(t_env *e)
 {
-static	int	debug = 0;
 	t_polygone		*color;
 
 	color = NULL;
@@ -67,7 +66,5 @@ static	int	debug = 0;
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
 	actu_win_rest(e->param);
-//push_malloc_turn(debug, NB_MALLOC);
-debug++;
 	return (1);
 }

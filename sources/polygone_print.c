@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 22:04:45 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/10/24 01:50:44 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 08:58:06 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 /*
 **	On definie un segement horizontal en bas de la fenetre
-**	On lui aplique la transformation et on l'affiche a l'initialisation du triangle
+**	On lui aplique la transformation et on l'affiche a l'initialisation
+**	du triangle
 */
 
 void	init_trans_control(t_env *e)
 {
-	//	on cree le segment
-	double	pos[3];
-	double	col[3];
+	double		pos[3];
+	double		col[3];
 	t_polygone	*node;
 
 	e->trans_model = NULL;
@@ -39,18 +39,6 @@ void	init_trans_control(t_env *e)
 		return ;
 	push_back(&(e->trans_model), node);
 	iterate_transformation(e->trans_model, e->transform);
-}
-
-void	describe_one_node(t_polygone *seg)
-{
-	dprintf(1, "{\n\tadrr:\t{%ld}\n\tpos:\t[%f,\t%f]\n\tcol:\t[%f,\t%f,\t%f]\n\tlvl:\t%d\n}\n"
-			, (long)seg
-			, seg->pos->m[0]
-			, seg->pos->m[1]
-			, seg->col->m[0]
-			, seg->col->m[1]
-			, seg->col->m[2]
-			, seg->lvl);
 }
 
 void	polygone_describe(t_polygone *node)

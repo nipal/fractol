@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 09:54:54 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 02:09:52 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 09:11:30 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_slider	*init_slider(t_matrix *color, t_border *b)
 		|| ((!color) ? !(color = vect_new_vertfd(50, 100, 70))
 			: !(color = matrix_copy(color))))
 		return (NULL);
-push_addr(11, "", slider);
-push_addr(12, "", slider->border);
 	slider->v1 = 0;
 	slider->v2 = 1;
 	slider->color = color;
@@ -46,7 +44,6 @@ t_slider	**init_tab_slider(int nb, t_border *inside, t_matrix *color
 				&& !(color = vect_new_vertfd(120, 120, 120))))
 		|| !(tabs_slide = malloc(sizeof(t_slider) * (nb + 1))))
 		return (NULL);
-push_addr(13, "", tabs_slide);
 	bslide.x0 = inside->x0 + margin / 2;
 	bslide.x1 = inside->x1 - margin / 2;
 	deltay = abs(inside->y1 - inside->y0) / 3;
@@ -58,8 +55,7 @@ push_addr(13, "", tabs_slide);
 		if (!(tabs_slide[i] = init_slider(color, &bslide)))
 			return (NULL);
 	}
-	(was_null) ? matrix_free(&color) : 0;
-	tabs_slide[i] = NULL;
+	(!(tabs_slide[i] = NULL) && was_null) ? matrix_free(&color) : 0;
 	return (tabs_slide);
 }
 
@@ -97,7 +93,7 @@ int			slider_free(t_slider **slider)
 	return (1);
 }
 
-int	tab_slider_free(t_slider ***tab, int nb)
+int			tab_slider_free(t_slider ***tab, int nb)
 {
 	int	i;
 

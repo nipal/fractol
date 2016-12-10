@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/04 02:31:41 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 01:59:12 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:31:02 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ double				*get_lst_color(int val)
 	if (valu == NULL)
 	{
 		valu = (double*)malloc(sizeof(double) * (val + 2));
-		push_addr(0, "", valu);
 		i = 0;
 		while (i < val + 2)
 		{

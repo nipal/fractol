@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/14 00:36:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 08:26:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:32:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,10 @@ void					draw_simple_polygone(t_win *w, t_polygone *node)
 		if (!get_pos_to_draw(w, node, &pta, &ptb)
 			|| !(mt = init_mat_line(&pta, &ptb, node->col, node->next->col)))
 		{
-push_addr(15 , "", mt);
 			node = node->next;
 			matrix_free(&mt);
 			continue ;
 		}
-
-push_addr(15 , "", mt);
 		draw_line2(w, mt);
 		matrix_free(&mt);
 		node = node->next;

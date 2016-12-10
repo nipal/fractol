@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 01:53:09 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:32:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ double		**init_tab_d(int size_x, int size_y)
 
 	if (!(tab = (double**)malloc(sizeof(double*) * size_y)))
 		return (NULL);
-push_addr(6, "", tab);
 	j = 0;
 	while (j < size_y)
 	{
 		if (!(tab[j] = (double*)malloc(sizeof(double) * size_x)))
 			return (NULL);
-push_addr(7, "", tab[j]);
 		j++;
 	}
 	return (tab);

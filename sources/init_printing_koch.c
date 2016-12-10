@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 09:49:30 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 09:18:46 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,4 @@ void							print_fractal(t_env *e)
 		print_koch_fractale(&kco, init_kch(e->base, 0, 0, 1), 0);
 		actu_win_rest(e->fractal);
 	}
-//	garbage_node(NULL, RESET);
 }

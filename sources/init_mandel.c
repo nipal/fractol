@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 01:09:44 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 01:50:05 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:31:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ double	**init_data_tab(int size_x, int size_y)
 	if (!(tab = (double**)malloc(sizeof(double*) * (size_y)))
 		|| !(data_line = (double*)malloc(sizeof(double) * (size_x * size_y))))
 		return (NULL);
-push_addr(1, "", tab);
-push_addr(2, "", data_line);
 	j = 0;
 	while (j < size_y)
 	{
@@ -65,7 +63,6 @@ int		init_mandel(t_env *e, int id)
 		|| !(e->img_low = (double*)malloc(sizeof(double) * SIZE_X * SIZE_Y))
 		|| !(init_mandel_event(e->fractal)))
 		return (0);
-push_addr(3, "", e->img_low);
 	e->y_maxl = SIZE_Y;
 	e->x_maxl = SIZE_X;
 	max.x = e->x_maxl;

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:13:18 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/04 23:15:29 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 08:11:56 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	button_1_param(t_win *w)
 {
 	w->button1 = 1;
 	w->e->id_scrol = select_button(w, w->e->sliders);
-	dprintf(1, "id_scrol:%d\n", w->e->id_scrol);
 	complet_polygone(w);
 	if (w->e->add_point && w->e->base_add && w->e->trans_add)
 		insert_adding_node(w);

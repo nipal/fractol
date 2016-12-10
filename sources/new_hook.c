@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 10:37:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/07 06:14:05 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:41:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int		mouse_inside(int x, int y, t_win *w)
 
 int		press_key(int key_code, t_win *w)
 {
-	dprintf(1, "max_iter:%d\n", w->e->max_iter);
 	(key_code == 53) ? ft_exit(w->e) : 0;
-	dprintf(1, "key_press ~~>	code:   %d\n", key_code);
 	(key_code == 36) ? ++(w->e->max_iter) : 0;
 	(key_code == 51 && w->e->max_iter > 0) ? --(w->e->max_iter) : 0;
 	(key_code == 49) ? w->e->add_point = 1 : 0;

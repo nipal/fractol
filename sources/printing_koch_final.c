@@ -6,13 +6,13 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 22:25:43 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 10:00:04 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 09:18:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-	t_koch_changing	init_kch(t_polygone *seg, double iteration
+t_koch_changing	init_kch(t_polygone *seg, double iteration
 		, double dist, double prev_du)
 {
 	t_koch_changing	kch;
@@ -24,7 +24,7 @@
 	return (kch);
 }
 
-	int				draw_seg_koch(t_koch_const *kco
+int				draw_seg_koch(t_koch_const *kco
 		, t_koch_changing kch, t_polygone *seg, double i)
 {
 	int				sub;
@@ -51,8 +51,7 @@
 	return (1);
 }
 
-//static	inline	void			draw_all_little(t_koch_const *kco
-	void			draw_all_little(t_koch_const *kco
+void			draw_all_little(t_koch_const *kco
 				, t_koch_changing kch, t_polygone *seg)
 {
 	double	i;
@@ -68,7 +67,7 @@
 	}
 }
 
-void							print_koch_fractale(t_koch_const *kco
+void			print_koch_fractale(t_koch_const *kco
 				, t_koch_changing kch, double i)
 {
 	t_polygone	*cpy;
@@ -87,22 +86,13 @@ void							print_koch_fractale(t_koch_const *kco
 			draw_seg_koch(kco, kch, kch.seg, i);
 		else if (!(cpy = copy_node(kch.seg, kch.seg->lvl))
 			|| !(cpy->next = copy_node(kch.seg->next, kch.seg->next->lvl)))
-		{
-			polygone_destroy(&(cpy));
-//			polygone_destroy(&to_insert);
 			return ;
-		}
 		else if ((to_insert = creat_insert(cpy, kco->trans))
 				&& (insert_portion(&(cpy), to_insert)))
-			print_koch_fractale(kco, init_kch(cpy, kch.iter + 1, kch.dist + ((du * i) / len), du), 0);
+			print_koch_fractale(kco, init_kch(cpy, kch.iter
+						+ 1, kch.dist + ((du * i) / len), du), 0);
 		i++;
-//		garbage_node(cpy, ADD);
-//		garbage_node(cpy->next, ADD);
-//push_addr(16 , "", cpy);
-//		polygone_destroy(&to_insert);
 		polygone_destroy(&(cpy));
 		kch.seg = kch.seg->next;
 	}
-//	polygone_destroy(&to_insert);
-//	polygone_destroy(&(cpy));
 }

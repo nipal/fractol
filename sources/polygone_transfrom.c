@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:35:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 01:55:12 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:27:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_polygone					*adate_to_unite(t_matrix *ux, t_matrix *uy
 		|| !(node->col = matrix_copy(src->col))
 		|| !(pos = matrix_sub(src->pos, org)))
 		return (NULL);
-push_addr(10, "", node);
 	node->lvl = src->lvl;
 	node->pos->m[0] = matrix_dot_product(ux, pos) + org->m[0];
 	node->pos->m[1] = matrix_dot_product(uy, pos) + org->m[1];

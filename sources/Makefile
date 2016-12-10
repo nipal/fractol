@@ -6,7 +6,7 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by jpirsch           #+#    #+#              #
-#    Updated: 2016/12/09 08:56:44 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/12/10 09:15:53 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,6 @@ SRC		= 	main.c \
 			mandel_zoom.c \
 			actu_polygone.c \
 			mini_parseur.c \
-			anti_leak.c \
 			init_param_koch.c \
 			exit.c 
 
@@ -69,13 +68,15 @@ $(NAME): $(OBJ)
 		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
 		-L  minilibx_macos/ \
-		-L /usr/lib/ -lmlx -lm -lX11 -lXext
+		-lmlx -framework OpenGL -framework AppKit  
 
-#		-lmlx -framework OpenGL -framework AppKit
+#		-L /usr/lib/ -lmlx -lm -lX11 -lXext
+
 
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths
+
 	# -I /usr/includes/
 
 clean:
@@ -87,7 +88,7 @@ fclean: clean
 re: fclean all
 
 gdb: fclean
-		$(CC) -c $(FLAGS-DEBUG) $(SRC) -I ../includes -I ../c_maths# -I /usr/includes/
+		$(CC) -c $(FLAGS-DEBUG) $(SRC) -I ../includes -I ../c_maths
 		$(CC) -o $(NAME) $(FLAGS-DEBUG) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
 		-L /usr/lib/ -lmlx -lm -lX11 -lXext

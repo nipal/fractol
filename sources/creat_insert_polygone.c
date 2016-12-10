@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 00:20:14 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/09 09:59:11 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:31:21 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,9 @@ t_polygone					*creat_insert(t_polygone *seg
 			|| !(node = creat_node_fv(seg->lvl + 1, node_pos
 				, matrix_copy(seg->col))))
 			return (NULL);
-//garbage_node(node, ADD);
-	//	push_addr(14, "", node);
 		push_back_opti(&beg_new, node);
 		transform = transform->next;
 	}
-//		matrix_free(&node_pos);
 	push_back_opti(&beg_new, NULL);
 	(matrix_free(&ux)) ? matrix_free(&uy) : matrix_free(&uy);
 	return (beg_new);

@@ -1,4 +1,8 @@
-*.o
+sources/*.o
+c_math/*.o
+libft/*.o
 *.a
-.*.sw*
+.*.swn
+.*.swo
+.*.swp
 

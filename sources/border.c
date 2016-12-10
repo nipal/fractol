@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 04:58:27 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/07 01:04:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 08:51:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void					draw_the_2_border(t_env *e)
 	if (!(color = tsl_to_rvb_new(120, (mouse_in_border(&((e->border_b))
 							, e->param->mouse) ? 0.8 : 0.3), 0.8)))
 		return ;
-	matrix_free(&color);
 	draw_border(e->param, &(e->border_b), color);
+	matrix_free(&color);
 	if (!(color = tsl_to_rvb_new(250, (mouse_in_border((&(e->border_t))
 							, e->param->mouse) ? 0.8 : 0.3), 0.8)))
 		return ;

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 05:01:48 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/05 05:10:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:40:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int						actu_base(t_env *e, t_polygone *src)
 
 int						actu_transform(t_env *e, t_polygone *src)
 {
-printf("transform->%p\n", e->transform);
 	polygone_destroy(&(e->transform));
 	e->transform = transform(src);
 	print_fractal(e);
@@ -57,7 +56,7 @@ void					redefine_base(t_polygone *new_base, t_border *from
 	if (!new_base)
 		return ;
 	polygone_destroy(&(to->e->base));
-//	to->e->base = NULL;
+	to->e->base = NULL;
 	coef_x = (to->size_x) / (from->x1 - from->x0);
 	coef_y = (to->size_y) / (from->y1 - from->y0);
 	while (new_base)

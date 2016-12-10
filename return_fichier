@@ -1,6 +1,0 @@
-sources/actu_polygone.c:20:		e->actif = creat_node_fv(0, w->mouse, vect_new_vertfd(255, 255, 255));
-sources/creat_insert_polygone.c:74:			|| !(node = creat_node_fv(seg->lvl + 1, node_pos
-sources/polygone_new.c:15:t_polygone	*creat_node(int lvl, double *pos, double *color)
-sources/polygone_new.c:41:t_polygone	*creat_node_fv(int lvl, t_matrix *pos, t_matrix *color)
-sources/polygone_new.c:60:	if (!(copy = creat_node(lvl, node->pos->m, node->col->m)))
-sources/segment_manipule_basic.c:81:	if (!(last = creat_node(lvl, pos, col)))

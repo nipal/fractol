@@ -6,14 +6,14 @@
 #    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:28:32 by jpirsch           #+#    #+#              #
-#    Updated: 2016/12/09 09:41:12 by fjanoty          ###   ########.fr        #
+#    Updated: 2016/12/10 07:38:08 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: clean all fclean re gdb
 
 #-g -fsanitize=address 
-export CFLAGS	=  -g3 
+export CFLAGS	= -Wall -Wextra -Werror  -Ofaste
 
 #-fsanitize=address
 export CC	= gcc

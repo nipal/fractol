@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/05 09:59:15 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 09:09:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void					paint_circle(t_matrix *mid, t_matrix *col, double r
 		|| !(pt2 = matrix_init(1, 3)))
 		return ;
 	col = (col) ? col : c2;
-	h[2] = mid->m[0] - r;
-	while (h[2] < mid->m[0] + r)
+	h[2] = mid->m[0] - r + 1;
+	while (++h[2] < mid->m[0] + r)
 	{
 		pt1->m[0] = h[2];
 		pt2->m[0] = h[2];
@@ -39,11 +39,8 @@ void					paint_circle(t_matrix *mid, t_matrix *col, double r
 		mat_line = init_mat_line(pt1, pt2, col, col);
 		draw_line2(w, mat_line);
 		matrix_free(&mat_line);
-		h[2]++;
 	}
-	matrix_free(&pt1);
-	matrix_free(&pt2);
-	matrix_free(&c2);
+	(matrix_free(&pt1) && matrix_free(&pt2)) ? matrix_free(&c2) : 0;
 }
 
 void					vectpx_to_img2(t_win *win, t_matrix *pos_color)
@@ -86,15 +83,14 @@ int						draw_line2(t_win *win, t_matrix *mat_line)
 	}
 	matrix_free(&org);
 	matrix_free(&diff);
-	matrix_free(&org);
 	return (1);
 }
 
 void					draw_line3(t_matline *ml, t_win *w)
 {
 	static	t_matrix	*mat_line = NULL;
-	t_matrix	*diff;
-	double		norme;
+	t_matrix			*diff;
+	double				norme;
 
 	diff = NULL;
 	if (!ml || (!mat_line && !(mat_line = matrix_init(1, 14)))

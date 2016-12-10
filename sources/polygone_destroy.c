@@ -19,7 +19,7 @@ int			polygone_destroy_one(t_polygone **node)
 	matrix_free(&((*node)->pos));
 	matrix_free(&((*node)->col));
 	free(*node);
-//	*node = NULL;
+	*node = NULL;
 	return (1);
 }
 
@@ -27,8 +27,9 @@ int			polygone_destroy(t_polygone **begin)
 {
 	t_polygone	*node;
 	t_polygone	*tmp;
+int	debug = 0;
 
-	if (!begin || *begin)
+	if (!begin || !(*begin))
 		return (1);
 	node = *begin;
 	while (node)

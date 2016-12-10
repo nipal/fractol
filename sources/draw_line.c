@@ -92,15 +92,14 @@ int						draw_line2(t_win *win, t_matrix *mat_line)
 
 void					draw_line3(t_matline *ml, t_win *w)
 {
-	t_matrix	*mat_line;
+	static	t_matrix	*mat_line = NULL;
 	t_matrix	*diff;
 	double		norme;
 
-	mat_line = NULL;
 	diff = NULL;
-	if (!ml || !(mat_line = matrix_init(14, 1))
+	if (!ml || (!mat_line && !(mat_line = matrix_init(1, 14)))
 		|| !ml->pt1 || !ml->pt2 || !ml->c1 || !ml->c2
-		|| ((!(diff = matrix_sub(ml->pt2, ml->pt1)) && matrix_free(&mat_line))))
+		|| ((!(diff = matrix_sub(ml->pt2, ml->pt1)))))
 		return ;
 	diff->m[Z] = 0;
 	norme = MAX(ABS(diff->m[0]), ABS(diff->m[1]));
@@ -114,7 +113,6 @@ void					draw_line3(t_matline *ml, t_win *w)
 	ft_memmove(mat_line->m + 9, diff->m, sizeof(double) * 3);
 	matrix_free(&diff);
 	draw_line2(w, mat_line);
-	matrix_free(&mat_line);
 }
 
 t_matrix				*init_mat_line(t_matrix *pt1, t_matrix *pt2,

@@ -54,6 +54,7 @@ SRC		= 	main.c \
 			actu_polygone.c \
 			mini_parseur.c \
 			anti_leak.c \
+			init_param_koch.c \
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)

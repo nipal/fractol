@@ -74,7 +74,7 @@ t_polygone					*creat_insert(t_polygone *seg
 			|| !(node = creat_node_fv(seg->lvl + 1, node_pos
 				, matrix_copy(seg->col))))
 			return (NULL);
-garbage_node(node, ADD);
+//garbage_node(node, ADD);
 	//	push_addr(14, "", node);
 		push_back_opti(&beg_new, node);
 		transform = transform->next;

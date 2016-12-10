@@ -89,17 +89,17 @@ void							print_koch_fractale(t_koch_const *kco
 			|| !(cpy->next = copy_node(kch.seg->next, kch.seg->next->lvl)))
 		{
 			polygone_destroy(&(cpy));
-			polygone_destroy(&to_insert);
+//			polygone_destroy(&to_insert);
 			return ;
 		}
 		else if ((to_insert = creat_insert(cpy, kco->trans))
 				&& (insert_portion(&(cpy), to_insert)))
 			print_koch_fractale(kco, init_kch(cpy, kch.iter + 1, kch.dist + ((du * i) / len), du), 0);
 		i++;
-		garbage_node(cpy, ADD);
-		garbage_node(cpy->next, ADD);
+//		garbage_node(cpy, ADD);
+//		garbage_node(cpy->next, ADD);
 //push_addr(16 , "", cpy);
-		polygone_destroy(&to_insert);
+//		polygone_destroy(&to_insert);
 		polygone_destroy(&(cpy));
 		kch.seg = kch.seg->next;
 	}

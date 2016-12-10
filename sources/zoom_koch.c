@@ -79,7 +79,8 @@ int					get_pos_to_draw(t_win *w, t_polygone *node, t_matrix *pos_a
 	double	*pta;
 	double	*ptb;
 
-	if (!w || !node || !node->next || !pos_a || !pos_b)
+	if (!w || !node || !node->next || !pos_a || !pos_b
+		|| !node->pos || !node->next->pos)
 		return (0);
 	pta = node->pos->m;
 	ptb = node->next->pos->m;

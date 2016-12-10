@@ -633,4 +633,11 @@ void			print_binary(int nb);
 */
 
 void			init_fractol(int id);
+
+/*
+**	init_param_koch
+*/
+int			init_statment(t_env *e);
+void		sliders_set_valu(t_slider *slide, double v1, double v2);
+t_polygone	*init_segment(double valu[4][2], int nb, t_border *boder);
 #endif

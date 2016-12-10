@@ -50,5 +50,5 @@ void							print_fractal(t_env *e)
 		print_koch_fractale(&kco, init_kch(e->base, 0, 0, 1), 0);
 		actu_win_rest(e->fractal);
 	}
-	garbage_node(NULL, RESET);
+//	garbage_node(NULL, RESET);
 }

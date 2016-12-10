@@ -55,6 +55,7 @@ void		env_end(t_env *e)
 	mlx_loop_hook(e->mlx, main_work, e);
 	init_koch(e);
 	init_the_sliders(e->param, &(e->border_b));
+	init_statment(e);
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 04:58:27 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 08:51:23 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 11:39:45 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ void					draw_border(t_win *w, t_border *border, t_matrix *color)
 
 int						mouse_in_border(t_border *bor, t_matrix *mouse)
 {
-	if (!bor || !mouse || mouse->m[0] < bor->x0 || mouse->m[0] > bor->x1
-			|| mouse->m[1] < bor->y0 || mouse->m[1] > bor->y1)
+	if (!bor || !mouse || !mouse->m
+		|| mouse->m[0] < bor->x0
+		|| mouse->m[0] > bor->x1
+		|| mouse->m[1] < bor->y0
+		|| mouse->m[1] > bor->y1)
 		return (0);
 	return (1);
 }

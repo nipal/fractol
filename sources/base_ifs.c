@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 05:01:48 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 07:40:24 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 11:55:30 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 int						reset_base(t_env *e)
 {
+	if (e->trans_add != 0 && e->base_add != 0)
+		polygone_destroy(&(e->trans_model));
+	if (e->base_add != 0 && e->trans_add != 0)
+		polygone_destroy(&(e->transform));
 	e->base_add = 0;
-	polygone_destroy(&(e->base_model));
-	polygone_destroy(&(e->base));
 	e->base_model = e->actif;
 	return (1);
 }
 
 int						reset_transform(t_env *e)
 {
+	if (e->trans_add != 0 && e->base_add != 0)
+		polygone_destroy(&(e->trans_model));
+	if (e->base_add != 0 && e->trans_add != 0)
+		polygone_destroy(&(e->transform));
 	e->trans_add = 0;
-	polygone_destroy(&(e->trans_model));
-	polygone_destroy(&(e->transform));
 	e->trans_model = e->actif;
 	return (1);
 }

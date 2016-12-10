@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 10:37:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 07:41:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 11:36:16 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int		motion_cursor(int x, int y, t_win *w)
 	if (!ft_strcmp(w->name, "param"))
 		actu_polygone_io(w->e, w);
 	actu_mouse_pos(w, x, y);
-	if (w->button1 && mouse_in_border(&(w->e->border_b), w->mouse)
-			&& w->e->base_add)
+	if (w->e->base_add != 0 && w->button1 && mouse_in_border(&(w->e->border_b)
+				, w->mouse))
 		on = move_the_node(w->e, w->e->base_model)
 			+ actu_base(w->e, w->e->base_model);
-	if (w->button1 && mouse_in_border(&(w->e->border_t), w->mouse)
-			&& w->e->trans_add)
+	if (w->e->trans_add != 0 && w->button1 && mouse_in_border(&(w->e->border_t)
+				, w->mouse))
 		on = move_the_node(w->e, w->e->trans_model)
 			+ actu_transform(w->e, w->e->trans_model);
 	if (w->e->id_scrol >= 0 && w->e->max_iter >= -1)

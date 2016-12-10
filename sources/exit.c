@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 10:42:57 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 11:58:05 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ int		free_slider(t_slider ***tabs)
 
 int		ft_exit(t_env *e)
 {
-	polygone_destroy(&(e->base_model));
-	polygone_destroy(&(e->trans_model));
 	polygone_destroy(&(e->base));
-	polygone_destroy(&(e->transform));
 	polygone_destroy(&(e->transform));
 	polygone_destroy(&(e->beg_actif));
 	polygone_destroy(&(e->actif));

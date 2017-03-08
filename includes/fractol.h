@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/29 02:21:11 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/26 19:51:08 by fjanoty          ###   ########.fr       */
+/*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
+/*   Updated: 2016/12/10 10:54:42 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 
 # define SIZE_X 500
 # define SIZE_Y 500
+
+# define SIZE_PARAM_X 600
+# define SIZE_PARAM_Y 600
+
+# define SIZE_KOCH_X 1200
+# define SIZE_KOCH_Y 1200
 
 # define SIZE_Y2 2*SIZE_Y
 # define SIZE_X2 2*SIZE_X
@@ -42,9 +48,16 @@
 
 # define MAX_DIST_ADD 50
 
-#include <stdio.h>
+# include "key.h"
 
-typedef	struct	s_polygone t_polygone;
+# include <stdio.h>
+
+# define MOUSE_IN mouse_in_border
+
+# define X 0
+# define Y 1
+
+typedef	struct s_polygone	t_polygone;
 
 struct			s_polygone
 {
@@ -81,7 +94,7 @@ typedef	union	u_pix
 	char		comp[4];
 }				t_pix;
 
-typedef	struct	s_env	t_env;
+typedef	struct s_env	t_env;
 
 typedef	struct	s_win
 {
@@ -127,25 +140,26 @@ typedef	struct	s_coef_const
 
 typedef	struct	s_koch_const
 {
-		t_polygone	*trans;
-		t_win		*w;
-		double		max_iter;
-		double		len_seg;
-		double		len_seg_beg;
-		double		min_print;
+	t_polygone	*trans;
+	t_win		*w;
+	double		max_iter;
+	double		len_seg;
+	double		len_seg_beg;
+	double		min_print;
 }				t_koch_const;
 
 typedef	struct	s_koch_changing
 {
-		t_polygone	*seg;
-		double		iter;
-		double		dist;
-		double		prev_du;
+	t_polygone	*seg;
+	double		iter;
+	double		dist;
+	double		prev_du;
 }				t_koch_changing;
+
 /*
 **	key_release 	(key_code == release) ?  (1, 2, 0) -> 0 : 1 -> 2
 **	key_press		0 -> 1
-**	
+**
 **	0 -> inactif
 **	1 -> viens d'etre activer
 **	2 -> n'est pas revenu
@@ -230,7 +244,6 @@ struct			s_env
 	int			zoom_x;
 	int			zoom_y;
 	int			zoom_finished;
-
 	int			iter_koch;
 	t_polygone	*base_model;
 	t_polygone	*trans_model;
@@ -245,25 +258,19 @@ struct			s_env
 	t_matrix	*mouse;
 	double		r_select;
 	double		min_val_trans;
-
 	int			left;
 	int			right;
-
 	t_win		*param;
 	t_win		*fractal;
 	t_border	border_b;
 	t_border	border_t;
-
 	int			base_add;
 	int			trans_add;
-
-	//	paire/impaire <==> une scrole_bar
 	int			nb_sliders;
 	int			id_scrol;
 	t_slider	**sliders;
-	t_range_tsl	range_color;	
+	t_range_tsl	range_color;
 	int			add_point;
-
 	double		tr_base[3];
 	t_border	base_cadre;
 	int			move_set;
@@ -271,6 +278,16 @@ struct			s_env
 	double		ctx;
 	double		cty;
 };
+
+typedef	struct	s_mandel_pt
+{
+	double		min;
+	double		max;
+	double		v0;
+	double		v1;
+	double		v2;
+	double		v3;
+}				t_mandel_pt;
 
 typedef	struct	s_mandel_color
 {
@@ -281,49 +298,96 @@ typedef	struct	s_mandel_color
 	int			iter;
 }				t_mandel_color;
 
-void			print_map(double **img, int size_x, int size_y);
+typedef	struct	s_pt2d
+{
+	double		x;
+	double		y;
+}				t_pt2d;
+
+typedef	struct	s_pt2i
+{
+	int			x;
+	int			y;
+}				t_pt2i;
+
+typedef	struct	s_calc_gr
+{
+	int			i;
+	int			j;
+	int			id;
+	int			iter;
+}				t_calc_gr;
+
+typedef	struct	s_cop_julia
+{
+	double		*beg_x;
+	double		*beg_y;
+	double		ctx;
+	double		cty;
+}				t_cop_julia;
+
+typedef	struct	s_d3
+{
+	double	v0;
+	double	v1;
+	double	v2;
+}				t_d3;
+
+typedef	struct	s_dp
+{
+	t_matrix	*pt1;
+	t_matrix	*pt2;
+	double		r;
+	t_win		*w;
+}				t_dp;
+
+typedef	struct	s_lim
+{
+	int			v;
+	int			h;
+}				t_lim;
+
 /*
 ** hook
 */
+
 int				key_press(int keycode, t_env *e);
 int				key_release(int keycode, t_env *e);
 int				mouse_motion(int x, int y, t_env *e);
-int 			mouse_press(int button, int x, int y, t_env *e);
-int 			mouse_release(int button, int x, int y, t_env *e);
-void			set_key(int key_code, t_env *e, const int on, const int off);
+int				mouse_press(int button, int x, int y, t_env *e);
+int				mouse_release(int button, int x, int y, t_env *e);
 void			size_window_copy(double pos_low[4], double pos_height[4]);
 
 /*
 **	new_hook
 */
+
 int				mouse_inside(int x, int y, t_win *w);
 int				press_key(int key_code, t_win *w);
 int				release_key(int key_code, t_win *w);
-int 			motion_cursor(int x, int y, t_win *w);
-int 			press_button(int button, int x, int y, t_win *w);
-int 			release_button(int button, int x, int y, t_win *w);
+int				motion_cursor(int x, int y, t_win *w);
+int				press_button(int button, int x, int y, t_win *w);
+int				release_button(int button, int x, int y, t_win *w);
 void			actu_mouse_pos(t_win *w, int x, int y);
 
 /*
 ** mlx_env
 */
+
 void			vectpx_to_img(t_env *e, t_matrix *pos_color);
 void			env(t_env *e);
 void			init_pos_ecr(t_env *e);
 void			init_win_event(t_win *w, t_env *e);
 
-
 /*
 **	exit.c
 */
+
 void			free_map(t_matrix	****map, t_env *e);
 int				free_int_map(t_env *e);
 int				free_cam(t_env *e);
 int				ft_exit(t_env *e);
-int				main_work(void);
-
-t_env			*get_env(t_env *e);
-int				get_iter(int valu);
+int				main_work(t_env *e);
 
 /*
 **	new_calcul_mandel
@@ -334,20 +398,18 @@ int				get_iter(int valu);
 */
 
 void			do_zoom_simple(t_env *e);
-int				resize_window(double pos[4], double mult, double x, double y);
+int				resize_window(double pos[4], double mult, t_pt2d siz, t_env *e);
 void			set_color_fractal(t_win *w);
 void			calc_average(double pos[8], double max[4], t_env *e);
 double			get_iter_average(double mult[2], double **val);
-//int				get_gray_color(double valu, double max_iter);
-void			calcul_grid(double *img, double pos[4], double max_x, double max_y);
-//int				calcul_one_point(double ct[2], int iter);
-void			calculate_average(double **img_low, double **img_height, double pos_l[4], double pos_h[4]);
+void			calcul_grid(double *img, double pos[4], t_pt2d max, t_env *e);
+void			calculate_average(double **img_low, double **img_height
+				, double pos_l[4], double pos_h[4]);
 
 /*
 **	drawline
 */
-void			trace_line(double *pt1, double *pt2, double *c1, double *c2);
-int				draw_line(t_env *e, t_matrix *mat_line);
+
 t_matrix		*init_mat_line(t_matrix *pt1, t_matrix *pt2,
 				t_matrix *c1, t_matrix *c2);
 void			trace_seg_line(t_env *e, t_polygone *node);
@@ -355,6 +417,7 @@ void			trace_seg_line(t_env *e, t_polygone *node);
 /*
 **	param_koch.c
 */
+
 void			draw_the_2_border(t_env *e);
 void			init_koch_param_border(t_env *e, t_win *win_param);
 void			draw_border(t_win *w, t_border *border, t_matrix *color);
@@ -366,7 +429,8 @@ int				check_border_io(t_env *e, t_win *w, t_border *b);
 void			actu_polygone_io(t_env *e, t_win *w);
 void			complet_polygone(t_win *w);
 void			redefine_base(t_polygone *new_base, t_border *from, t_win *to);
-t_polygone		*scale_segment(t_polygone *src, t_border *from, t_border *to, double *add);
+t_polygone		*scale_segment(t_polygone *src, t_border *from, t_border *to
+				, double *add);
 int				actu_base(t_env *e, t_polygone *src);
 int				actu_transform(t_env *e, t_polygone *src);
 void			print_circle2(t_matrix *mid, t_matrix *col, double r, t_win *w);
@@ -388,13 +452,13 @@ int				init_win_param(t_env *e, int size_x, int size_y, char *name);
 /*
 **	init_win
 */
-void	describe_window(t_win *w);
-t_win	*window_init(t_env *e, int size_x, int size_y, char *name);
-int		window_destroy(t_win **window);
+
+void			describe_window(t_win *w);
+t_win			*window_init(t_env *e, int size_x, int size_y, char *name);
+int				window_destroy(t_win **window);
 
 void			end_transform(t_env *e);
 void			end_base(t_env *e);
-void			zero_double(double *tab1, double *tab2, int size);
 
 /*
 **	poygone_new
@@ -407,27 +471,24 @@ t_polygone		*copy_node(t_polygone *node, int lvl);
 /*
 **	polygone_destroy
 */
+
 int				polygone_destroy(t_polygone **begin);
 int				polygone_destroy_one(t_polygone **node);
 
 /*
 **	polygone_transform
 */
-void		iterate_transformation(t_polygone *polyg, t_polygone *transpose);
 
+void			iterate_transformation(t_polygone *polyg, t_polygone *transpos);
 double			dist_to_end(t_polygone *seg);
-void			init_dtab(double *tab, double valu, int size);
-t_polygone		*adate_to_unite(t_matrix *ux, t_matrix *uy, t_matrix *org, t_polygone *src);
+t_polygone		*adate_to_unite(t_matrix *ux, t_matrix *uy, t_matrix *org
+				, t_polygone *src);
 t_polygone		*transform(t_polygone *seg_beg);
-t_matrix		*position_transpose(t_matrix *org, t_matrix *ux, t_matrix *uy, t_matrix *dir);
 t_polygone		*creat_insert(t_polygone *seg, t_polygone *transforme);
-t_polygone		*creat_insert_scale(t_polygone *seg, t_polygone *transforme, double dx, double dy);
-
 
 void			init_trans_control(t_env *e);
-void			describe_one_node(t_polygone *seg);
-void			polygone_describe(t_polygone *node);
-void			calcul_and_print(t_polygone *seg, t_polygone *mult, int iter, t_env *e);
+void			calcul_and_print(t_polygone *seg, t_polygone *mult, int iter
+				, t_env *e);
 
 /*
 **	polygone_maj
@@ -441,10 +502,9 @@ int				polygone_forget_last(t_polygone **begin);
 /*
 **	modify_model
 */
-void			print_circle_color(int cx, int cy, double r, t_matrix *col);
-void			print_circle(int cx, int cy, double r);
-t_polygone		*get_closer_node(t_polygone *beg, t_matrix *mouse, double min_dist);
-void			print_mouse_close(t_env *e, t_polygone *poly);
+
+t_polygone		*get_closer_node(t_polygone *beg, t_matrix *mouse
+				, double min_dist);
 void			translate_node(t_env *e, t_polygone *poly);
 
 /*
@@ -461,21 +521,20 @@ int				tsl_to_rvb_int(double t, double s, double l);
 /*
 **	new_printing
 */
+
 void			actu_win_rest(t_win *w);
 void			actu_win(t_win *w);
-t_matrix		*define_node_color(double dist_frac, double iter, double prog_iter);
+t_matrix		*define_node_color(double dist_frac, double iter
+				, double prog_iter);
 void			draw_verticies(t_win *w, t_polygone *seg);
 void			draw_vertice(t_win *w, t_polygone *seg);
 void			translate_node2(t_env *e, t_polygone *poly);
-void			print_polygone2(t_coef_const *cc, t_coef_draw *cd, double dist, t_polygone *seg);
-void			trace_seg_line2(t_win *w, t_polygone *node);
-void			trace_line2(double *pt1, double *pt2, double *c1, double *c2);
 int				draw_line2(t_win *win, t_matrix *mat_line);
 void			draw_line3(t_matline *ml, t_win *w);
 void			vectpx_to_img2(t_win *win, t_matrix *pos_color);
 void			draw_simple_polygone(t_win *w, t_polygone *node);
-int				init_coef_const(t_coef_const *cc, t_polygone *mult, double max_iter, t_win *w);
-void			draw2_koch_general(t_polygone *seg, t_coef_const *cc, double dist, double iter);
+int				init_coef_const(t_coef_const *cc, t_polygone *mult
+				, double max_iter, t_win *w);
 double			get_polygone_len(t_polygone *seg);
 
 void			draw_vertice1(t_env *e, t_polygone *seg);
@@ -484,12 +543,16 @@ void			draw_verticies1(t_env *e, t_polygone *seg);
 /*
 **	segment_mecanique
 */
-void			set_2d_landmark_incpy(t_matrix *diff, t_matrix *dx, t_matrix *dy, double *dist);
-double			set_dist_sepc(double *data, t_matrix *dx, t_matrix *dy, t_polygone *node);
+
+void			set_2d_landmark_incpy(t_matrix *diff, t_matrix *dx, t_matrix *dy
+				, double *dist);
+double			set_dist_sepc(double *data, t_matrix *dx, t_matrix *dy
+				, t_polygone *node);
 t_polygone		*get_cluster_seg(t_polygone *begin, double x, double y);
 double			min_fabs(double	a, double b);
 double			max_fabs(double	a, double b);
-double			set_dist_sepc(double *data, t_matrix *dx, t_matrix *dy, t_polygone *node);
+double			set_dist_sepc(double *data, t_matrix *dx, t_matrix *dy
+				, t_polygone *node);
 t_polygone		*get_cluster_seg(t_polygone *node, double x, double y);
 void			set_in_grey(t_polygone *node, double value);
 void			draw_prewiew(t_win *w);
@@ -500,19 +563,25 @@ int				remove_one_node(t_env *e);
 /*
 **	printing_koch_final
 */
+
 double			diff_2(t_matrix *pt1, t_matrix *pt2);
-t_koch_changing	init_kc(t_polygone *seg, double iteration, double dist, double prev_du);
-void			init_koch_const(t_koch_const *kco, t_polygone *transform, t_win *w, double *data);
-void			print_koch_fractale(t_koch_const *kco, t_koch_changing kch);
-void			print_koch_fractale_anime(t_koch_const *kco, t_koch_changing kch, double anime);
-t_koch_changing	init_kch(t_polygone *seg, double iteration, double dist, double prev_du);
+t_koch_changing	init_kc(t_polygone *seg, double iteration, double dist
+				, double prev_du);
+void			init_koch_const(t_koch_const *kco, t_polygone *transform
+				, t_win *w, double *data);
+void			print_koch_fractale(t_koch_const *kco, t_koch_changing kch
+				, double i);
+void			print_koch_fractale_anime(t_koch_const *kco, t_koch_changing kch
+				, double anime);
 void			print_fractal(t_env *e);
 
 /*
 **	sliding_button
 */
+
 void			paint_circle(t_matrix *mid, t_matrix *col, double r, t_win *w);
-t_slider		**init_tab_slider(int nb, t_border *inside, t_matrix *color, double margin);
+t_slider		**init_tab_slider(int nb, t_border *inside, t_matrix *color
+				, double margin);
 int				slider_free(t_slider **slide);
 void			draw_slider(t_win *w, t_slider *s);
 void			draw_the_sliders(t_win *w, t_slider **sliders);
@@ -527,7 +596,8 @@ int				init_the_sliders(t_win *w, t_border *the_other);
 **	zoom_koch.c
 */
 
-int				get_pos_to_draw(t_win *w, t_polygone *node, t_matrix *pos_a, t_matrix *pos_b);
+int				get_pos_to_draw(t_win *w, t_polygone *node, t_matrix *pos_a
+				, t_matrix *pos_b);
 void			zoom_border(t_border *b, double x, double y, double scale);
 
 /*
@@ -539,6 +609,10 @@ int				mandel_release_key(int key_code, t_win *w);
 int				mandel_motion_cursor(int x, int y, t_win *w);
 int				mandel_press_button(int button, int x, int y, t_win *w);
 int				mandel_release_button(int button, int x, int y, t_win *w);
+int				do_the_translation(t_env *e, double ux, double uy);
+
+int				do_the_zoom_simple(t_env *e, int x, int y, double mult);
+int				do_the_translation(t_env *e, double ux, double uy);
 
 /*
 **	init_mandel
@@ -548,4 +622,33 @@ int				init_mandel_event(t_win *w);
 int				bcl_mandel(void);
 double			**init_data_tab(int size_x, int size_y);
 int				init_mandel(t_env *e, int id);
+
+/*
+** mini_parseur
+*/
+
+void			print_usage(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
+				, char *name);
+int				check_one_id(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
+				, char *name, int *id);
+int				check_id(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
+				, int ac, char **av, int *id);
+int				check_syntax(int *id);
+int				parse_imput(int ac, char **av
+				, char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]);
+void			print_binary(int nb);
+
+/*
+**	main.c
+*/
+
+void			init_fractol(int id);
+
+/*
+**	init_param_koch
+*/
+int				init_statment(t_env *e);
+void			sliders_set_valu(t_slider *slide, double v1, double v2);
+t_polygone		*init_segment(double valu[4][2], int nb, t_border *boder
+				, double min);
 #endif

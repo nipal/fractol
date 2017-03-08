@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/25 03:20:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 07:32:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,9 @@
 ** 	on a deja le max x et y il maque le max et le min en z
 */
 
-//int		mouse_motion(int x, int y, t_env *e)
-int			**init_tab(int size_x, int size_y)
+double		**init_tab_d(int size_x, int size_y)
 {
-	int	j;
-	int	**tab;
-
-	if (!(tab = (int**)malloc(sizeof(int*) * size_y)))
-		return (NULL);
-	j = 0;
-	while (j < size_y)
-	{
-		if (!(tab[j] = (int*)malloc(sizeof(int) * size_x)))
-			return (NULL);
-		j++;
-	}
-	return (tab);
-}
-
-double			**init_tab_d(int size_x, int size_y)
-{
-	int	j;
+	int		j;
 	double	**tab;
 
 	if (!(tab = (double**)malloc(sizeof(double*) * size_y)))
@@ -55,7 +37,6 @@ double			**init_tab_d(int size_x, int size_y)
 	return (tab);
 }
 
-
 void		env_end(t_env *e)
 {
 	e->y_maxl = SIZE_Y;
@@ -69,53 +50,18 @@ void		env_end(t_env *e)
 	e->zoom_finished = 1;
 	e->base_add = 0;
 	e->trans_add = 0;
-	
-//	if (!(e->img_low = init_tab_d(e->x_maxl, e->y_maxl))
-//		|| !(e->img_height = init_tab_d(e->x_maxh + 2,  e->y_maxh + 2)))
-//		return ;
-//	mlx_hook(e->win, KEY_PRESS, (1 << 24) - 1, &key_press , e);
-//	mlx_hook(e->win, KEY_RELEASE, (1 << 24) - 1, &key_release, e);
-//	mlx_hook(e->win, BUTTON_PRESS, (1 << 24) - 1, &mouse_press, e);
-//	mlx_hook(e->win, BUTTON_RELEASE, (1 << 24) - 1, &mouse_release, e);
-//	mlx_hook(e->win, MOTION_NOTIFY, (1 << 24) - 1, &mouse_motion, e);
-/*
-	init_pos_ecr(e);
-	calcul_grid(e->img_height, e->pos_height, e->x_maxh + 2, e->y_maxh + 2);
-	calculate_average(e->img_low, e->img_height, e->pos_low, e->pos_height);
-//	calcul_grid(e->img_low, e->pos_low, e->x_maxl, e->y_maxl);
-//	print_map(e->img_height, e->x_maxh, e->y_maxh);
-	set_color_fractal(e);
-	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-*/
 	mlx_loop_hook(e->mlx, main_work, e);
 	init_koch(e);
 	init_the_sliders(e->param, &(e->border_b));
+	init_statment(e);
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 }
 
-t_env	*get_env(t_env *e)
-{
-	static	t_env	*env = NULL;
-
-	if (e)
-		env = e;
-	return (env);
-}
-
-int		get_iter(int valu)
-{
-	static	int	iter = 0;
-
-	if (valu > 0)
-		iter = valu;
-	return (iter);
-}
-
-void	init_win_event(t_win *w, t_env *e)
+void		init_win_event(t_win *w, t_env *e)
 {
 	(void)e;
-	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, press_key , w);
+	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, press_key, w);
 	mlx_hook(w->win, KEY_RELEASE, (1 << 24) - 1, release_key, w);
 	mlx_hook(w->win, BUTTON_PRESS, (1 << 24) - 1, press_button, w);
 	mlx_hook(w->win, BUTTON_RELEASE, (1 << 24) - 1, release_button, w);
@@ -136,8 +82,8 @@ void		env(t_env *e)
 {
 	if (!e || !(e->mlx = mlx_init()))
 		return ;
-	if (!(e->fractal = window_init(e, SIZE_X, SIZE_Y, "fractal"))
-		|| !(e->param = window_init(e, 700, 700, "param")))
+	if (!(e->fractal = window_init(e, SIZE_KOCH_X, SIZE_KOCH_Y, "fractal"))
+		|| !(e->param = window_init(e, SIZE_PARAM_X, SIZE_PARAM_Y, "param")))
 		return ;
 	init_win_event(e->fractal, e);
 	init_win_event(e->param, e);

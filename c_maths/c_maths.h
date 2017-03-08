@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 14:35:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/20 04:37:18 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/04 22:54:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_matrix		*vect_new_horzi(int *tab, int size);
 
 void			matrix_display(t_matrix *a);
 t_matrix		*matrix_init(int x, int y);
+void			matrix_asembly(t_matrix *mat, int x, int y, double *data);
 t_matrix		*vect_new_horzi(int *tab, int size);
 t_matrix		*vect_new_verti(int *tab, int size);
 t_matrix		*vect_new_horz(double *tab, int size);

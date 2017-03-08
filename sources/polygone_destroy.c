@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:29:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/11/26 17:34:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 11:42:56 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int			polygone_destroy(t_polygone **begin)
 	t_polygone	*node;
 	t_polygone	*tmp;
 
-	if (!begin || *begin)
-		return (0);
+	if (!begin || !(*begin))
+		return (1);
 	node = *begin;
 	while (node)
 	{
@@ -41,4 +41,3 @@ int			polygone_destroy(t_polygone **begin)
 	*begin = NULL;
 	return (1);
 }
-

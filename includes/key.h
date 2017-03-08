@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   key.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/09/13 19:32:46 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/05 06:27:38 by fjanoty          ###   ########.fr       */
+/*   Created: 2016/11/30 03:59:08 by fjanoty           #+#    #+#             */
+/*   Updated: 2016/11/30 04:05:03 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef KEY_H
+# define KEY_H
 
-int		ft_putstr(char *str)
-{
-	size_t i;
+# define KEY_RIGHT	123
+# define KEY_ESC	53
 
-	i = 0;
-	while (str[i])
-		i++;
-	write(1, str, i);
-	return ((int)i);
-}
+#endif

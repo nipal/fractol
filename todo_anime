@@ -6,7 +6,7 @@
 #    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/09 00:29:08 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/09 01:12:15 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/12 23:16:31 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,5 +23,30 @@ revoir un peu l'archuthecture
 il faut pouvoir definir des animation fix au debut puis parametreble
 cree un module d'animation ==> On pourrai attacher des mouvement a des point
 
+----------------------
+--- Major objectif ---
+----------------------
+
+- animation des fractal 				==>	poarametrage des animation + auto reguegulation
+- opti calcul (opencl + multi thread)	==> plus de profondeur iteration + animation fludide
+- managment reseaux des ecran 			==>	image dispo partout viging++
 
 
+----------------------
+---	liste feasture ---
+----------------------
+
+(A)	- Les anime doive etre pour la transformation ou la base
+(B)	- il faut une interface de parametreage des animation
+(C)	- integration opencl
+(D)	- avoir une chiffrage logiaue des performace
+
+---------------------------
+---	Description festure ---
+---------------------------
+
+(A)- avoir une chiffrage logiaue des performace
+	- cout operation actuel
+	- cout operation futre
+
+	==> pour pouvoir voir un truc aleatoir qui ne va pas planter tout seul

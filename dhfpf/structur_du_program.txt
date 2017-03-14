@@ -1,0 +1,58 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    structur_du_program.txt                            :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/03/14 20:03:37 by fjanoty           #+#    #+#              #
+#    Updated: 2017/03/14 20:15:45 by fjanoty          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+On a donc une partie 
+
+Il y a deux fenetre (donc une gestion un peu dynamique des fenetre)
+- fenetre rendu
+- fenetre parametrage
+
+tout se passe avec des pliste chainner
+
+
+INITIALISATION:
+
+BOUCLE PRINCIPALE:
+
+gestion evenementiel
+gestion graphique
+
+==> On pourrais plus tard etablir un genre de systeme de pipe d'execution graphique
+	pour simplifier un peu les bail
+
+
+FIN DU PROGRAMME:
+
+
+ 
+
+======================
+
+en vraque:
+
+-libft
+-lib_math (vecteur + matrice)
+-
+
+
+-> future (lib onpencl)
+-> future (lib reseau)
+
+--------
+
+gestion des polygone:
+-creation
+-duplication
+-insertion
+... (a completter)
+
+et puis le reste

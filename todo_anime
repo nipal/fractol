@@ -6,7 +6,7 @@
 #    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/09 00:29:08 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/12 23:16:31 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/14 19:57:08 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,3 +50,4 @@ cree un module d'animation ==> On pourrai attacher des mouvement a des point
 	- cout operation futre
 
 	==> pour pouvoir voir un truc aleatoir qui ne va pas planter tout seul
+

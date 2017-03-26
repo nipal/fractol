@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
+#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/11/10 15:15:19 by fjanoty          ###   ########.fr        #
+#    Created: 2014/09/13 19:48:58 by fjanoty           #+#    #+#              #
+#    Updated: 2016/12/10 12:02:09 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ $(NAME): $(OBJ)
 
 #%.o: %.c
 $(OBJ):
-	    gcc $(CFLAGS) -I ../includes/ -c $(SRC)
+	    $(CC) $(CFLAGS) -I ../includes/ -c $(SRC)
 
 clean:
 	rm -f $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/05 12:48:14 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/03/09 22:24:58 by fjanoty          ###   ########.fr       */
+/*   Updated: 2016/12/10 11:44:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ int				matrix_free(t_matrix **mat)
 			free((*mat)->m);
 			(*mat)->m = NULL;
 		}
-		free(*mat);
-		*mat = NULL;
+		if (*mat)
+		{
+			free(*mat);
+			*mat = NULL;
+		}
 	}
 	return (1);
 }

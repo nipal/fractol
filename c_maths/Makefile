@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jpirsch <jpirsch@student.42.fr>            +#+  +:+       +#+         #
+#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/09/13 19:48:58 by jpirsch           #+#    #+#              #
-#    Updated: 2016/11/22 15:50:42 by fjanoty          ###   ########.fr        #
+#    Created: 2014/09/13 19:48:58 by fjanoty           #+#    #+#              #
+#    Updated: 2016/12/10 12:01:35 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 %.o:%.c
-	gcc -Ofast  -c $(SRC) $(CFLAGS) -I ./
+	$(CC)  $(CFLAGS) -c $(SRC) -I ./
 #	gcc -Ofast $(FLAGS) -I ../includes/ -c $(SRC)
 
 clean:

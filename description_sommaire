@@ -1,0 +1,89 @@
+
+
+Alors pour l'instant il y a deux phase de rendue. Une par fenetre
+
+la on va un peu tester ce qu'il faut opti en prioriter. 
+	- dessin des ligne
+		opencl <--  OU -->  fonction pas a la norme
+	- calcule des point
+		
+(choix)==>adaptation zone memoire et retourn d'un super buffer de pt
+
+----------------------
+
+
+Ce qu'il faut faire pour l'opti:
+
+TEST:::
+
+	==>	Il faudrait aussi faire des test sur le genre de buffer opencl que l'on peu reserver
+		genre il y a 512 Mo mais evidement mon programme ne peu pas tout reclamer...
+		On peu faire un test avec plein de petit buffer et des gros et plein de truc et voila
+
+
+
+init::: il faudrait un peu remasteriser dans une seul et grosse fonction a spliter plus tard
+		pour toute l'initialisation des kernel et de tout ca avec le branching des argument et la liberation de la memoir
+
+
+OPENCL::
+
+ Calcul des points:
+	On va geer en OpenCL le calcul des point, Il faudra faire attention a la place dans le memoire,
+	donc on pourra faire le calcule des point en plusieur passe. Par exemple on peut prendre les segment du 
+	polygone model un par un. Comme ca pour la transformation de l'arbre n-aire en tableau ca serra plus simple.
+	Mais en plus il faudra limiter la profondeur en fonction du nombre de segment par transformation pour etre sur de ne 
+	pas faire peter la memoir.
+
+			==>> erata: la verification de: Est-ce que la carte suportera la charge de memoire se ferra sur le CPU
+
+ Tracer des ligne:
+	On en peut pas trop se permetre de mfaire circuler un buffer de point a retraiter derrier par le cpu
+	... A moins que ca permette de faire bosser les deux en meme temps... A determiner...
+
+
+OPTI CHEAP DU PAS LE TEMPS::
+
+	==> multi thread processeur sur les segment de la base.
+		On peut aussi faire un genre de partage sur le premiere etage de la recurtion.
+		Comme ca on aurra un peu dans tout les cas la garenti que tout les thread serron bien utiliser.
+
+
+
+========================================
+
+
+Kernel de calcul du buffer de point.
+
+De Base
+
+ENTRE:
+	- un segment de 2 point (coordoner reel sur l'image) 	| juste 2 point pck on les ferra tous un par un pour etre moins limiter par les buffer de 512Mo de vram ET pour simplifier l'ordination dans le tableau
+	- un segment de n point (coordoner normaliser 0-1)
+	- un buffer image
+	- 
+
+SORTIE:
+	->	un buffer image
+
+OU ALORS:
+	enfait c'est peu etre mieux de faire des kernel de calcul et de dessin separer. Comme ca on ne passera pas trop de temps en tout
+
+@@ calcule des pts
+ENTRE:
+	- buffer de points (vide)
+	- un segment de 2 point (coordoner reel sur l'image)	
+	- un segment de n point (coordoner normaliser 0-1)
+SORTIE:
+	- ba juste on remplis le buffer de points (plein)
+
+ENTRE:
+	- parametre de coloration
+	- buffer de points	(plein)
+	- un buffer image	(vide ou partielement vide)
+SORTIE:
+	- un buffer image	(plein)
+@@ dessin des ligne
+		##########################
+
+

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/08 09:54:54 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 11:41:34 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 01:10:08 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int			init_the_sliders(t_win *w, t_border *the_other)
 	border.y0 = margin;
 	border.y1 = the_other->y0 - margin;
 	border.x0 = margin;
-	border.x1 = w->size_x / 2;
+	border.x1 = w->size_x / 3;
 	if (!(w->e->sliders = init_tab_slider(w->e->nb_sliders, &border
 					, NULL, margin)))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 20:15:57 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/26 03:01:43 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 03:48:33 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	anime_circle_pt(double *dst, double anime, double cx, double cy, double r)
 void	feature_testing(t_env *e)
 {
 	//	manage anime test
-	double			NB_ANIME = 50;
+	double			NB_ANIME = 300;
 	static	double	iter	= 0; (void)iter;
 	double			anime;
 	double			unite = 4;
@@ -111,8 +111,15 @@ void	feature_testing(t_env *e)
 
 	//	init_kch
 
+	double	a, b, c, d;
+
+	a = 10;
+	b = 10;
+//		c = 5;
+	d = 3;
+
 	base = NULL;	
-	pos[0] = 200; pos[1] = 200;
+	pos[0] = 400; pos[1] = 400;
 	push_back(&(base), creat_node(0, pos, col));
 	pos[0] = 1000; pos[1] = 1000;
 	push_back(&(base), creat_node(0, pos, col));
@@ -120,17 +127,21 @@ void	feature_testing(t_env *e)
 	trans = NULL;
 	pos[0] = 0.0; pos[1] = 0.0;
 	push_back(&(trans), creat_node(0, pos, col));
-	anime_circle_pt(pos, anime, 0.2, 0.1, 0.05);
-//		pos[0] = 0.20; pos[1] = 0.10;
+
+	anime_circle_pt(pos, a * anime, 0.1, 0.1, 0.05);
 	push_back(&(trans), creat_node(0, pos, col));
-	anime_circle_pt(pos, -(anime * anime), 0.2, 0.1, 0.1);
-//		pos[0] = 0.10; pos[1] = -0.20;
+
+//		anime_circle_pt(pos, b * anime, 0.3, -0.2, 0.02);
+//		push_back(&(trans), creat_node(0, pos, col));
+
+//		anime_circle_pt(pos, c * anime, 0.7, -0.2, 0.01);
+//		push_back(&(trans), creat_node(0, pos, col));
+
+	anime_circle_pt(pos, d * anime, 0.35, 0.3, 0.1);
 	push_back(&(trans), creat_node(0, pos, col));
-	anime_circle_pt(pos, 2 * anime, 0.1, 0.2, 0.05);
-//		pos[0] = 0.50; pos[1] = 0.30;
-	anime_circle_pt(pos, - 0.5 * anime, 0.5, 0.3, 0.1);
-	push_back(&(trans), creat_node(0, pos, col));
-//		pos[0] = 1; pos[1] = 0;
+
+
+	pos[0] = 1; pos[1] = 0;
 	push_back(&(trans), creat_node(0, pos, col));
 
 	data_koch[0] = e->max_iter;
@@ -140,7 +151,6 @@ void	feature_testing(t_env *e)
 	init_koch_const(&kco, trans, e->fractal, data_koch);
 	print_koch_fractale(&kco, init_kch(base, 0, 0, 1), 0);
 	actu_win_rest(e->fractal);
-
 
 	polygone_destroy(&trans);
 	polygone_destroy(&base);

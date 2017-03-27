@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 04:58:27 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 11:39:45 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 01:07:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,35 @@ int						check_border_io(t_env *e, t_win *w, t_border *b)
 	return (0);
 }
 
+/*
+**	visiblement les bordure sont paremetrer en dure
+**	on va voir sa change quelauechose d'en rajouter une, si j'ai bien fait
+**	les choses ca devrai le faire
+*/
 void					init_koch_param_border(t_env *e, t_win *win_param)
 {
-	int	border;
-	int	top;
+	int		border;
+	int		top;
+	double	nb_bord;
 
+	nb_bord = 3;
 	border = 5;
 	top = MIN(win_param->size_y * 0.5, win_param->size_x * 0.5);
+
 	e->border_b.x0 = border;
+	e->border_b.x1 = win_param->size_x * (1.0 / nb_bord) - border * (0.5);
 	e->border_b.y0 = top;
-	e->border_b.x1 = win_param->size_x * 0.5 - border * 0.5;
 	e->border_b.y1 = win_param->size_y - border;
-	e->border_t.x0 = win_param->size_x * 0.5 + border * 0.5;
+
+	e->border_t.x0 = win_param->size_x * (1.0 / nb_bord) + border * (0.5);
+	e->border_t.x1 = win_param->size_x * (2.0 / nb_bord) - border * (0.5);
 	e->border_t.y0 = top;
-	e->border_t.x1 = win_param->size_x - border;
 	e->border_t.y1 = win_param->size_y - border;
+
+	e->border_p.x0 = win_param->size_x * (2.0 / nb_bord) + border * (0.5);
+	e->border_p.x1 = win_param->size_x * (3.0 / nb_bord) - border * (0.5);
+	e->border_p.y0 = top;
+	e->border_p.y1 = win_param->size_y - border;
 }
 
 void					draw_border(t_win *w, t_border *border, t_matrix *color)
@@ -81,14 +95,24 @@ void					draw_the_2_border(t_env *e)
 {
 	t_matrix	*color;
 
+//	bordure pour la base
 	if (!(color = tsl_to_rvb_new(120, (mouse_in_border(&((e->border_b))
 							, e->param->mouse) ? 0.8 : 0.3), 0.8)))
 		return ;
 	draw_border(e->param, &(e->border_b), color);
 	matrix_free(&color);
+
+//	bordure pour la transformation
 	if (!(color = tsl_to_rvb_new(250, (mouse_in_border((&(e->border_t))
 							, e->param->mouse) ? 0.8 : 0.3), 0.8)))
 		return ;
 	draw_border(e->param, &(e->border_t), color);
+	matrix_free(&color);
+
+//	bordure pour la transformation
+	if (!(color = tsl_to_rvb_new(200, 0.6, (mouse_in_border((&(e->border_p))
+							, e->param->mouse) ? 0.6 : 0.8))))
+		return ;
+	draw_border(e->param, &(e->border_p), color);
 	matrix_free(&color);
 }

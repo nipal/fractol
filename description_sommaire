@@ -86,4 +86,35 @@ SORTIE:
 @@ dessin des ligne
 		##########################
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+Fonction d'animation: SHAPE + PARCOUR
+	
+	le but c'est d'avoir des parametre un peu generique avec un petite logique foncitonel
+
+FONCTION DE SAHPE
+ pour l'instant on va faire jsute 2 shape mais tres modulable:
+
+ENTRE::
+	- une node (position de base)
+	- parametre de foctionement (donc le parmetrage des cas general)
+		- ovoide:
+			- r1
+			- r2 (perpendiculaire a r1 )
+	- fonction de convertion d'avencement (probablement quekque chose de l'ordre d'une courbe de bezier cubique ou polus pour definir l'avencement en foncitone de l'ecouelement du temps)
+
+	
+
+
+
+
+
+
+
+
+
+
+
 

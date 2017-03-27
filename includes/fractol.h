@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/26 00:29:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 09:25:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define SIZE_X 500
 # define SIZE_Y 500
 
-# define SIZE_PARAM_X 600
+# define SIZE_PARAM_X 900
 # define SIZE_PARAM_Y 600
 
 # define SIZE_KOCH_X 1200
@@ -156,6 +156,11 @@ typedef	struct	s_koch_changing
 	double		prev_du;
 }				t_koch_changing;
 
+typedef	struct	s_anime
+{
+	// bon la je en sais pas encore ce que je vais mettre
+}				t_anime;
+
 /*
 **	key_release 	(key_code == release) ?  (1, 2, 0) -> 0 : 1 -> 2
 **	key_press		0 -> 1
@@ -264,6 +269,7 @@ struct			s_env
 	t_win		*fractal;
 	t_border	border_b;
 	t_border	border_t;
+	t_border	border_p;	// pour la border de preview
 	int			base_add;
 	int			trans_add;
 	int			nb_sliders;
@@ -657,4 +663,10 @@ t_polygone		*init_segment(double valu[4][2], int nb, t_border *boder
 **		c'est le fichier qui aurra les fonciton de teste avant integration
 */
 void	feature_testing(t_env *e);
+
+/*
+**	paint_rectangle
+*/
+void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
+void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
 #endif

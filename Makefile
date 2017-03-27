@@ -6,7 +6,7 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:28:32 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/26 00:46:15 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/27 07:30:09 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@
 # -Ofast
 #  -Wall -Wextra -Werror
 export CFLAGS	= -g -fsanitize=address
+#export CFLAGS	= -O3
 
 #-fsanitize=address
 export CC	= gcc

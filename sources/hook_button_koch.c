@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:13:18 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 08:11:56 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 01:15:58 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	button_1_param(t_win *w)
 {
+	printf("b1\n");
 	w->button1 = 1;
 	w->e->id_scrol = select_button(w, w->e->sliders);
 	complet_polygone(w);
@@ -23,6 +24,7 @@ void	button_1_param(t_win *w)
 
 void	button_2_param(t_win *w)
 {
+	printf("b2\n");
 	int	to_nrm;
 
 	if (mouse_in_border(&(w->e->border_b), w->mouse)
@@ -47,6 +49,7 @@ int		press_button(int button, int x, int y, t_win *w)
 	{
 		button_2_param(w);
 	}
+	/*
 	if (!ft_strcmp(w->name, "fractal"))
 	{
 		if (button == 4 || button == 6)
@@ -57,7 +60,8 @@ int		press_button(int button, int x, int y, t_win *w)
 			w->e->move_set = 1;
 		actu_base(w->e, w->e->base_model);
 	}
-	return (x + y > 0);
+	*/
+	return (0);
 }
 
 int		release_button(int button, int x, int y, t_win *w)

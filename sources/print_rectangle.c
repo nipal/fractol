@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   paint_rectangle.c                                  :+:      :+:    :+:   */
+/*   print_rectangle.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 04:54:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 07:29:53 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 23:10:14 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec)
 	mt = NULL;
 	pta.m = mem_a;
 	ptb.m = mem_b;
-	len_h = rec->y1 - rec->y0;
-	i = 0;
 	mem_a[0] = rec->x0;
 	mem_a[1] = rec->y0;
 	mem_b[0] = rec->x1;
 	mem_b[1] = rec->y0;
+	pta.x = 1;
+	pta.y = 3;
+	ptb.y = 3;
+	ptb.x = 1;
+	len_h = rec->y1 - rec->y0;
+	i = 0;
 	while (i < len_h)
 	{
 		mem_a[1]++;

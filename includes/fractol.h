@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 09:25:23 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 21:16:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,7 @@ typedef	struct	s_koch_changing
 	double		prev_du;
 }				t_koch_changing;
 
-typedef	struct	s_anime
-{
-	// bon la je en sais pas encore ce que je vais mettre
-}				t_anime;
+
 
 /*
 **	key_release 	(key_code == release) ?  (1, 2, 0) -> 0 : 1 -> 2
@@ -224,6 +221,12 @@ typedef	struct	s_range_tsl
 	double		lmax;
 }				t_range_tsl;
 
+typedef	struct	s_anime
+{
+	int		anime_nb;	//	c'est le numerot du type d'anime
+}				t_anime;
+
+
 struct			s_env
 {
 	void		*mlx;
@@ -252,8 +255,8 @@ struct			s_env
 	int			iter_koch;
 	t_polygone	*base_model;
 	t_polygone	*trans_model;
-	t_polygone	*base;
-	t_polygone	*transform;
+	t_polygone	*base;	// coordonner reel
+	t_polygone	*transform; // coordonner reel
 	t_polygone	*beg_actif;
 	t_polygone	*actif;
 	int			draw_base;
@@ -630,7 +633,7 @@ double			**init_data_tab(int size_x, int size_y);
 int				init_mandel(t_env *e, int id);
 
 /*
-** mini_parseur
+** mini_parseur.c
 */
 
 void			print_usage(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
@@ -651,7 +654,7 @@ void			print_binary(int nb);
 void			init_fractol(int id);
 
 /*
-**	init_param_koch
+**	init_param_koch.c
 */
 int				init_statment(t_env *e);
 void			sliders_set_valu(t_slider *slide, double v1, double v2);
@@ -665,8 +668,19 @@ t_polygone		*init_segment(double valu[4][2], int nb, t_border *boder
 void	feature_testing(t_env *e);
 
 /*
-**	paint_rectangle
+**	paint_rectangle.c
 */
 void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
 void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
+
+/*
+**	user_interface.c
+*/
+void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b);
+
+/*
+**	border.c
+*/
+t_border	*creat_border(int x0, int x1, int y0, int y1);
+void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 #endif

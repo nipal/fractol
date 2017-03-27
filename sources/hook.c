@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 08:20:58 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 22:00:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,15 @@ int			main_work(t_env *e)
 {
 	t_polygone		*color;
 
+	//////////////
+
+	t_border border_abox;
+	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
+	print_anime_box(e->param, e->trans_model, NULL, &border_abox);
+	
+	/////////////
+
+
 	color = NULL;	
 	draw_the_2_border(e);
 	draw_simple_polygone(e->param, e->trans_model);
@@ -70,7 +79,8 @@ int			main_work(t_env *e)
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
 	
-	feature_testing(e);
+//		feature_testing(e);
+
 
 	actu_win_rest(e->param);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 04:58:27 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 01:07:28 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 21:12:37 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,3 +116,27 @@ void					draw_the_2_border(t_env *e)
 	draw_border(e->param, &(e->border_p), color);
 	matrix_free(&color);
 }
+
+t_border	*creat_border(int x0, int x1, int y0, int y1)
+{
+	t_border	*b;
+
+	if ((b = (t_border*)malloc(sizeof(t_border))))
+		return (NULL);
+	b->x0 = x0;
+	b->x1 = x1;
+	b->y0 = y0;
+	b->y1 = y1;
+	return (b);
+}
+
+void		init_border(t_border *b, int x0, int x1, int y0, int y1)
+{
+	if (!b)
+		return ;
+	b->x0 = x0;
+	b->x1 = x1;
+	b->y0 = y0;
+	b->y1 = y1;
+}
+

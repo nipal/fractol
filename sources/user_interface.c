@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 06:12:19 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 10:08:40 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 23:36:09 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,57 @@
 
 /*
 **	Les "anime" sont un tableau de structure qui stoque les param 
+
+**	tout basiquement on va fair eun truc 
+**	on veux dessinner des petit cercle plein sur le truc le segment de transformation
+**	on veux aussi 
 */
 
+//	en gros on n;aurra jamais plus que 16 si non artung
+# define BOX_BY_LINE 4
+# define LINE_BOX_MAX 4
+# define MINI_CIRCLE 7 
 void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b)
 {
+//		printf("on est la\n");
+	int			nb_box;
+	int			i;
+	int			margin;
+	double		value;
+	int			unite_width;
+	int			unite_height;
+	t_matrix	*col;
+	t_border	place;
+	t_polygone	*node;
+	
+	//	la on dessine les rectangle dans la bordure qu'on nous envoie
+	margin = 4;
+	unite_width = (b->x1 - b->x0) / BOX_BY_LINE;
+	unite_height = (b->y1 - b->y0) / LINE_BOX_MAX;
+	nb_box = get_polygone_len(poly);
+	node = poly;
 
+//		printf("size:%d\n", nb_box);
+//		printf("adresse: %ld\n", (long)poly);
+//		printf("adresse: %ld\n", (long)node);
+	i = 0;
+	while (i < nb_box && node && i < 16)
+	{
+//			printf("in the boucle:%d	%d\n", i, nb_box);
+		place.x0 = ((i % BOX_BY_LINE) * unite_width) + margin + b->x0;
+		place.x1 = (((i % BOX_BY_LINE) + 1) * unite_width) - margin + b->x0;
+		place.y0 = (((i / BOX_BY_LINE)) * unite_height)+ margin + b->y0;
+		place.y1 = (((i / BOX_BY_LINE) + 1) * unite_height) - margin + b->y0;
+		value = ((double)i + 1) / ((double)nb_box + 2);
+		if (!(col = tsl_to_rvb_new(120, 0.3, value)))
+		{
+//				printf("fuck!!\n");
+			return ;
+		}
+		paint_rectangle(w, col, &place);	// la on dessine le rectangle dans le cardre ou il faut 
+		paint_circle(node->pos, col, MINI_CIRCLE, w); // la on dessinne le cercle associer
+		matrix_free(&col);
+		node = node->next;
+		i++;
+	}
 }

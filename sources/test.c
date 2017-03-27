@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 20:15:57 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 03:48:33 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/27 23:15:29 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void	feature_testing(t_env *e)
 	d = 3;
 
 	base = NULL;	
+	pos[2] = 0;
 	pos[0] = 400; pos[1] = 400;
 	push_back(&(base), creat_node(0, pos, col));
 	pos[0] = 1000; pos[1] = 1000;

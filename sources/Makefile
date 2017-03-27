@@ -6,7 +6,7 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/27 06:13:25 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/27 23:42:07 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,9 @@ SRC		= 	main.c						\
 			init_param_koch.c 			\
 			test.c						\
 			ovaloide.c					\
-			paint_rectangle.c			\
+			print_rectangle.c			\
 			user_interface.c			\
+			ellipsoide.c				\
 			exit.c 
 
 OBJ		= $(SRC:.c=.o)

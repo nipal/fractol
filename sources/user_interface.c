@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 06:12:19 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 23:36:09 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 04:57:57 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@
 # define MINI_CIRCLE 7 
 void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b)
 {
-//		printf("on est la\n");
 	int			nb_box;
 	int			i;
 	int			margin;
@@ -76,23 +75,16 @@ void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b)
 	nb_box = get_polygone_len(poly);
 	node = poly;
 
-//		printf("size:%d\n", nb_box);
-//		printf("adresse: %ld\n", (long)poly);
-//		printf("adresse: %ld\n", (long)node);
 	i = 0;
 	while (i < nb_box && node && i < 16)
 	{
-//			printf("in the boucle:%d	%d\n", i, nb_box);
 		place.x0 = ((i % BOX_BY_LINE) * unite_width) + margin + b->x0;
 		place.x1 = (((i % BOX_BY_LINE) + 1) * unite_width) - margin + b->x0;
 		place.y0 = (((i / BOX_BY_LINE)) * unite_height)+ margin + b->y0;
 		place.y1 = (((i / BOX_BY_LINE) + 1) * unite_height) - margin + b->y0;
 		value = ((double)i + 1) / ((double)nb_box + 2);
 		if (!(col = tsl_to_rvb_new(120, 0.3, value)))
-		{
-//				printf("fuck!!\n");
 			return ;
-		}
 		paint_rectangle(w, col, &place);	// la on dessine le rectangle dans le cardre ou il faut 
 		paint_circle(node->pos, col, MINI_CIRCLE, w); // la on dessinne le cercle associer
 		matrix_free(&col);

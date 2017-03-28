@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 20:15:57 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 23:15:29 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 04:58:25 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	anime_circle_pt(double *dst, double anime, double cx, double cy, double r)
 
 void	feature_testing(t_env *e)
 {
+
 	//	manage anime test
 	double			NB_ANIME = 300;
 	static	double	iter	= 0; (void)iter;

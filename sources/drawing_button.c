@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 04:47:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 01:08:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 03:38:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void		draw_slider(t_win *w, t_slider *s)
 	t_matrix	*pt2;
 
 	if (!(pt1 = vect_new_vertfd(s->border->x0
-					, 0.33 * (s->border->y0 + s->border->y1), 0))
+					, 0.5 * (s->border->y0 + s->border->y1), 0))
 		|| !(pt2 = vect_new_vertfd(s->border->x1
-					, 0.33 * (s->border->y0 + s->border->y1), 0))
+					, 0.5 * (s->border->y0 + s->border->y1), 0))
 		|| !(mat_line = init_mat_line(pt1, pt2, s->color, s->color)))
 		return ;
 	dist = abs(s->border->x1 - s->border->x0);

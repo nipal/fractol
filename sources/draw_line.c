@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/22 15:57:27 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 04:58:57 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int						draw_line2(t_win *win, t_matrix *mat_line)
 //				i = *((int*)(-2));
 //			}
 //			return (1);
-	//	printf("win:%s\n", win->name);
 	if (!(mat_line)
 		|| !(diff = matrix_init(6, 1))
 		|| !(org = matrix_init(6, 1)))

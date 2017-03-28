@@ -6,19 +6,21 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/28 21:33:58 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/29 00:36:50 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-
 void		draw_ellipsoide(t_win *w, t_polygone *pt);
 
-void		ellipsoid_modify_centre(t_polygone *pt, t_polygone *old_pos);
-void		ellipsoid_modify_ux(t_polygone *pt, t_polygone *old_pos);
-void		ellipsoid_modify_uy(t_polygone *pt, t_polygone *old_pos);
+//	void		ellipsoid_modify_centre(t_polygone *pt, t_polygone *old_pos);
+//	void		ellipsoid_modify_ux(t_polygone *pt, t_polygone *old_pos);
+//	void		ellipsoid_modify_uy(t_polygone *pt, t_polygone *old_pos);
 
+t_matrix		*ellipsoide_param(t_polygone *pt, double param);
+void			draw_ellipsoide(t_win *w, t_polygone *pt);
+double			my_modf1(double res);
 
 double	my_modf1(double res)
 {
@@ -42,7 +44,7 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 		|| !(tmp = matrix_init(1, 3))
 		|| !(ux = matrix_sub(pt->pos, pt->next->pos))
 		|| !(uy = matrix_sub(pt->next->next->pos, pt->next->pos)))
-		return ;
+		return (NULL);
 	param = my_modf1(param);
 	r1 = sqrt(matrix_dot_product(ux, ux));
 	r2 = sqrt(matrix_dot_product(uy, uy));
@@ -51,11 +53,11 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 	y = (r2 / r1) * sqrt(r1 * r1 - x * x); 
 	y *= (param >= 0.5) ? -1 : 1;
 
-	//	cacule du point resutant
-	matrix_scalar_product_in(ux, x, pt_a1);
+	//	cacule du point restant
+	matrix_scalar_product_in(ux, x, result);
 	matrix_scalar_product_in(uy, y, tmp);
-	matrix_add_in(pt_a1, tmp, pt_a1);
-	matrix_add_in(pt->next->pos, pt_a1, pt_a1);
+	matrix_add_in(result, tmp, result);
+	matrix_add_in(pt->next->pos, result, result);
 
 	matrix_free(&tmp);
 	matrix_free(&ux);
@@ -121,18 +123,12 @@ void		draw_ellipsoide(t_win *w, t_polygone *pt)
 		matrix_add_in(pt->next->pos, pt_a2, pt_a2);
 
 		if (!(mt = init_mat_line(pt_a1, pt_b1, col, col)))
-		{
-			printf("err1\n");
 			return ;
-		}
 		draw_line2(w, mt);
 		matrix_free(&mt);
 
 		if (!(mt = init_mat_line(pt_a2, pt_b2, col, col)))
-		{
-			printf("err2\n");
 			return ;
-		}
 		draw_line2(w, mt);
 		matrix_free(&mt);
 

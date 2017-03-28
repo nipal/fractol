@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/28 18:00:07 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 23:02:14 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -687,5 +687,7 @@ void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 /*
 **	ellipsoide.c
 */
-void		draw_ellipsoide(t_win *w, t_polygone *pt);
+t_matrix		*ellipsoide_param(t_polygone *pt, double param);
+void			draw_ellipsoide(t_win *w, t_polygone *pt);
+double			my_modf1(double res);
 #endif

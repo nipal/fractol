@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/15 14:35:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/05 08:52:03 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 16:56:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void			matrix_product_in(t_matrix *a, t_matrix *b, t_matrix *c);
 void			vector_product_in(t_matrix *a, t_matrix *b, t_matrix *result);
 
 t_matrix		*matrix_scalar_product(t_matrix *a, double d);
+t_matrix		*matrix_scalar_product_in(t_matrix *a, double d, t_matrix *to);
 t_matrix		*matrix_scalar_product_new(t_matrix *a, double d);
 double			matrix_det(t_matrix *a);
 t_matrix		*matrix_transpose(t_matrix *a, t_matrix *b);
@@ -85,7 +86,7 @@ t_matrix		*matrix_normalise_new(t_matrix *vect);
 int				matrix_normalise_in(t_matrix *src, t_matrix *dest);
 
 t_matrix		*matrix_copy(t_matrix *src);
-t_matrix		*matrix_copy_in(t_matrix *src, t_matrix *dest);
+t_matrix		*matrix_copy_in(t_matrix *src, t_matrix *copy);
 int				free_matrix(t_matrix *mat);
 int				matrix_free(t_matrix **mat);
 

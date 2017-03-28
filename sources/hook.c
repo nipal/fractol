@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/27 22:00:04 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 20:53:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int			main_work(t_env *e)
 	draw_the_sliders(e->param, e->sliders);
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
-	
+
+	//draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 
 

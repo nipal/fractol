@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/28 02:01:27 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/28 18:00:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -683,4 +683,9 @@ void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b);
 */
 t_border	*creat_border(int x0, int x1, int y0, int y1);
 void		init_border(t_border *b, int x0, int x1, int y0, int y1);
+
+/*
+**	ellipsoide.c
+*/
+void		draw_ellipsoide(t_win *w, t_polygone *pt);
 #endif

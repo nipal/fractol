@@ -6,7 +6,7 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/29 23:29:31 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/30 00:32:56 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC		= 	main.c						\
 			print_rectangle.c			\
 			user_interface.c			\
 			ellipsoide.c				\
+			serveur.c					\
 			exit.c 
 
 

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/29 16:44:43 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 01:07:53 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int			main_work(t_env *e)
 {
 	t_polygone		*color;
 
+
+	/////////// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
+	wait_for_event(e->sock, &(e->read_fd));
 	//////////////
 
 	t_border border_abox;

@@ -6,10 +6,14 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 15:59:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/29 22:38:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 00:31:03 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//#include "fractol.h"
+//	le nombre maximum de conexion entrante
+
+# include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -21,7 +25,6 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 
-//	le nombre maximum de conexion entrante
 
 
 # define DATA_LENGTH_1 30
@@ -33,7 +36,6 @@ typedef	struct	s_data
 	char	test[DATA_LENGTH_2];
 }				t_data;
 
-
 # define STACK_SIZE 100
 int				get_server_socket(int ss);
 int				*get_all_open_sockets(int new_socket);
@@ -41,6 +43,8 @@ static	void	close_sockets(int s);
 static	int		create_server(int port);
 void			add_new_client(int new_sock);
 static	void	wait_for_event(int sock, fd_set *active_fd);
+
+
 
 int	get_server_socket(int ss)
 {
@@ -70,7 +74,7 @@ int	*get_all_open_sockets(int new_socket)
 	return (all_client_socket);
 }
 
-static void     close_sockets(int s)
+void     close_sockets(int s)
 {
 	int     ss;
 	int     *socks;
@@ -89,7 +93,7 @@ static void     close_sockets(int s)
 }
 
 
-static int          create_server(int port)
+int          create_server(int port)
 {
 	int                 sock;
 	struct protoent     *proto;
@@ -112,7 +116,7 @@ void	add_new_client(int new_sock)
 	get_all_open_sockets(new_sock);
 }
 
-static void     wait_for_event(int sock, fd_set *active_fd)
+void     wait_for_event(int sock, fd_set *active_fd)
 {
 	struct			timeval timeout;
 	struct          sockaddr_in clientname;

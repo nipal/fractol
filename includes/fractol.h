@@ -6,12 +6,30 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/29 03:13:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 01:11:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+
+
+# include "c_maths.h"
+# include "key.h"
+# include <errno.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <string.h>
+# include <stdio.h>
+# include <netdb.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+
+
+
 
 # define NB_NAME_FRAC 31
 # define NB_NAME_ALT 10
@@ -31,9 +49,6 @@
 # define ITER 100
 # define ZOOM 0.95
 
-# include "c_maths.h"
-# include <errno.h>
-# include <string.h>
 
 # define BETA e->beta
 
@@ -48,9 +63,7 @@
 
 # define MAX_DIST_ADD 50
 
-# include "key.h"
 
-# include <stdio.h>
 
 # define MOUSE_IN mouse_in_border
 
@@ -286,6 +299,8 @@ struct			s_env
 	int			idf;
 	double		ctx;
 	double		cty;
+	fd_set		read_fd;	// pour le reseau
+	int			sock;
 };
 
 typedef	struct	s_mandel_pt
@@ -355,6 +370,13 @@ typedef	struct	s_lim
 	int			v;
 	int			h;
 }				t_lim;
+
+typedef	struct	s_network
+{
+	int			port;
+	int			sock;
+	fd_set		read_fd;
+}				t_network;
 
 /*
 ** hook
@@ -690,4 +712,18 @@ void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 t_matrix		*ellipsoide_param(t_polygone *pt, double param);
 void			draw_ellipsoide(t_win *w, t_polygone *pt);
 double			my_modf1(double res);
+
+/*
+**	NETWORK
+*/
+# define STACK_SIZE 100
+int				get_server_socket(int ss);
+int				*get_all_open_sockets(int new_socket);
+void	close_sockets(int s);
+int		create_server(int port);
+void			add_new_client(int new_sock);
+void	wait_for_event(int sock, fd_set *active_fd);
+t_env	*get_env(t_env *e);
+
+
 #endif

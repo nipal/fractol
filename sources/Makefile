@@ -6,7 +6,7 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/27 23:42:07 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/29 23:29:31 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,6 @@ SRC		= 	main.c						\
 			koch_generalise.c 			\
 			segment_manipule_basic.c 	\
 			calcul_madelbrot.c 			\
-			init_mandel.c 				\
-			new_calcul_mandel.c 		\
 			mlx_env.c 			 		\
 			print_somthing.c 			\
 			hook.c 					 	\
@@ -49,10 +47,7 @@ SRC		= 	main.c						\
 			manage_sliding_button.c		\
 			drawing_button.c 			\
 			zoom_koch.c 				\
-			mandel_event.c 				\
-			mandel_zoom.c 				\
 			actu_polygone.c 			\
-			mini_parseur.c				\
 			init_param_koch.c 			\
 			test.c						\
 			ovaloide.c					\
@@ -60,6 +55,7 @@ SRC		= 	main.c						\
 			user_interface.c			\
 			ellipsoide.c				\
 			exit.c 
+
 
 OBJ		= $(SRC:.c=.o)
 

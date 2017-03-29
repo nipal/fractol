@@ -6,13 +6,15 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 17:34:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/04 20:55:52 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/29 23:25:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "fractol.h"
 
+
+/*
 void	print_usage(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
 		, char *name)
 {
@@ -139,3 +141,4 @@ int		parse_imput(int ac, char **av
 	}
 	return (1);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/28 20:53:24 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/29 16:44:43 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			main_work(t_env *e)
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
 
-	//draw_ellipsoide(e->param, e->base_model);
+//	draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 
 

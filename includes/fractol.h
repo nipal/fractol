@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/28 23:02:14 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/29 03:13:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # define NB_NAME_ALT 10
 # define NB_LETTER_NAME 100
 
-# define SIZE_X 500
-# define SIZE_Y 500
+# define SIZE_X 800
+# define SIZE_Y 800
 
 # define SIZE_PARAM_X 900
 # define SIZE_PARAM_Y 600

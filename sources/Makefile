@@ -6,7 +6,7 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/30 01:37:34 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/30 20:23:36 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC		= 	main.c						\
 			polygone_transfrom.c 		\
 			creat_insert_polygone.c		\
 			polygone_maj.c 			 	\
+			polygone_adapte.c			\
 			modify_model.c 				\
 			color_transpose.c 			\
 			new_printing.c 			 	\

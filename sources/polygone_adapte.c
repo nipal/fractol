@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 03:46:55 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 19:25:01 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:27:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,6 @@ typedef struct	s_matrix
 	int			y;
 }				t_matrix;
 */
-
-typedef	struct	s_data_nw
-{
-	double	pt_trans[MAX_NODE][2];
-	double	pt_base[MAX_NODE][2];
-	int		trans_len;
-	int		base_len;
-	int		max_iter;
-}				t_data_nw;
 
 t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter)
 {
@@ -85,7 +76,7 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 	//	copy des parametre facile
 	data_dst->transform_len = data_src->trans_len;
 	data_dst->base_len = data_src->base_len;
-	data_dst->max_iter = dats_src->max_iter;
+	data_dst->max_iter = data_src->max_iter;
 
 	//	initialisation
 	pos[2] = 0;
@@ -99,8 +90,8 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 	i = 0;
 	while (i < data_src->trans_len)
 	{
-		pos[0] = data->pt_trans[i][0];
-		pos[1] = data->pt_trans[i][2];
+		pos[0] = data_src->pt_trans[i][0];
+		pos[1] = data_src->pt_trans[i][1];
 		if (!(node = creat_node(0, pos, col)))
 			return (-1);
 		if (prev)
@@ -111,7 +102,7 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 		i++;
 	}
 	node->next = NULL;
-	data_dst->transform = beg;
+	data_dst->trans = beg;
 		
 	//	creation du t_polygone base
 	node = NULL;
@@ -119,8 +110,8 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 	i = 0;
 	while (i < data_src->base_len)
 	{
-		pos[0] = data->pt_trans[i][0];
-		pos[1] = data->pt_trans[i][2];
+		pos[0] = data_src->pt_trans[i][0];
+		pos[1] = data_src->pt_trans[i][1];
 		if (!(node = creat_node(0, pos, col)))
 			return (-1);
 		if (prev)
@@ -131,50 +122,50 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 		i++;
 	}
 	node->next = NULL;
-	data_dst->transform = beg;
+	data_dst->trans = beg;
 	return (0);
 }
 
 //	ca c'est pour reorganiser les adresse des next des liste chianer recu par le reso
-void	adapte_polygone_next(t_ifs_param *param)
-{
-	int	i;
-
-	i = 0;
-	while (i < MAX_NODE && param->transform[i]->next)
-	{
-		param->transform[i]->next = &(param->transform[i + 1]);
-		i++;
-	}
-	param->transform[i]->next = NULL;
-
-	i = 0;
-	while (i < MAX_NODE && param->base[i]->next)
-	{
-		param->base[i]->next = &(param->base[i + 1]);
-		i++;
-	}
-	param->base[i]->next = NULL;
-}
-
-t_ifs_param	creat_param_to_send(t_env *e)
-{
-	t_ifs_param	buffer;
-	int			i;
-	t_polygone	*node
-
-	node = e->transform;
-	for (i = 0; i < MAX_NODE; i++)
-	{
-		if (node)
-		{
-			
-			node = node->next;
-		}
-	}
-
-	node = e->transform;
-}
+//	void	adapte_polygone_next(t_ifs_param *param)
+//	{
+//		int	i;
+//	
+//		i = 0;
+//		while (i < MAX_NODE && param->transform[i]->next)
+//		{
+//			param->transform[i]->next = &(param->transform[i + 1]);
+//			i++;
+//		}
+//		param->transform[i]->next = NULL;
+//	
+//		i = 0;
+//		while (i < MAX_NODE && param->base[i]->next)
+//		{
+//			param->base[i]->next = &(param->base[i + 1]);
+//			i++;
+//		}
+//		param->base[i]->next = NULL;
+//	}
+//	
+//	t_ifs_param	creat_param_to_send(t_env *e)
+//	{
+//		t_ifs_param	buffer;
+//		int			i;
+//		t_polygone	*node
+//	
+//		node = e->transform;
+//		for (i = 0; i < MAX_NODE; i++)
+//		{
+//			if (node)
+//			{
+//				
+//				node = node->next;
+//			}
+//		}
+//	
+//		node = e->transform;
+//	}
 
 //	serveur --> RESEAU --> client
 //	il faut transmetre les t_polygone: 

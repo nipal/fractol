@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 18:21:10 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:22:57 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -717,7 +717,7 @@ void			draw_ellipsoide(t_win *w, t_polygone *pt);
 double			my_modf1(double res);
 
 /*
-**	NETWORK
+**	===================	NETWORK	======================
 */
 # define STACK_SIZE 100
 # define SERVEUR 0
@@ -734,6 +734,17 @@ typedef	struct	s_ifs_param
 
 }				t_ifs_param;
 
+typedef	struct	s_data_nw
+{
+	double	pt_trans[MAX_NODE][2];
+	double	pt_base[MAX_NODE][2];
+	int		trans_len;
+	int		base_len;
+	int		max_iter;
+}				t_data_nw;
+
+
+
 int				get_server_socket(int ss);
 int				*get_all_open_sockets(int new_socket);
 void			close_sockets(int s);
@@ -745,5 +756,12 @@ t_env			*get_env(t_env *e);
 
 int				get_client_socket(int ss);
 int				create_client(char *addr, int port);
+
+/*
+**	polygone_adapte.c
+*/
+
+int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst);
+t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter);
 
 #endif

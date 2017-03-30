@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 17:17:28 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 17:26:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		env(t_env *e)
 		return ;
 	if (!(e->fractal = window_init(e, SIZE_KOCH_X, SIZE_KOCH_Y, "fractal")))
 		return ;
-	if (e->status == SERVEUR && !(e->param = window_init(e, SIZE_PARAM_X, SIZE_PARAM_Y, "param")))
+	if (!(e->param = window_init(e, SIZE_PARAM_X, SIZE_PARAM_Y, "param")))
 		return ;
 	init_win_event(e->fractal, e);
 	init_win_event(e->param, e);

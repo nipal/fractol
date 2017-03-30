@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 03:46:55 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 05:19:45 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 15:42:01 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,25 @@ t_ifs_param	creat_param_to_send(t_env *e)
 	node = e->transform;
 }
 
+//	serveur --> RESEAU --> client
+//	il faut transmetre les t_polygone: 
+//	il faut aussi adapter les t_matrix
+
+/*
+struct			s_polygone
+{
+	int			lvl;
+	t_matrix	*pos;
+	t_matrix	*col;
+	t_polygone	*next;
+};
+
+typedef struct	s_matrix
+{
+	double		*m;
+	int			x;
+	int			y;
+}				t_matrix;
+
+
+*/

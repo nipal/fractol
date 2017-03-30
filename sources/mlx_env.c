@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 02:18:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 17:17:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ double		**init_tab_d(int size_x, int size_y)
 void		init_win_event(t_win *w, t_env *e)
 {
 	(void)e;
+
 	mlx_hook(w->win, KEY_PRESS, (1 << 24) - 1, press_key, w);
 	mlx_hook(w->win, KEY_RELEASE, (1 << 24) - 1, release_key, w);
 

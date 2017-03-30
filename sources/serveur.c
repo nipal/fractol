@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 22:39:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 05:19:44 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 16:29:21 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ void     wait_for_event(int sock, fd_set *active_fd, int status)
 				{
 					//	voila voila
 					//	bon il y a des truc a finir mais c'est presque fait
-					read(i, &simple_buffer, sizeof(simple_buffer));
+				//	read(i, &simple_buffer, sizeof(simple_buffer));
 				//	adapte_polygone_next(&simple_buffer);
-					print_client_ifs(e->fractal, &simple_buffer);
+				//	print_client_ifs(e->fractal, &simple_buffer);
 				}
 			}
 		}

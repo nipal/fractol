@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 05:01:35 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 01:06:40 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	draw_param_ui(t_env *e)
 		: (void)e;
 	actu_win_rest(e->param);
 
-	draw_ellipsoide(e->param, e->base_model);
+//		draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 
 }

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 01:11:17 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 04:00:48 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,9 @@ struct			s_env
 	double		ctx;
 	double		cty;
 	fd_set		read_fd;	// pour le reseau
-	int			sock;
+	int			sock;		// pour le reseau aussi
+	int			status;		// pour savoir si on est client ou serveur
+	int			port;		// bah c'est explicite non ?
 };
 
 typedef	struct	s_mandel_pt
@@ -699,6 +701,7 @@ void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
 **	user_interface.c
 */
 void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b);
+void	draw_param_ui(t_env *e);
 
 /*
 **	border.c
@@ -717,13 +720,32 @@ double			my_modf1(double res);
 **	NETWORK
 */
 # define STACK_SIZE 100
+# define SERVEUR 0
+# define CLIENT  1
+# define MAX_NODE 32	// c'est deja enorme on aurra des gros problem de perfe a partir de 9
+
+typedef	struct	s_ifs_param
+{
+	// il faudra adapter en tableau les polygone qui sont des liste
+	// et definir les next comme il le faut mais du coup coter client
+	t_polygone	transform[MAX_NODE];
+	t_polygone	base[MAX_NODE];
+	int			transform_len;
+	int			base_len;
+	int			max_iter;
+
+}				t_ifs_param;
+
 int				get_server_socket(int ss);
 int				*get_all_open_sockets(int new_socket);
-void	close_sockets(int s);
-int		create_server(int port);
+void			close_sockets(int s);
+int				create_server(int port);
 void			add_new_client(int new_sock);
-void	wait_for_event(int sock, fd_set *active_fd);
-t_env	*get_env(t_env *e);
+void			wait_for_event(int sock, fd_set *active_fd, int status);
+t_env			*get_env(t_env *e);
 
+
+int				get_client_socket(int ss);
+int				create_client(char *addr, int port);
 
 #endif

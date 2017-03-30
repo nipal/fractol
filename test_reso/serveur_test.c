@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 15:59:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 00:31:03 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 01:51:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ void     wait_for_event(int sock, fd_set *active_fd)
 		bzero(data.test, DATA_LENGTH_2); 
 		bzero(tmp, 20); 
 //		printf("we send: %s\n", data.test);
-		
+
+		printf("type somthing:\n");		
 		read(0, tmp2, DATA_LENGTH_2 - 30);
 		int	i;
 		for (i = 0; i < STACK_SIZE && all_client[i]; i++) 

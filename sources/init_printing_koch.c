@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/25 22:28:55 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 05:05:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,50 @@ void							print_fractal(t_env *e)
 		data_koch[0] = e->max_iter;
 		data_koch[1] = get_polygone_len(e->transform);
 		data_koch[2] = get_polygone_len(e->base);
-		data_koch[3] = 400;
+		data_koch[3] = 400;	//	ne sert a rien
 		init_koch_const(&kco, e->transform, e->fractal, data_koch);
 		print_koch_fractale(&kco, init_kch(e->base, 0, 0, 1), 0);
 		actu_win_rest(e->fractal);
+	}
+}
+
+/*
+**	liste de ce qu'on a besoin dans "t_env *e" pour dessiner une fractale:
+**	
+	e->transform
+	e->base
+
+	e->max_iter
+	polygone_len(transform)
+	polygone_len(base)
+	e->fractal ==> le t_win mais donc ca le clien a le sien donc OSEF
+*/
+
+//# define MAX_NODE 16	// c'est deja enorme
+//	typedef	struct	s_ifs_param
+//	{
+//		t_polygone	transform[MAX_NODE];	// il faudra le transformer en tableau et definir les next comme il le faut
+//		t_polygone	base[MAX_NODE];
+//		int			transform_len;
+//		int			base_len;
+//		int			max_iter;
+//	
+//	}				t_ifs_param;
+//	
+
+void		print_client_ifs(t_win *w, t_ifs_param *param)
+{
+	double			data_koch[4];
+	t_koch_const	kco;
+
+	if (w && param)
+	{
+		data_koch[0] = param->max_iter;
+		data_koch[1] = param->transform_len;
+		data_koch[2] = param->base_len;
+		data_koch[3] = 0;	//	ne sert a rien
+		init_koch_const(&kco, param->transform, w, data_koch);
+		print_koch_fractale(&kco, init_kch(param->base, 0, 0, 1), 0);
+		actu_win_rest(w);
 	}
 }

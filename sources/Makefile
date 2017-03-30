@@ -6,7 +6,7 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/30 00:32:56 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/30 01:37:34 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRC		= 	main.c						\
 			user_interface.c			\
 			ellipsoide.c				\
 			serveur.c					\
+			client.c					\
 			exit.c 
 
 

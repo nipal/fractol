@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 01:09:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 02:03:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int		ft_exit(t_env *e)
 	free(e->z_buffer);
 	if (e->img_low)
 		free(e->img_low);
-	close_sockets(0);
+	if (e->status == SERVEUR)
+		close_sockets(0);
 	exit(0);
 	return (0);
 }

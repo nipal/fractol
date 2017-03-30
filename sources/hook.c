@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 01:07:53 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 05:01:35 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,15 @@ void		init_pos_ecr(t_env *e)
 **	On re desine surtout la fenetre de parametrage et on actualise les transformation
 */
 
-int			main_work(t_env *e)
+void	draw_param_ui(t_env *e)
 {
 	t_polygone		*color;
-
-
-	/////////// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
-	wait_for_event(e->sock, &(e->read_fd));
-	//////////////
 
 	t_border border_abox;
 	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
 	print_anime_box(e->param, e->trans_model, NULL, &border_abox);
 	
 	/////////////
-
 
 	color = NULL;	
 	draw_the_2_border(e);
@@ -81,11 +75,30 @@ int			main_work(t_env *e)
 	draw_the_sliders(e->param, e->sliders);
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
+	actu_win_rest(e->param);
 
-//	draw_ellipsoide(e->param, e->base_model);
+	draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 
+}
 
-	actu_win_rest(e->param);
+int			main_work(t_env *e)
+{
+
+
+	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
+	// ou pour l'atente de quoi ecrire pou enfin voila
+	wait_for_event(e->sock, &(e->read_fd), e->status);
+	//////////////
+
+	if (e->status == SERVEUR)
+		draw_param_ui(e);
+	else if (e->status == CLIENT)
+	{
+		// la il faudra faire les truc de dessin pour le client pck il n'a pas d'event
+		// et puis oil n'as pas le droit de sessiner ce qu'il veut.
+		// depuis quand le cient est roi?
+	}
+
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 22:39:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 01:08:21 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 05:19:44 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void     close_sockets(int s)
 	int     ss;
 	int     *socks;
 
+	printf("\n");
 	(void)s;
 	if (!first_time)
 		exit(0) ;
@@ -79,6 +80,7 @@ void     close_sockets(int s)
 		printf("socket [%d] closed\n", socks[i]);
 		shutdown(socks[0], 2);
 	}
+	printf("server disconect\n");
 	ft_exit(get_env(NULL));
 }
 
@@ -110,7 +112,7 @@ int          create_server(int port)
 /*
 **	C'ette fonction serra appeler en boucle
 */
-void     wait_for_event(int sock, fd_set *active_fd)
+void     wait_for_event(int sock, fd_set *active_fd, int status)
 {
 	struct			timeval timeout;
 	struct          sockaddr_in clientname;
@@ -118,6 +120,10 @@ void     wait_for_event(int sock, fd_set *active_fd)
 	fd_set          read_fd;
 	int             new_sock;
 
+	t_ifs_param		simple_buffer;
+	t_env			*e;
+
+	e = get_env(NULL);
 	timeout.tv_sec = 0;
 	timeout.tv_usec = 2000;
 	read_fd = *active_fd;
@@ -127,7 +133,7 @@ void     wait_for_event(int sock, fd_set *active_fd)
 	for (int i = 0; i < FD_SETSIZE; ++i)
 		if (FD_ISSET (i, &read_fd))
 		{
-			if (i == sock)
+			if (status == SERVEUR && i == sock)
 			{
 				size = sizeof(clientname);
 				if ((new_sock = accept(sock, (struct sockaddr *)&clientname, &size)) < 0)
@@ -140,6 +146,14 @@ void     wait_for_event(int sock, fd_set *active_fd)
 			{
 				//	la on pourrai faire un read sur le fd i pout lire c qu'a a dire le client
 				//	ou une autre fonction pour avoir des info en plus
+				if (status == CLIENT)
+				{
+					//	voila voila
+					//	bon il y a des truc a finir mais c'est presque fait
+					read(i, &simple_buffer, sizeof(simple_buffer));
+				//	adapte_polygone_next(&simple_buffer);
+					print_client_ifs(e->fractal, &simple_buffer);
+				}
 			}
 		}
 }

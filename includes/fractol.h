@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 18:21:10 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:57:06 by nperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,6 +380,13 @@ typedef	struct	s_network
 	fd_set		read_fd;
 }				t_network;
 
+typedef struct	s_client_data
+{
+	unsigned char	in_use;
+	int				socket;
+	struct in_addr	addr;
+}				t_client_data;
+
 /*
 ** hook
 */
@@ -734,8 +741,13 @@ typedef	struct	s_ifs_param
 
 }				t_ifs_param;
 
-int				get_server_socket(int ss);
-int				*get_all_open_sockets(int new_socket);
+int				remove_open_socket(size_t socket_id);
+int				add_open_socket(
+					int					new_socket,
+					struct in_addr		new_addr);
+size_t			get_all_open_sockets(
+					t_client_data	**p_client_data);
+
 void			close_sockets(int s);
 int				create_server(int port);
 void			add_new_client(int new_sock);

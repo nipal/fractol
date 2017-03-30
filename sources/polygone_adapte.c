@@ -6,11 +6,134 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 03:46:55 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 15:42:01 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 19:25:01 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+/*
+struct			s_polygone
+{
+	int			lvl;
+	t_matrix	*pos;
+	t_matrix	*col;
+	t_polygone	*next;
+};
+
+typedef struct	s_matrix
+{
+	double		*m;
+	int			x;
+	int			y;
+}				t_matrix;
+*/
+
+typedef	struct	s_data_nw
+{
+	double	pt_trans[MAX_NODE][2];
+	double	pt_base[MAX_NODE][2];
+	int		trans_len;
+	int		base_len;
+	int		max_iter;
+}				t_data_nw;
+
+t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter)
+{
+	t_data_nw	data;
+	int			i;
+	t_polygone	*node;	
+
+	bzero(&data, sizeof(t_data_nw));
+	data.base_len = get_polygone_len(base);
+	data.trans_len = get_polygone_len(transform);
+
+	//	on copie juste la valeur des point de la base dans la structure de buffer
+	node = base;
+	i = 0;
+	while (i < MAX_NODE && node)
+	{
+		data.pt_base[i][0] = node->pos->m[0];
+		data.pt_base[i][1] = node->pos->m[1];
+		node = node->next;
+		i++;
+	}
+
+	//	on copie juste la valeur des point de la transformation dans la structure de buffer
+	node = transform;
+	i = 0;
+	while (i < MAX_NODE && node)
+	{
+		data.pt_base[i][0] = node->pos->m[0];
+		data.pt_base[i][1] = node->pos->m[1];
+		node = node->next;
+		i++;
+	}
+	return (data);
+}
+
+int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
+{
+	//	il faut recree les segment
+	t_polygone	*beg;
+	t_polygone	*node;
+	t_polygone	*prev;
+	int			i;
+	double		pos[3];
+	double		col[3];
+
+	//	copy des parametre facile
+	data_dst->transform_len = data_src->trans_len;
+	data_dst->base_len = data_src->base_len;
+	data_dst->max_iter = dats_src->max_iter;
+
+	//	initialisation
+	pos[2] = 0;
+	col[0] = 0;
+	col[1] = 0;
+	col[2] = 0;
+
+	//	creation du t_polygone trans
+	node = NULL;
+	prev = NULL;
+	i = 0;
+	while (i < data_src->trans_len)
+	{
+		pos[0] = data->pt_trans[i][0];
+		pos[1] = data->pt_trans[i][2];
+		if (!(node = creat_node(0, pos, col)))
+			return (-1);
+		if (prev)
+			prev->next = node;
+		else
+			beg = node;
+		prev = node;
+		i++;
+	}
+	node->next = NULL;
+	data_dst->transform = beg;
+		
+	//	creation du t_polygone base
+	node = NULL;
+	prev = NULL;
+	i = 0;
+	while (i < data_src->base_len)
+	{
+		pos[0] = data->pt_trans[i][0];
+		pos[1] = data->pt_trans[i][2];
+		if (!(node = creat_node(0, pos, col)))
+			return (-1);
+		if (prev)
+			prev->next = node;
+		else
+			beg = node;
+		prev = node;
+		i++;
+	}
+	node->next = NULL;
+	data_dst->transform = beg;
+	return (0);
+}
 
 //	ca c'est pour reorganiser les adresse des next des liste chianer recu par le reso
 void	adapte_polygone_next(t_ifs_param *param)
@@ -75,3 +198,5 @@ typedef struct	s_matrix
 
 
 */
+
+

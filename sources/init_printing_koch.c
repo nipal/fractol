@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 05:05:28 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 19:43:19 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		print_client_ifs(t_win *w, t_ifs_param *param)
 		data_koch[1] = param->transform_len;
 		data_koch[2] = param->base_len;
 		data_koch[3] = 0;	//	ne sert a rien
-		init_koch_const(&kco, param->transform, w, data_koch);
+		init_koch_const(&kco, param->trans, w, data_koch);
 		print_koch_fractale(&kco, init_kch(param->base, 0, 0, 1), 0);
 		actu_win_rest(w);
 	}

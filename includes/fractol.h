@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 04:00:48 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 18:21:10 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -726,10 +726,8 @@ double			my_modf1(double res);
 
 typedef	struct	s_ifs_param
 {
-	// il faudra adapter en tableau les polygone qui sont des liste
-	// et definir les next comme il le faut mais du coup coter client
-	t_polygone	transform[MAX_NODE];
-	t_polygone	base[MAX_NODE];
+	t_polygone	*trans;
+	t_polygone	*base;
 	int			transform_len;
 	int			base_len;
 	int			max_iter;

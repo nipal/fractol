@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 22:39:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 16:29:21 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:57:45 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,25 @@ int          create_server(int port)
 //	}
 
 
+//	on va faire une fonction qui read les data et qui les 
+void	read_from_nettowrk_and_draw(int socket)
+{
+	t_ifs_param	data_ifs;
+	t_data_nw	data_nw;
+	int			ret;
+	t_env		*e;
+
+	e = get_env(NULL);
+	ret = read(socket, &data_nw, sizeof(t_data_nw));
+	if (ret == sizeof(t_data_nw))
+	{
+		format_data_to_print(&data_nw, &data_ifs);
+		print_client_ifs(e->fractal, &data_ifs);
+		actu_win_rest(e->fractal);
+	}
+}
+
+
 /*
 **	C'ette fonction serra appeler en boucle
 */
@@ -148,6 +167,7 @@ void     wait_for_event(int sock, fd_set *active_fd, int status)
 				//	ou une autre fonction pour avoir des info en plus
 				if (status == CLIENT)
 				{
+					read_from_nettowrk_and_draw(i);
 					//	voila voila
 					//	bon il y a des truc a finir mais c'est presque fait
 				//	read(i, &simple_buffer, sizeof(simple_buffer));

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 19:50:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:52:58 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,18 @@ void							print_fractal(t_env *e)
 {
 	double			data_koch[4];
 	t_koch_const	kco;
+	t_data_nw		data;
+	int				*clients;
 
 	if (e->transform && e->base)
 	{
+		if (e->status == SERVEUR)
+		{
+			data = format_data_to_network(e->transform, e->base, e->max_iter);
+			clients = get_all_open_sockets(-1);
+			if (clients[0])
+				write(clients[0], &data, sizeof(t_data_nw));
+		}
 		data_koch[0] = e->max_iter;
 		data_koch[1] = get_polygone_len(e->transform);
 		data_koch[2] = get_polygone_len(e->base);
@@ -92,3 +101,5 @@ void		print_client_ifs(t_win *w, t_ifs_param *param)
 		actu_win_rest(w);
 	}
 }
+
+

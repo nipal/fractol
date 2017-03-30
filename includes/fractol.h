@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 20:22:57 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:56:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -761,7 +761,8 @@ int				create_client(char *addr, int port);
 **	polygone_adapte.c
 */
 
-int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst);
+int			format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst);
 t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter);
+void		print_client_ifs(t_win *w, t_ifs_param *param);
 
 #endif

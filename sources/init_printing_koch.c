@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 20:52:58 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 01:03:48 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ void							print_fractal(t_env *e)
 		{
 			data = format_data_to_network(e->transform, e->base, e->max_iter);
 			clients = get_all_open_sockets(-1);
-			if (clients[0])
-				write(clients[0], &data, sizeof(t_data_nw));
+			int	i = 0;
+			while (clients[i])
+				write(clients[i], &data, sizeof(t_data_nw));
 		}
 		data_koch[0] = e->max_iter;
 		data_koch[1] = get_polygone_len(e->transform);
@@ -90,16 +91,16 @@ void		print_client_ifs(t_win *w, t_ifs_param *param)
 	double			data_koch[4];
 	t_koch_const	kco;
 
+	printf("on imprime\n");
 	if (w && param)
 	{
+		print_data_ifs(param);
 		data_koch[0] = param->max_iter;
 		data_koch[1] = param->transform_len;
 		data_koch[2] = param->base_len;
 		data_koch[3] = 0;	//	ne sert a rien
 		init_koch_const(&kco, param->trans, w, data_koch);
 		print_koch_fractale(&kco, init_kch(param->base, 0, 0, 1), 0);
-		actu_win_rest(w);
+//		actu_win_rest(w);
 	}
 }
-
-

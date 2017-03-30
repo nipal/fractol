@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 03:46:55 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 21:46:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 23:27:49 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb
 	i = 0;
 	while (i < MAX_NODE && node)
 	{
-		data.pt_base[i][0] = node->pos->m[0];
-		data.pt_base[i][1] = node->pos->m[1];
+		data.pt_trans[i][0] = node->pos->m[0];
+		data.pt_trans[i][1] = node->pos->m[1];
 		node = node->next;
 		i++;
 	}
+	data.max_iter = nb_iter;	
 	return (data);
 }
 
@@ -114,3 +115,20 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 	return (0);
 }
 
+
+void	print_data_network(t_data_nw *data)
+{
+
+}
+
+void 	print_data_ifs(t_ifs_param *data)
+{
+	printf("segment transformation\n");
+	polygone_describe(data->trans);
+	printf("segment base\n");
+	polygone_describe(data->base);
+
+	printf("max_iter:%d\n", data->max_iter);
+	printf("base_len:%d\n", data->base_len);
+	printf("trans_len:%d\n", data->transform_len);
+}

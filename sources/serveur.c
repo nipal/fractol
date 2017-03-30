@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 22:39:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 20:57:45 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/30 23:24:02 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int          create_server(int port)
 
 
 //	on va faire une fonction qui read les data et qui les 
-void	read_from_nettowrk_and_draw(int socket)
+int	read_from_nettowrk_and_draw(int socket)
 {
 	t_ifs_param	data_ifs;
 	t_data_nw	data_nw;
@@ -119,12 +119,13 @@ void	read_from_nettowrk_and_draw(int socket)
 
 	e = get_env(NULL);
 	ret = read(socket, &data_nw, sizeof(t_data_nw));
-	if (ret == sizeof(t_data_nw))
+	if (ret != 0)
 	{
 		format_data_to_print(&data_nw, &data_ifs);
 		print_client_ifs(e->fractal, &data_ifs);
 		actu_win_rest(e->fractal);
 	}
+	return (ret);
 }
 
 
@@ -138,6 +139,7 @@ void     wait_for_event(int sock, fd_set *active_fd, int status)
 	socklen_t       size;
 	fd_set          read_fd;
 	int             new_sock;
+	int				ret;
 
 	t_ifs_param		simple_buffer;
 	t_env			*e;
@@ -162,17 +164,15 @@ void     wait_for_event(int sock, fd_set *active_fd, int status)
 				FD_SET(new_sock, active_fd);
 			}
 			else
-			{
-				//	la on pourrai faire un read sur le fd i pout lire c qu'a a dire le client
-				//	ou une autre fonction pour avoir des info en plus
+			{	// la le serveur pourai aussi lire les data du client
 				if (status == CLIENT)
 				{
-					read_from_nettowrk_and_draw(i);
-					//	voila voila
-					//	bon il y a des truc a finir mais c'est presque fait
-				//	read(i, &simple_buffer, sizeof(simple_buffer));
-				//	adapte_polygone_next(&simple_buffer);
-				//	print_client_ifs(e->fractal, &simple_buffer);
+					ret = read_from_nettowrk_and_draw(i);
+					if (ret == 0)
+					{
+//							shutdown(get_client_socket(0), 2);
+//							exit(0);
+					}
 				}
 			}
 		}

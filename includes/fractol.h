@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 18:38:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 19:33:55 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@
 # define Y 1
 
 
+extern int time;
 
 typedef	struct s_polygone	t_polygone;
 
@@ -307,6 +308,7 @@ struct			s_env
 
 	int			id_anime_clicked;
 	t_border	*border_abox;
+	t_border	*border_speed;
 };
 
 typedef	struct	s_mandel_pt
@@ -816,5 +818,6 @@ void 	print_data_ifs(t_ifs_param *data);
 int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed);
 void			init_lst_anime(t_env *e);
 t_polygone		*init_ovaloid(t_border *b);
+void			draw_preview_path(t_env *e);
 
 #endif

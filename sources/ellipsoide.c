@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/29 00:36:50 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 20:19:57 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 	r1 = sqrt(matrix_dot_product(ux, ux));
 	r2 = sqrt(matrix_dot_product(uy, uy));
 
-	x = acos((param * 2 * M_PI)); 
+	x = acos((param)); 
+	x *= 2 * M_PI;
 	y = (r2 / r1) * sqrt(r1 * r1 - x * x); 
 	y *= (param >= 0.5) ? -1 : 1;
 

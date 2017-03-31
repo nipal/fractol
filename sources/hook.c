@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 13:13:08 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 19:32:26 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,17 @@ void	draw_param_ui(t_env *e)
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
 	actu_win_rest(e->param);
-
+	draw_preview_path(e);
 //		draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 
 }
 
+int time = 0;	
+
 int			main_work(t_env *e)
 {
-
+	
 
 	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
 	// ou pour l'atente de quoi ecrire pou enfin voila
@@ -97,6 +99,6 @@ int			main_work(t_env *e)
 		// et puis oil n'as pas le droit de sessiner ce qu'il veut.
 		// depuis quand le cient est roi?
 	}
-
+	time++;
 	return (1);
 }

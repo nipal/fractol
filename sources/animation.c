@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 15:50:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 18:39:27 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 18:57:06 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	init_lst_anime(t_env *e)
 	int			border = 5;
 	int			height = 15;
 
-
 	bord_speed = malloc(sizeof(t_border));
 	init_border(bord_speed, 2 * SIZE_PARAM_X / 3 + border,
 							SIZE_PARAM_X - border,
@@ -37,6 +36,7 @@ void	init_lst_anime(t_env *e)
 		init_t_anime(lst_anime + i, &(e->border_p), bord_speed);
 		i++;
 	}
+	e->border_speed = bord_speed;
 }
 
 int			init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed)
@@ -83,10 +83,22 @@ t_polygone		*init_ovaloid(t_border *b)
 
 //	pour chaque node on dessine une preview du chemin
 //
-void		draw_preview_path(t_anime *node_anime)
+void		draw_preview_path(t_env *e)
 {
-	t_matrix	*col;
+	int	id_anime;
+	static	t_matrix	*col = NULL;
+
+	id_anime = e->id_anime_clicked;
+	if (!col)
+		col = tsl_to_rvb_new(0,1,1);
+
+	//	ovaloide
+	draw_ellipsoide(e->param, lst_anime[id_anime].ovaloide);	
+	draw_simple_polygone(e->param, lst_anime[id_anime].ovaloide);
+	//	bouton
 }
+
+
 
 //	utiliser move_the_node(t_env e, t_polygone *seg)
 //	pour deplacer les segment

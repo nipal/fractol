@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 10:37:32 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/29 00:42:54 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 19:05:37 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		release_key(int key_code, t_win *w)
 int		motion_cursor(int x, int y, t_win *w)
 {
 	int		on;
+	int		id;
 
 	w->mx = x;
 	w->my = y;
@@ -66,6 +67,11 @@ int		motion_cursor(int x, int y, t_win *w)
 		w->e->tr_base[0] += w->mouse->m[0] - w->prev_mouse->m[0];
 		w->e->tr_base[1] += w->mouse->m[1] - w->prev_mouse->m[1];
 		actu_base(w->e, w->e->base_model);
+	}
+	if (!ft_strcmp("param", w->name) && w->button1)
+	{
+		id = w->e->id_anime_clicked;
+		move_the_node(w->e, lst_anime[id].ovaloide);	
 	}
 	main_work(w->e);
 	return (on + 1);

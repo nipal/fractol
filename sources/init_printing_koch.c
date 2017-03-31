@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_printing_koch.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 01:25:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:14:24 by nperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,28 @@ void							print_fractal(t_env *e)
 	double			data_koch[4];
 	t_koch_const	kco;
 	t_data_nw		data;
-	int				*clients;
+	size_t			cur_client;
+	size_t			n_client;
+	size_t			n_updated;
+	t_client_data	*client_data;
 
 	if (e->transform && e->base)
 	{
 		if (e->status == SERVEUR)
 		{
 			data = format_data_to_network(e->transform, e->base, e->max_iter);
-			clients = get_all_open_sockets(-1);
-			int	i = 0;
-			while (clients[i])
-				write(clients[i++], &data, sizeof(t_data_nw));
+			n_client = get_all_open_sockets(&client_data);
+			n_updated = 0;
+			cur_client = 0;
+			while (n_updated < n_client)
+			{
+				if (client_data[cur_client].in_use)
+				{
+					write(client_data[cur_client].socket, &data, sizeof(t_data_nw));
+					n_updated++;
+				}
+				cur_client++;
+			}
 		}
 		data_koch[0] = e->max_iter;
 		data_koch[1] = get_polygone_len(e->transform);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   serveur.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 22:39:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 13:53:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:08:53 by nperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 //	
 
 
+static size_t			g_n_client = 0;
+static t_client_data g_client_data[STACK_SIZE];
+
 int	get_server_socket(int ss)
 {
 	static	int	server_socket = 0;
@@ -48,24 +51,78 @@ int	get_server_socket(int ss)
 	}
 }
 
-int	*get_all_open_sockets(int new_socket)
+int			remove_open_socket(size_t socket_id)
 {
-	static	int	id_add = 0;
-	static	int	all_client_socket[STACK_SIZE];
+	if (socket_id >= (STACK_SIZE - 1)
+		|| !g_client_data[socket_id].in_use)
+		return (-1);
+	g_client_data[socket_id].in_use = 0;
+	g_n_client--;
+	shutdown(g_client_data[socket_id].socket, 2);
+	return (0);
+}
 
-	if (new_socket > 0)
+int			remove_open_socket_by_socket(int socket)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < STACK_SIZE)
 	{
-		all_client_socket[id_add] = new_socket;
-		id_add++;
+		if (g_client_data[i].in_use
+			&& (g_client_data[i].socket == socket))
+			return (remove_open_socket(i));
+		i++;
 	}
-	return (all_client_socket);
+	return (-1);
+}
+
+int			remove_open_socket_by_addr(struct in_addr addr)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < STACK_SIZE)
+	{
+		if (g_client_data[i].in_use
+			&& (g_client_data[i].addr.s_addr == addr.s_addr))
+			return (remove_open_socket(i));
+		i++;
+	}
+	return (-1);
+}
+
+int			add_open_socket(
+				int					new_socket,
+				struct in_addr		new_addr)
+{
+	size_t	i;
+
+	if (g_n_client >= (STACK_SIZE - 1))
+		return (-1);
+	i = 0;
+	while (g_client_data[i].in_use)
+		i++;
+	g_client_data[i].socket = new_socket;
+	g_client_data[i].addr = new_addr;
+	g_client_data[i].in_use = 1;
+	g_n_client++;
+	return (0);
+}
+
+size_t		get_all_open_sockets(
+				t_client_data	**p_client_data)
+{
+	*p_client_data = (t_client_data *)g_client_data;
+	return (g_n_client);
 }
 
 void     close_sockets(int s)
 {
 	static	int	first_time = 1;
 	int     ss;
-	int     *socks;
+	size_t			n_shutdown;
+	t_client_data	*client_data;
 
 	printf("\n");
 	(void)s;
@@ -74,16 +131,19 @@ void     close_sockets(int s)
 	first_time = 0;
 	if ((ss = get_server_socket(0)))
 		close(ss);
-	socks = get_all_open_sockets(-1);
-	for (int i = 0; socks[i]; i++)
+	get_all_open_sockets(&client_data);
+	for (int i = 0; n_shutdown < g_n_client; i++)
 	{
-		printf("socket [%d] closed\n", socks[i]);
-		shutdown(socks[0], 2);
+		if (client_data[i].in_use)
+		{
+			printf("socket [%d] closed\n", client_data[i].socket);
+			remove_open_socket(i);
+			n_shutdown++;
+		}
 	}
 	printf("server disconect\n");
 	ft_exit(get_env(NULL));
 }
-
 
 int          create_server(int port)
 {
@@ -160,7 +220,7 @@ void     wait_for_event(int sock, fd_set *active_fd, int status)
 				if ((new_sock = accept(sock, (struct sockaddr *)&clientname, &size)) < 0)
 					perror ("accept"), exit(-1);
 				printf("accepted connection: %i\n", new_sock);
-				get_all_open_sockets(new_sock);
+				add_open_socket(new_sock, clientname.sin_addr);
 				FD_SET(new_sock, active_fd);
 			}
 			else

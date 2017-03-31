@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:38:15 by nperrin          ###   ########.fr       */
+/*   Updated: 2017/03/31 15:19:41 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,10 @@ typedef struct	s_client_data
 	unsigned char	in_use;
 	int				socket;
 	struct in_addr	addr;
+	t_polygone		*trans;
+	t_polygone		*base;
+	int				nb_iter;
+	double			col[6];
 }				t_client_data;
 
 /*

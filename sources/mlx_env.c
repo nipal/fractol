@@ -6,14 +6,14 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 18:38:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 23:29:19 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include "libft.h"
 #include "fractol.h"
 #include <stdio.h>
+#include "mlx.h"
 
 /*
 ** 	ici il faudrait stoquer les dimetion maximale de la map

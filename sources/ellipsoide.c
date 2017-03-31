@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 20:19:57 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/01 00:38:58 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 	double		x, y;
 	double		r1;	// ux
 	double		r2; // uy
+	double		coef;
 	t_matrix	*result;
 	t_matrix	*tmp;
 	t_matrix	*ux;
@@ -45,14 +46,17 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 		|| !(ux = matrix_sub(pt->pos, pt->next->pos))
 		|| !(uy = matrix_sub(pt->next->next->pos, pt->next->pos)))
 		return (NULL);
-	param = my_modf1(param);
+//	param = my_modf1(param);
 	r1 = sqrt(matrix_dot_product(ux, ux));
 	r2 = sqrt(matrix_dot_product(uy, uy));
 
+	coef = (r2 / r1);
 	x = acos((param)); 
 	x *= 2 * M_PI;
-	y = (r2 / r1) * sqrt(r1 * r1 - x * x); 
+	y = coef * sqrt(r1 * r1 - x * x); 
 	y *= (param >= 0.5) ? -1 : 1;
+
+	printf("param:%f	r1:%f	r2:%f	coef:%f	x:%f	y:%f\n", param, r1, r2, coef, x, y);
 
 	//	cacule du point restant
 	matrix_scalar_product_in(ux, x, result);

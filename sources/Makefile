@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/31 15:43:05 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/31 23:31:41 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
-		-L  minilibx_macos/ \
+		-L  ../minilibx_macos/ \
 		-lmlx -framework OpenGL -framework AppKit  
 
 #		-L /usr/lib/ -lmlx -lm -lX11 -lXext
@@ -82,7 +82,7 @@ $(NAME): $(OBJ)
 
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths
+	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths 
 
 	# -I /usr/includes/
 

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 05:01:48 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/10 11:55:30 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 13:16:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int						actu_base(t_env *e, t_polygone *src)
 
 int						actu_transform(t_env *e, t_polygone *src)
 {
+	printf("on mappel\n");
 	polygone_destroy(&(e->transform));
 	e->transform = transform(src);
 	print_fractal(e);

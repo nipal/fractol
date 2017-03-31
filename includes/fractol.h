@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 23:24:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 20:36:24 by event1           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@
 # define SIZE_PARAM_X 900
 # define SIZE_PARAM_Y 600
 
-# define SIZE_KOCH_X 1200
-# define SIZE_KOCH_Y 1200
+# define SIZE_KOCH_X 1500
+# define SIZE_KOCH_Y 1500
 
 # define SIZE_Y2 2*SIZE_Y
 # define SIZE_X2 2*SIZE_X

@@ -6,13 +6,17 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 15:19:41 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 18:38:47 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+# define STACK_SIZE 100
+# define SERVEUR 0
+# define CLIENT  1
+# define MAX_NODE 32	// c'est deja enorme on aurra des gros problem de perfe a partir de 9
 
 # include "c_maths.h"
 # include "key.h"
@@ -69,7 +73,10 @@
 # define X 0
 # define Y 1
 
+
+
 typedef	struct s_polygone	t_polygone;
+
 
 struct			s_polygone
 {
@@ -215,7 +222,7 @@ typedef	struct	s_border
 **	on va faire une slider horizontal
 */
 
-typedef	struct	s_slider
+	typedef	struct	s_slider
 {
 	double		v1;
 	double		v2;
@@ -232,15 +239,6 @@ typedef	struct	s_range_tsl
 	double		lmin;
 	double		lmax;
 }				t_range_tsl;
-
-
-typedef	struct	s_anime
-{
-	int			abox_selected;
-	t_polygone	*ovaloid;		//	un truc a initialiser bien
-
-
-}				t_anime;
 
 
 struct			s_env
@@ -386,16 +384,38 @@ typedef	struct	s_network
 	fd_set		read_fd;
 }				t_network;
 
+
+//	les pramaetre d'animation d'un client a afficher
+typedef	struct	s_anime_data
+{
+	t_polygone	*trans;
+	t_polygone	*base;
+	int			nb_iter;
+	double		col[6];
+
+}				t_anime_data;
+
+// les parametre d'une animation
+typedef	struct	s_anime
+{
+	t_slider	*speed;
+	int			abox_selected;
+	t_polygone	*ovaloide;		//	un truc a initialiser bien
+//	
+
+}				t_anime;
+
+extern t_anime lst_anime[MAX_NODE];
+
+
 typedef struct	s_client_data
 {
 	unsigned char	in_use;
 	int				socket;
 	struct in_addr	addr;
-	t_polygone		*trans;
-	t_polygone		*base;
-	int				nb_iter;
-	double			col[6];
+	t_anime_data	*p_a_data;
 }				t_client_data;
+
 
 /*
 ** hook
@@ -737,10 +757,6 @@ double			my_modf1(double res);
 /*
 **	===================	NETWORK	======================
 */
-# define STACK_SIZE 100
-# define SERVEUR 0
-# define CLIENT  1
-# define MAX_NODE 32	// c'est deja enorme on aurra des gros problem de perfe a partir de 9
 
 typedef	struct	s_ifs_param
 {
@@ -762,6 +778,9 @@ typedef	struct	s_data_nw
 	int		max_iter;
 	double	col_val[6];	// les parametre de couleur
 }				t_data_nw;
+
+
+int	get_server_socket(int ss);
 
 int				remove_client(size_t socket_id);
 int				add_client(
@@ -785,12 +804,17 @@ int				create_client(char *addr, int port);
 */
 
 int			format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst);
-t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter, t_env *e);
+t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter, double col[6]);
 void		print_client_ifs(t_win *w, t_ifs_param *param);
 
 //	debug
 void	polygone_describe(t_polygone *node);
 void	matrix_describe(t_matrix *mat);
 void 	print_data_ifs(t_ifs_param *data);
+
+
+int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed);
+void			init_lst_anime(t_env *e);
+t_polygone		*init_ovaloid(t_border *b);
 
 #endif

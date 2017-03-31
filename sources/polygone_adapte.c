@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 03:46:55 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:37:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 16:14:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_matrix
 }				t_matrix;
 */
 
-t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter, t_env *e)
+t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter, double col[6])
 {
 	t_data_nw	data;
 	int			i;
@@ -62,7 +62,7 @@ t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb
 		i++;
 	}
 	data.max_iter = nb_iter;	
-	memmove(&(data.cal_val), );
+	memmove(&(data.col_val), col, sizeof(double) * 6);
 	return (data);
 }
 
@@ -114,6 +114,7 @@ int		format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst)
 	data_dst->max_iter = data_src->max_iter;
 	data_dst->trans = make_tpolygone_from_data(data_src->pt_trans, data_src->trans_len);
 	data_dst->base = make_tpolygone_from_data(data_src->pt_base, data_src->base_len);
+	memmove(data_dst->col_val, data_src->col_val, sizeof(double) * 6);
 	return (0);
 }
 

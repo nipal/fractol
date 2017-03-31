@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:32:12 by nperrin          ###   ########.fr       */
+/*   Updated: 2017/03/31 16:08:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void							print_fractal(t_env *e)
 	{
 		if (e->status == SERVEUR)
 		{
-			data = format_data_to_network(e->transform, e->base, e->max_iter, e);
+			//	la il fauraun double
+		double col[6] = {e->sliders[0]->v1, e->sliders[0]->v2, e->sliders[1]->v1, e->sliders[1]->v2, e->sliders[2]->v1, e->sliders[2]->v2};
+			data = format_data_to_network(e->transform, e->base, e->max_iter, col);
 			n_client = get_all_client_data(&client_data);
 			n_updated = 0;
 			cur_client = 0;
@@ -57,7 +59,11 @@ void							print_fractal(t_env *e)
 			{
 				if (client_data[cur_client].in_use)
 				{
-					write(client_data[cur_client].socket, &data, sizeof(t_data_nw));
+					if (send(client_data[cur_client].socket, &data, sizeof(t_data_nw), MSG_OOB) == -1)
+					{
+						shutdown(client_data[cur_client].socket, SHUT_RDWR);
+						remove_client(cur_client);
+					}
 					n_updated++;
 				}
 				cur_client++;

@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/31 14:36:08 by nperrin          ###   ########.fr        #
+#    Updated: 2017/03/31 15:43:05 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRC		= 	main.c						\
 			serveur.c					\
 			client.c					\
 			exit.c						\
+			animation.c					\
 			client_data.c
 
 

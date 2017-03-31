@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 04:28:35 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 18:38:06 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ void		env(t_env *e)
 	init_koch(e);
 	init_the_sliders(e->param, &(e->border_b));
 	init_statment(e);
+
+	init_lst_anime(e);
+
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 

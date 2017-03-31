@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 23:24:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 04:30:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,9 @@ struct			s_env
 	int			sock;		// pour le reseau aussi
 	int			status;		// pour savoir si on est client ou serveur
 	int			port;		// bah c'est explicite non ?
+
+	int			id_anime_clicked;
+	t_border	*border_abox;
 };
 
 typedef	struct	s_mandel_pt
@@ -695,12 +698,13 @@ void	feature_testing(t_env *e);
 **	paint_rectangle.c
 */
 void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
-void	paint_rectangle(t_win *w, t_matrix *col, t_border *rec);
+void	draw_rectangle(t_win *w, t_matrix *col, t_border *rec);
 
 /*
 **	user_interface.c
 */
 void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b);
+int		select_anime_box(t_win *w, t_border *b);
 void	draw_param_ui(t_env *e);
 
 /*

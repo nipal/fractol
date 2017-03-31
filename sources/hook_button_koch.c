@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:13:18 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/28 04:59:50 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 04:00:23 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	button_1_param(t_win *w)
 {
 	w->button1 = 1;
 	w->e->id_scrol = select_button(w, w->e->sliders);
+	w->e->id_anime_clicked = select_anime_box(w, w->e->border_abox);
 	complet_polygone(w);
 	if (w->e->add_point && w->e->base_add && w->e->trans_add)
 		insert_adding_node(w);

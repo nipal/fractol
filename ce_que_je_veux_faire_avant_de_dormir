@@ -1,0 +1,55 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    ce_que_je_veux_faire_avant_de_dormir               :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/03/31 03:21:11 by fjanoty           #+#    #+#              #
+#    Updated: 2017/03/31 03:30:47 by fjanoty          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+metre en pklace un module d'animation basique
+
+- un parcourt
+- une vitesse
+
+Une animation resoit un parametre entre 0 et 1 avec 100 pas. Ou peu etre moins
+
+
+INTERFACE UI
+
+	Il faut que les parametre de shape et de temps soit stoquer pour chaque noeud
+	Il faut aussi pouvoir les manipuler
+
+
+!!!!!!!!!!!!!!!! Il faut aussi retracer le parcourt des evenement !!!!!!!!!!!!!!!!!
+
+je vais commencer par activer les carrer en les cliquant 
+puis stoquer des parametre initialiser par defaulut pour l'elispe et le temps
+et les assosier a des curseur pour la vitesse
+
+Il fuadra aussi communiquer la couleur mais ca c'est facile
+
+pour demander une animation il faut 
+
+
+
+
+
+
+
+
+
+Le temps:
+	au debut ce sera juste une varaible static qui sincremente
+	apres ce serra vraiment du temps... enfait non. A moins q'on l fasse pour moi
+
+	je pourrai jouer sur la variation de temps
+
+
+L'idee a terme c'est de krafter des anime et de les lancer en boucle sur un mac
+puis d'en faire une autre pour un autre mac
+
+je n'aurrai peuetre qu'une 20 aine a disposition pck pas le temps d'em manager plus

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 22:39:08 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 23:24:02 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 01:27:31 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	read_from_nettowrk_and_draw(int socket)
 	{
 		format_data_to_print(&data_nw, &data_ifs);
 		print_client_ifs(e->fractal, &data_ifs);
-		actu_win_rest(e->fractal);
+	//	actu_win_rest(e->fractal);
 	}
 	return (ret);
 }

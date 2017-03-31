@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 07:31:16 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 17:17:30 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 01:31:12 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		main(int ac, char **av)
 	if (ac == 2)
 	{
 		e.status = SERVEUR;
-		signal(SIGINT, close_sockets);
+//			signal(SIGINT, close_sockets);
 		e.port = atoi(av[1]);
 		e.sock = create_server(e.port);
 		get_server_socket(e.sock);

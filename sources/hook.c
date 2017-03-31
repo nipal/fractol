@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 01:06:40 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 04:00:01 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ void	draw_param_ui(t_env *e)
 {
 	t_polygone		*color;
 
-	t_border border_abox;
-	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
-	print_anime_box(e->param, e->trans_model, NULL, &border_abox);
+	print_anime_box(e->param, e->trans_model, NULL, e->border_abox);
 	
 	/////////////
 

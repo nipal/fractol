@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 17:26:27 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 04:28:35 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void		init_border_totranslate(t_border *b, t_win *w, double *pt_translate)
 
 void		env(t_env *e)
 {
+	t_border border_abox;
+
 	if (!e || !(e->mlx = mlx_init()))
 		return ;
 	if (!(e->fractal = window_init(e, SIZE_KOCH_X, SIZE_KOCH_Y, "fractal")))
@@ -78,6 +80,11 @@ void		env(t_env *e)
 	init_koch_param_border(e, e->param);
 	init_border_totranslate(&(e->base_cadre), e->fractal, e->tr_base);
 
+	
+	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
+	e->border_abox = &border_abox;
+
+	e->id_anime_clicked = 0;
 	e->zoom = ZOOM;
 	e->zoom_finished = 1;
 	mlx_loop_hook(e->mlx, main_work, e);

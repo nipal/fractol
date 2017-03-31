@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:35:34 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:38:15 by nperrin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 
-
-
+# define MAX_CLIENT 100
 
 # define NB_NAME_FRAC 31
 # define NB_NAME_ALT 10
@@ -760,11 +759,11 @@ typedef	struct	s_data_nw
 	double	col_val[6];	// les parametre de couleur
 }				t_data_nw;
 
-int				remove_open_socket(size_t socket_id);
-int				add_open_socket(
+int				remove_client(size_t socket_id);
+int				add_client(
 					int					new_socket,
 					struct in_addr		new_addr);
-size_t			get_all_open_sockets(
+size_t			get_all_client_data(
 					t_client_data **p_client_data);
 
 void			close_sockets(int s);

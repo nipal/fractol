@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
+#    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/30 22:20:33 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/03/31 14:36:08 by nperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ SRC		= 	main.c						\
 			ellipsoide.c				\
 			serveur.c					\
 			client.c					\
-			exit.c 
+			exit.c						\
+			client_data.c
 
 
 OBJ		= $(SRC:.c=.o)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
+#    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:28:32 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/31 14:09:26 by nperrin          ###   ########.fr        #
+#    Updated: 2017/03/31 14:37:11 by nperrin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@
 # -g -fsanitize=address 
 # -Ofast
 #  -Wall -Wextra -Werror
-export CFLAGS	= -g -fsanitize=address
-#export CFLAGS	= -Ofast #-Wall -Wextra
+#export CFLAGS	= -g -fsanitize=address
+export CFLAGS	= -Ofast #-Wall -Wextra
 
 #-fsanitize=address
 export CC	= gcc

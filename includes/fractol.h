@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:20:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:35:34 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -746,6 +746,7 @@ typedef	struct	s_ifs_param
 	int			transform_len;
 	int			base_len;
 	int			max_iter;
+	double	col_val[6];	// les parametre de couleur
 
 }				t_ifs_param;
 
@@ -756,6 +757,7 @@ typedef	struct	s_data_nw
 	int		trans_len;
 	int		base_len;
 	int		max_iter;
+	double	col_val[6];	// les parametre de couleur
 }				t_data_nw;
 
 int				remove_open_socket(size_t socket_id);
@@ -780,7 +782,7 @@ int				create_client(char *addr, int port);
 */
 
 int			format_data_to_print(t_data_nw *data_src, t_ifs_param *data_dst);
-t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter);
+t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter, t_env *e);
 void		print_client_ifs(t_win *w, t_ifs_param *param);
 
 //	debug

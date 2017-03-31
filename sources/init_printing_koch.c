@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:14:24 by nperrin          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:35:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void							print_fractal(t_env *e)
 	{
 		if (e->status == SERVEUR)
 		{
-			data = format_data_to_network(e->transform, e->base, e->max_iter);
+			data = format_data_to_network(e->transform, e->base, e->max_iter, e);
 			n_client = get_all_open_sockets(&client_data);
 			n_updated = 0;
 			cur_client = 0;

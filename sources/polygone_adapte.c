@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 03:46:55 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 23:27:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:37:42 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@ typedef struct	s_matrix
 }				t_matrix;
 */
 
-t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter)
+t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb_iter, t_env *e)
 {
 	t_data_nw	data;
 	int			i;
-	t_polygone	*node;	
+	t_polygone	*node;
+	double		col_val[6];
 
 	bzero(&data, sizeof(t_data_nw));
 	data.base_len = get_polygone_len(base);
@@ -61,6 +62,7 @@ t_data_nw	format_data_to_network(t_polygone *transform, t_polygone *base, int nb
 		i++;
 	}
 	data.max_iter = nb_iter;	
+	memmove(&(data.cal_val), );
 	return (data);
 }
 

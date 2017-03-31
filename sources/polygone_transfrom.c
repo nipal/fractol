@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:35:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 20:16:37 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 20:53:30 by event100         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_polygone					*transform(t_polygone *seg_beg)
 
 	//
 
-	seg_beg = modif_polygone(seg_beg);
+//	seg_beg = modif_polygone(seg_beg);
 	seg_end = get_last(seg_beg);
 	if (!seg_beg || !(unite_x = matrix_sub(seg_end->pos, seg_beg->pos))
 			|| !(unite_y = matrix_init(1, 3))

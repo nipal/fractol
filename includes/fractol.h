@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:04:39 by nperrin          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:20:38 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,9 +234,13 @@ typedef	struct	s_range_tsl
 	double		lmax;
 }				t_range_tsl;
 
+
 typedef	struct	s_anime
 {
-	int		anime_nb;	//	c'est le numerot du type d'anime
+	int			abox_selected;
+	t_polygone	*ovaloid;		//	un truc a initialiser bien
+
+
 }				t_anime;
 
 

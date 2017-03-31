@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 06:12:19 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:15:40 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/03/31 14:20:45 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,7 @@
 # define LINE_BOX_MAX 4
 # define MINI_CIRCLE 7 
 
-typedef	struct	s_nime
-
-
-typedef	struct	s_anime
-{
-	int			abox_selected;
-	t_polygone	*ovaloid;		//	un truc prefait	
-
-}				t_anime;
+//typedef	struct	s_nime
 
 
 int		change_state_anime_box(int prev_id, t_win *w, t_border *b)

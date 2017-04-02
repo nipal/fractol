@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/01 00:38:58 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/02 23:17:19 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,84 @@ double	my_modf1(double res)
 	res = res - (int)res + 1;
 	res = res - (int)res;
 	return (res);
+}
+
+t_matrix		*ellipsoide_shape(t_polygone *pt, double t)
+{
+//		r1 = sqrt(matrix_dot_product(ux, ux));
+//		r2 = sqrt(matrix_dot_product(uy, uy));
+	//	pt	=> 	parameter spatiale de l'ellipse
+	//	t	=>	point sur la courbee
+	t_matrix	*ux, *uy, *result;
+	double		x, y;
+
+	if (!pt || !pt->next || !pt->next->next
+		|| !(result = matrix_init(1, 3))
+		|| !(ux = matrix_sub(pt->pos, pt->next->pos))
+		|| !(uy = matrix_sub(pt->next->next->pos, pt->next->pos)))
+		return (NULL);
+	t = t * 2 * M_PI;
+	x = cos(t);
+	y = sin(t);
+	matrix_scalar_product_in(ux, x, ux);
+	matrix_scalar_product_in(uy, y, uy);
+	matrix_add_in(ux, uy, result);
+	matrix_free(&ux);
+	matrix_free(&uy);
+	return (result);
+}
+
+void			draw_preview_one_anime(t_win *w, t_polygone *shape_param, t_matrix *pos, double time)
+{
+	t_matrix	*mt, *prev, *pt, *col, *tmp;
+	int			i, max;
+	double		param;
+
+	if (!shape_param || !pos || !pos
+		|| !(prev = matrix_init(1, 3))
+		|| !(col = vect_new_vertfd(130, 130, 130)))
+		return ;
+
+	//	on dessine le parcourt de l'ellipse
+	i = 0;
+	max = 100;
+	while (i < max)
+	{
+		param = ((double) i) / ((double) max);
+		if (!(tmp = ellipsoide_shape(shape_param, param))
+			|| !(pt = matrix_add(tmp, pos)))
+			return ;
+		if (i)
+		{
+			if (!(mt = init_mat_line(pt, prev, col, col)))
+				return ;
+			draw_line2(w, mt);
+			matrix_free(&mt);
+		}
+		matrix_copy_in(pt, prev);
+		matrix_free(&pt);
+		matrix_free(&tmp);
+		i++;
+	}
+	matrix_free(&col);
+	matrix_free(&prev);
+
+//	On imprime la position du point
+	if (!(col = vect_new_vertfd(150, 90, 90))
+		|| !(tmp = ellipsoide_shape(shape_param, time))
+		|| !(pt = matrix_add(tmp, pos)))
+		return ;
+//		printf("====>\n");
+//		matrix_describe(tmp);
+//		matrix_describe(pos);
+//		matrix_describe(pt);
+//		paint_circle(pos, col, 15, w);
+//		print_circle2(tmp, col, 9, w);
+//		print_circle2(pos, col, 10, w);
+	print_circle2(pt, col, 11, w);
+	matrix_free(&col);
+	matrix_free(&tmp);
+	matrix_free(&pt);
 }
 
 t_matrix		*ellipsoide_param(t_polygone *pt, double param)
@@ -56,7 +134,7 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 	y = coef * sqrt(r1 * r1 - x * x); 
 	y *= (param >= 0.5) ? -1 : 1;
 
-	printf("param:%f	r1:%f	r2:%f	coef:%f	x:%f	y:%f\n", param, r1, r2, coef, x, y);
+//	printf("param:%f	r1:%f	r2:%f	coef:%f	x:%f	y:%f\n", param, r1, r2, coef, x, y);
 
 	//	cacule du point restant
 	matrix_scalar_product_in(ux, x, result);

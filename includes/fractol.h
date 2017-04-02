@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 20:55:51 by event100         ###   ########.fr       */
+/*   Updated: 2017/04/02 22:28:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@
 # define Y 1
 
 
-extern int time;
 
 typedef	struct s_polygone	t_polygone;
 
@@ -407,7 +406,6 @@ typedef	struct	s_anime
 
 }				t_anime;
 
-extern t_anime lst_anime[MAX_NODE];
 
 
 typedef struct	s_client_data
@@ -418,6 +416,8 @@ typedef struct	s_client_data
 	t_anime_data	*p_a_data;
 }				t_client_data;
 
+extern int time;
+extern t_anime lst_anime[MAX_NODE];
 
 /*
 ** hook
@@ -752,9 +752,13 @@ void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 /*
 **	ellipsoide.c
 */
+void		draw_preview_one_anime(t_win *w, t_polygone *shape_param, t_matrix *pos, double time);
 t_matrix		*ellipsoide_param(t_polygone *pt, double param);
 void			draw_ellipsoide(t_win *w, t_polygone *pt);
 double			my_modf1(double res);
+
+//	a metre ua bon endroi
+void		draw_preview_anime(t_win *w);
 
 /*
 **	===================	NETWORK	======================

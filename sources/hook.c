@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 19:32:26 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/02 23:19:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,29 @@ void		init_pos_ecr(t_env *e)
 	e->pos_height[3] = 2;
 }
 
+
+//	la on va dessiner pour tout les anime_box disponible
+void		draw_preview_anime(t_win *w)
+{
+	int	i;
+	int	len;
+	int	periode;
+	double	the_time;
+	t_polygone	*node;
+
+	periode = 100;
+	the_time = (((double)(time % periode))/(double) periode);
+	len = get_polygone_len(w->e->trans_model);
+	node = w->e->trans_model;
+	i = 0;
+	while (i < len && node)
+	{
+		draw_preview_one_anime(w, lst_anime[i].ovaloide, node->pos, the_time);
+		node = node->next;
+		i++;
+	}
+}
+
 /*
 **	On re desine surtout la fenetre de parametrage et on actualise les transformation
 */
@@ -55,6 +78,7 @@ void	draw_param_ui(t_env *e)
 	t_polygone		*color;
 
 	print_anime_box(e->param, e->trans_model, NULL, e->border_abox);
+//	draw_preview_anime(e->param);
 	
 	/////////////
 
@@ -75,6 +99,7 @@ void	draw_param_ui(t_env *e)
 		: (void)e;
 	actu_win_rest(e->param);
 	draw_preview_path(e);
+	draw_preview_anime(e->param);
 //		draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 

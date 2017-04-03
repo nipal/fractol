@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 05:01:48 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:22:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 01:28:14 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int						actu_base(t_env *e, t_polygone *src)
 {
 	polygone_destroy(&(e->base));
 	e->base = scale_segment(src, &(e->border_b), &(e->base_cadre), e->tr_base);
-	print_fractal(e);
+//	print_fractal(e);
 	return (1);
 }
 
@@ -46,7 +46,7 @@ int						actu_transform(t_env *e, t_polygone *src)
 {
 	polygone_destroy(&(e->transform));
 	e->transform = transform(src);
-	print_fractal(e);
+//	print_fractal(e);
 	return (1);
 }
 

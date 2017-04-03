@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/08 18:35:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/01 00:39:09 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 01:21:14 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,38 +88,38 @@ t_polygone    *copy_polygone(t_polygone *poly)
 	}
 	return (cpy);
 }
-
-t_polygone		*modif_polygone(t_polygone *seg)
-{
-	int		periode = 100;
-	double		param = ((double)(time % periode) / (double)periode);
-	t_env		*e;
-	int			i;	
-	double		add_x, add_y, mid_x, mid_y;
-	t_polygone	*copy = NULL;
-	t_polygone	*copy_beg = NULL;
-	t_polygone	*prev = NULL;
-	t_matrix	*pos;
-	
-	param = (param * 2) - 1;
-	copy = copy_polygone(seg);
-	copy_beg = copy;
-	i = 0;
-	while (copy)
-	{
-		mid_x = lst_anime[i].ovaloide->pos->m[0];
-		mid_y = lst_anime[i].ovaloide->pos->m[1];
-		pos = ellipsoide_param(lst_anime[i].ovaloide, param);
-		add_x = pos->m[0] - mid_x;
-		add_y = pos->m[1] - mid_y;
-//			printf("x:%f	y:%f\n", add_x, add_y);
-		copy->pos->m[0] += add_x;
-		copy->pos->m[1] += add_y;
-		copy = copy->next;
-		i++;
-	}	
-	return (copy_beg);
-}
+//	
+//	t_polygone		*modif_polygone(t_polygone *seg)
+//	{
+//		int		periode = 100;
+//		double		param = ((double)(time % periode) / (double)periode);
+//		t_env		*e;
+//		int			i;	
+//		double		add_x, add_y, mid_x, mid_y;
+//		t_polygone	*copy = NULL;
+//		t_polygone	*copy_beg = NULL;
+//		t_polygone	*prev = NULL;
+//		t_matrix	*pos;
+//		
+//		param = (param * 2) - 1;
+//		copy = copy_polygone(seg);
+//		copy_beg = copy;
+//		i = 0;
+//		while (copy)
+//		{
+//			mid_x = lst_anime[i].ovaloide->pos->m[0];
+//			mid_y = lst_anime[i].ovaloide->pos->m[1];
+//			pos = ellipsoide_param(lst_anime[i].ovaloide, param);
+//			add_x = pos->m[0] - mid_x;
+//			add_y = pos->m[1] - mid_y;
+//	//			printf("x:%f	y:%f\n", add_x, add_y);
+//			copy->pos->m[0] += add_x;
+//			copy->pos->m[1] += add_y;
+//			copy = copy->next;
+//			i++;
+//		}	
+//		return (copy_beg);
+//	}
 
 
 
@@ -134,7 +134,7 @@ t_polygone					*transform(t_polygone *seg_beg)
 
 	//
 
-	seg_beg = modif_polygone(seg_beg);
+//	seg_beg = modif_polygone(seg_beg);
 	seg_end = get_last(seg_beg);
 	if (!seg_beg || !(unite_x = matrix_sub(seg_end->pos, seg_beg->pos))
 			|| !(unite_y = matrix_init(1, 3))

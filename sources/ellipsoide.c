@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/02 23:17:19 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 01:18:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void			draw_preview_one_anime(t_win *w, t_polygone *shape_param, t_matrix *pos, 
 	matrix_free(&pt);
 }
 
+/*
 t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 {
 	double		x, y;
@@ -147,6 +148,7 @@ t_matrix		*ellipsoide_param(t_polygone *pt, double param)
 	matrix_free(&uy);
 	return (result);
 }
+*/
 
 void		draw_ellipsoide(t_win *w, t_polygone *pt)
 {

@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/02 22:28:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 02:10:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include <sys/time.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <string.h>
@@ -269,6 +270,7 @@ struct			s_env
 	int			iter_koch;
 	t_polygone	*base_model;
 	t_polygone	*trans_model;
+	t_polygone	*trans_model2; // la mem chose que trans_model mais modifier par l'animation
 	t_polygone	*base;	// coordonner reel
 	t_polygone	*transform; // coordonner reel
 	t_polygone	*beg_actif;
@@ -416,7 +418,8 @@ typedef struct	s_client_data
 	t_anime_data	*p_a_data;
 }				t_client_data;
 
-extern int time;
+extern int time_prg;
+extern int periode;
 extern t_anime lst_anime[MAX_NODE];
 
 /*
@@ -753,8 +756,8 @@ void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 **	ellipsoide.c
 */
 void		draw_preview_one_anime(t_win *w, t_polygone *shape_param, t_matrix *pos, double time);
-t_matrix		*ellipsoide_param(t_polygone *pt, double param);
 void			draw_ellipsoide(t_win *w, t_polygone *pt);
+t_matrix		*ellipsoide_shape(t_polygone *pt, double t);
 double			my_modf1(double res);
 
 //	a metre ua bon endroi
@@ -823,5 +826,6 @@ int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed);
 void			init_lst_anime(t_env *e);
 t_polygone		*init_ovaloid(t_border *b);
 void			draw_preview_path(t_env *e);
+t_polygone		*apply_ellipse_anime(t_polygone *org);
 
 #endif

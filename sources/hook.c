@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/02 23:19:07 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 02:10:16 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,54 @@ void		init_pos_ecr(t_env *e)
 	e->pos_height[3] = 2;
 }
 
+/*
+ * On va modifier un truc qui pourrait etre le truc de transformation en mode middle ware
+ * du coup on va le lancer a chaque tour de boucle
+*/
+t_polygone	*apply_ellipse_anime(t_polygone *org)
+{
+	t_polygone	*node, *prev, *beg;
+	t_matrix	*tmp, *pos, *col;
+	int			i;
+	double		the_time;
+
+//	printf("apply_ellipse_anime\n");
+	beg = NULL;
+	prev = NULL;
+	the_time = (((double)(time_prg % periode))/(double) periode);
+	if (!org || !(col = vect_new_vertfd(40, 170, 70)))
+		return (NULL);
+	i = 0;
+	while (org)
+	{
+		if (!(tmp = ellipsoide_shape(lst_anime[i].ovaloide, the_time))
+			|| !(pos = matrix_add(tmp, org->pos)))
+			return (NULL);
+		node = creat_node(0, pos->m, col->m); 
+		if (prev)
+			prev->next = node;
+		else
+			beg = node;
+		prev = node;
+		org = org->next;
+		matrix_free(&pos);
+		matrix_free(&tmp);
+		i++;
+	}
+//	e->trans_model2 = beg;
+	matrix_free(&col);
+	return (beg);
+}
 
 //	la on va dessiner pour tout les anime_box disponible
 void		draw_preview_anime(t_win *w)
 {
 	int	i;
 	int	len;
-	int	periode;
 	double	the_time;
 	t_polygone	*node;
 
-	periode = 100;
-	the_time = (((double)(time % periode))/(double) periode);
+	the_time = (((double)(time_prg % periode))/(double) periode);
 	len = get_polygone_len(w->e->trans_model);
 	node = w->e->trans_model;
 	i = 0;
@@ -84,7 +120,7 @@ void	draw_param_ui(t_env *e)
 
 	color = NULL;	
 	draw_the_2_border(e);
-	draw_simple_polygone(e->param, e->trans_model);
+//		draw_simple_polygone(e->param, e->trans_model);
 	draw_simple_polygone(e->param, e->base_model);
 	if (mouse_in_border(&(e->border_b), e->param->mouse) && e->base_add > 0)
 		color = get_closer_node(e->base_model, e->param->mouse, e->r_select);
@@ -97,23 +133,37 @@ void	draw_param_ui(t_env *e)
 	draw_the_sliders(e->param, e->sliders);
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
+	draw_preview_path(e);	//	dans le care de preview (ou parametrage de la courbe)
+	draw_preview_anime(e->param); // dans le carrer de frabrication de rransmodel on montrer les animation
+	//////////////
+	draw_simple_polygone(e->param, e->trans_model2);
+	//////////////
 	actu_win_rest(e->param);
-	draw_preview_path(e);
-	draw_preview_anime(e->param);
+//	print_fractal(e);
 //		draw_ellipsoide(e->param, e->base_model);
 //		feature_testing(e);
 
 }
 
-int time = 0;	
+int time_prg = 0;	
+int	periode = 10000;
 
 int			main_work(t_env *e)
 {
 	
+	struct timeval tv;
+	gettimeofday(&tv,NULL);
+	time_prg = (tv.tv_sec % 10) * 1000 + (tv.tv_usec / 1000);
 
 	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
 	// ou pour l'atente de quoi ecrire pou enfin voila
 	wait_for_event(e->sock, &(e->read_fd), e->status);
+
+	/////////////////////////////
+	polygone_destroy(&(e->trans_model2));
+	e->trans_model2 = apply_ellipse_anime(e->trans_model);
+	e->transform = transform(e->trans_model2);
+	print_fractal(e);
 	//////////////
 
 	if (e->status == SERVEUR)
@@ -124,6 +174,5 @@ int			main_work(t_env *e)
 		// et puis oil n'as pas le droit de sessiner ce qu'il veut.
 		// depuis quand le cient est roi?
 	}
-	time++;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 03:40:26 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/05 03:41:43 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 01:27:41 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ int			remove_one_node(t_env *e)
 	polygone_destroy_one(&tmp);
 	(beg == e->base_model) ? actu_base(e, e->base_model) :
 		actu_transform(e, e->trans_model);
-	print_fractal(e);
+//	print_fractal(e);
 	return (1);
 }

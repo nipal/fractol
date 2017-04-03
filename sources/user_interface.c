@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 06:12:19 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:20:45 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 05:20:37 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,26 @@
 int		change_state_anime_box(int prev_id, t_win *w, t_border *b)
 {
 	int	new_id;
+	int	i;
+	t_polygone	*selected;
+	t_polygone	*node;
 
+	//	si on clicke sur une anime_box
 	new_id = select_anime_box(w, b);
 	if (new_id >= 0)
 		return (new_id);
+	//	si on clicke directement sur un node de transoformation
+	else if (w->button1 && (selected = get_closer_node(w->e->trans_model, w->mouse, w->e->r_select)))
+	{
+		i = 0;
+		node = w->e->trans_model;
+		while (node && node != selected) // la boucle ps opti de la mort mais elle fait le taf
+		{
+			node = node->next;
+			i++;
+		}
+		return (i);
+	}
 	return (prev_id);
 }
 
@@ -139,6 +155,13 @@ void	print_anime_box(t_win *w, t_polygone *poly, t_anime *anime, t_border *b)
 			return ;
 		paint_rectangle(w, col, &place);	// la on dessine le rectangle dans le cardre ou il faut 
 		paint_circle(node->pos, col, MINI_CIRCLE, w); // la on dessinne le cercle associer
+		if (i == w->e->id_anime_clicked) // la on dessine un cercle spetial pour l'anime_box selectionee
+		{
+			col->m[0] = 230;
+			col->m[1] = 230;
+			col->m[2] = 0;
+			print_circle2(node->pos, col, MINI_CIRCLE + 1, w);	
+		}
 		matrix_free(&col);
 		node = node->next;
 		i++;

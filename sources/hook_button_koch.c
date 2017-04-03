@@ -6,13 +6,14 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:13:18 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 14:07:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 03:29:03 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
 int		change_state_anime_box(int prev_id, t_win *w, t_border *b);
+
 void	button_1_param(t_win *w)
 {
 	w->button1 = 1;

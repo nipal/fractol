@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/03 02:10:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 07:44:49 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ t_polygone	*apply_ellipse_anime(t_polygone *org)
 	int			i;
 	double		the_time;
 
-//	printf("apply_ellipse_anime\n");
 	beg = NULL;
 	prev = NULL;
 	the_time = (((double)(time_prg % periode))/(double) periode);
@@ -66,7 +65,7 @@ t_polygone	*apply_ellipse_anime(t_polygone *org)
 	i = 0;
 	while (org)
 	{
-		if (!(tmp = ellipsoide_shape(lst_anime[i].ovaloide, the_time))
+		if (!(tmp = ellipsoide_shape(lst_anime + i, the_time))
 			|| !(pos = matrix_add(tmp, org->pos)))
 			return (NULL);
 		node = creat_node(0, pos->m, col->m); 
@@ -80,7 +79,6 @@ t_polygone	*apply_ellipse_anime(t_polygone *org)
 		matrix_free(&tmp);
 		i++;
 	}
-//	e->trans_model2 = beg;
 	matrix_free(&col);
 	return (beg);
 }
@@ -99,7 +97,7 @@ void		draw_preview_anime(t_win *w)
 	i = 0;
 	while (i < len && node)
 	{
-		draw_preview_one_anime(w, lst_anime[i].ovaloide, node->pos, the_time);
+		draw_preview_one_anime(w, lst_anime + i, node->pos, the_time);
 		node = node->next;
 		i++;
 	}
@@ -130,13 +128,14 @@ void	draw_param_ui(t_env *e)
 		print_circle2(color->pos, NULL, e->r_select, e->param);
 	if (e->id_scrol >= 0)
 		scroling_button(e->param, e->sliders[e->id_scrol / 2], e->id_scrol % 2);
-	draw_the_sliders(e->param, e->sliders);
+		draw_the_sliders(e->param, e->sliders);
 	(e->add_point && e->base_add && e->trans_add) ? draw_prewiew(e->param)
 		: (void)e;
+	//////////////
 	draw_preview_path(e);	//	dans le care de preview (ou parametrage de la courbe)
 	draw_preview_anime(e->param); // dans le carrer de frabrication de rransmodel on montrer les animation
-	//////////////
-	draw_simple_polygone(e->param, e->trans_model2);
+	draw_simple_polygone(e->param, e->trans_model2);	// le segment de transformation moduler par l'animation
+	scrol_button_anime(e->param, lst_anime + e->id_anime_clicked);
 	//////////////
 	actu_win_rest(e->param);
 //	print_fractal(e);
@@ -162,6 +161,7 @@ int			main_work(t_env *e)
 	/////////////////////////////
 	polygone_destroy(&(e->trans_model2));
 	e->trans_model2 = apply_ellipse_anime(e->trans_model);
+	polygone_destroy(&(e->transform));
 	e->transform = transform(e->trans_model2);
 	print_fractal(e);
 	//////////////

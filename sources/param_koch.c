@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 13:27:00 by fjanoty           #+#    #+#             */
-/*   Updated: 2016/12/07 06:16:36 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 05:08:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,7 @@ static	inline	void	bcl_circle(t_dp p
 	}
 }
 
-void					print_circle2(t_matrix *mid, t_matrix *col, double r
-		, t_win *w)
+void					print_circle2(t_matrix *mid, t_matrix *col, double r, t_win *w)
 {
 	t_dp		p;
 	t_matrix	*c2;

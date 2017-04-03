@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/03 02:10:17 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 07:43:55 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,6 +402,7 @@ typedef	struct	s_anime_data
 typedef	struct	s_anime
 {
 	t_slider	*speed;
+	t_slider	*offset;
 	int			abox_selected;
 	t_polygone	*ovaloide;		//	un truc a initialiser bien
 //	
@@ -658,7 +659,7 @@ void			paint_circle(t_matrix *mid, t_matrix *col, double r, t_win *w);
 t_slider		**init_tab_slider(int nb, t_border *inside, t_matrix *color
 				, double margin);
 int				slider_free(t_slider **slide);
-void			draw_slider(t_win *w, t_slider *s);
+void			draw_slider(t_win *w, t_slider *s, int witch);
 void			draw_the_sliders(t_win *w, t_slider **sliders);
 void			scroling_button(t_win *w, t_slider *slide, int pt);
 int				select_button(t_win *w, t_slider **tabs);
@@ -755,9 +756,9 @@ void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 /*
 **	ellipsoide.c
 */
-void		draw_preview_one_anime(t_win *w, t_polygone *shape_param, t_matrix *pos, double time);
+void		draw_preview_one_anime(t_win *w, t_anime *anime, t_matrix *pos, double time);
 void			draw_ellipsoide(t_win *w, t_polygone *pt);
-t_matrix		*ellipsoide_shape(t_polygone *pt, double t);
+t_matrix		*ellipsoide_shape(t_anime *pt, double t);
 double			my_modf1(double res);
 
 //	a metre ua bon endroi
@@ -822,10 +823,15 @@ void	matrix_describe(t_matrix *mat);
 void 	print_data_ifs(t_ifs_param *data);
 
 
-int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed);
+/*
+**	animation.c
+*/
+# define MAX_SPEED 5
+int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed, t_border *b_offset);
 void			init_lst_anime(t_env *e);
 t_polygone		*init_ovaloid(t_border *b);
 void			draw_preview_path(t_env *e);
 t_polygone		*apply_ellipse_anime(t_polygone *org);
+void			scrol_button_anime(t_win *w, t_anime *anime);
 
 #endif

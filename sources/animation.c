@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 15:50:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 18:57:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/03 07:24:52 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,51 @@
 
 t_anime	lst_anime[MAX_NODE];
 
-int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed);
+int				init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed, t_border *b_offset);
 void			init_lst_anime(t_env *e);
 t_polygone		*init_ovaloid(t_border *b);
 
 void	init_lst_anime(t_env *e)
 {
 	t_border	*bord_speed;
+	t_border	*bord_offset;
 	int			i;
-	int			border = 5;
-	int			height = 15;
+	int			border = 7;
+	int			height = 40;
 
 	bord_speed = malloc(sizeof(t_border));
-	init_border(bord_speed, 2 * SIZE_PARAM_X / 3 + border,
-							SIZE_PARAM_X - border,
-							SIZE_PARAM_Y / 3 - height,
-							SIZE_PARAM_Y / 3 + height);
+	bord_offset = malloc(sizeof(t_border));
+	init_border(bord_offset, 2 * SIZE_PARAM_X / 3 + border, SIZE_PARAM_X - border,
+							SIZE_PARAM_Y / 3 - height + border , SIZE_PARAM_Y / 3 - border);
+	init_border(bord_speed, 2 * SIZE_PARAM_X / 3 + border, SIZE_PARAM_X - border,
+							SIZE_PARAM_Y / 3 + border, SIZE_PARAM_Y / 3 + height - border);
 	i = 0;
 	while (i < MAX_NODE)
 	{
-		init_t_anime(lst_anime + i, &(e->border_p), bord_speed);
+		init_t_anime(lst_anime + i, &(e->border_p), bord_speed, bord_offset);
 		i++;
 	}
 	e->border_speed = bord_speed;
 }
 
-int			init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed)
+int			init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed, t_border *b_offset)
 {
+	t_matrix	*col_speed, *col_offset;
+
+	if (!(col_speed = vect_new_vertfd(63, 205, 225))
+		|| !(col_offset = vect_new_vertfd(63, 106, 225)))
+		return (1);
 	anime->ovaloide = init_ovaloid(b_anime);
 
 	//	init_slider
-	anime->speed = init_slider(NULL, b_speed); 
+	anime->speed = init_slider(col_speed, b_speed); 
+	anime->offset = init_slider(col_offset, b_offset); 
+	anime->speed->v1 = 0.5;
+	anime->offset->v1 = 0;
+	matrix_free(&col_speed);
+	matrix_free(&col_offset);
 	return (0);
 }
-
-//	t_slider	*create_speed_slider(t_border *b)
-//	{
-//		return (NULL);	
-//	}
-//	
-//	//	fonction de seleciton
-//	
-//	//	la on malloc a la bonne taille
-//	t_polygone	*create_ovaloid()
-//	{
-//		return (NULL);	
-//	}
 
 //	pour mapper 
 t_polygone		*init_ovaloid(t_border *b)
@@ -96,9 +95,19 @@ void		draw_preview_path(t_env *e)
 	draw_ellipsoide(e->param, lst_anime[id_anime].ovaloide);	
 	draw_simple_polygone(e->param, lst_anime[id_anime].ovaloide);
 	//	bouton
+	draw_slider(e->param, lst_anime[id_anime].speed, 1);	
+	draw_slider(e->param, lst_anime[id_anime].offset, 1);	
 }
 
-
+void		scrol_button_anime(t_win *w, t_anime *anime)
+{
+	//	si on a cliquer ET qu'on est dans la zone
+	//	button speed
+	if (w->button1 && mouse_in_border(anime->speed->border, w->mouse))	
+		scroling_button(w, anime->speed, 0);
+	else if (w->button1 && mouse_in_border(anime->offset->border, w->mouse))	
+		scroling_button(w, anime->offset, 0);
+}
 
 //	utiliser move_the_node(t_env e, t_polygone *seg)
 //	pour deplacer les segment

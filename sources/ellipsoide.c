@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/03 07:51:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 21:02:26 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,29 @@ double	my_modf1(double res)
 	return (res);
 }
 
-t_matrix		*ellipsoide_shape(t_anime *a, double t)
+double			get_time_ellipse_anime(t_env *e, t_anime *a)
+{
+	double	time;
+
+	time_prg = (e->time.tv_sec % 10) * 1000 + (e->time.tv_usec / 1000);
+	lkjlj;
+
+	time = (() / ((double)periode));
+	return (time);
+}
+
+t_matrix		*ellipsoide_shape(t_polygone *pt, double t)
 {
 	t_matrix	*ux, *uy, *result;
 	double		x, y, speed, offset;
 
-	speed = (a->speed->v1 - 0.5) * MAX_SPEED;
-	offset = a->offset->v1;
-	t = t * speed + offset;
-	if (!a
+//		speed = (a->speed->v1 - 0.5) * MAX_SPEED;
+//		offset = a->offset->v1;
+//		t = t * speed + offset;
+	if (!pt
 		|| !(result = matrix_init(1, 3))
-		|| !(ux = matrix_sub(a->ovaloide->pos, a->ovaloide->next->pos))
-		|| !(uy = matrix_sub(a->ovaloide->next->next->pos, a->ovaloide->next->pos)))
+		|| !(ux = matrix_sub(pt->pos, pt->next->pos))
+		|| !(uy = matrix_sub(pt->next->next->pos, pt->next->pos)))
 		return (NULL);
 	t = t * 2 * M_PI;
 	x = cos(t);
@@ -65,13 +76,13 @@ void			draw_preview_one_anime(t_win *w, t_anime *anime, t_matrix *pos, double ti
 		return ;
 
 	//	on dessine le parcourt de l'ellipse
-	mult = (anime->speed->v1 - 0.5) * MAX_SPEED;
+//		mult = (anime->speed->v1 - 0.5) * MAX_SPEED;
 	i = 0;
 	max = 100;
 	while (i < max)
 	{
 		param = (((double) i) * mult) / ((double) max);
-		if (!(tmp = ellipsoide_shape(anime, param))
+		if (!(tmp = ellipsoide_shape(anime->ovaloide, param))
 			|| !(pt = matrix_add(tmp, pos)))
 			return ;
 		if (i)
@@ -91,7 +102,7 @@ void			draw_preview_one_anime(t_win *w, t_anime *anime, t_matrix *pos, double ti
 
 //	On imprime la position du point
 	if (!(col = vect_new_vertfd(150, 90, 90))
-		|| !(tmp = ellipsoide_shape(anime, time))
+		|| !(tmp = ellipsoide_shape(anime->ovaloide, time))
 		|| !(pt = matrix_add(tmp, pos)))
 		return ;
 	print_circle2(pt, col, 7, w);

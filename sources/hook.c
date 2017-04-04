@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/03 07:44:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 21:00:32 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_polygone	*apply_ellipse_anime(t_polygone *org)
 	i = 0;
 	while (org)
 	{
-		if (!(tmp = ellipsoide_shape(lst_anime + i, the_time))
+		if (!(tmp = ellipsoide_shape(lst_anime[i].ovaloide, the_time))
 			|| !(pos = matrix_add(tmp, org->pos)))
 			return (NULL);
 		node = creat_node(0, pos->m, col->m); 
@@ -149,10 +149,7 @@ int	periode = 10000;
 
 int			main_work(t_env *e)
 {
-	
-	struct timeval tv;
-	gettimeofday(&tv,NULL);
-	time_prg = (tv.tv_sec % 10) * 1000 + (tv.tv_usec / 1000);
+	gettimeofday(&(e->time),NULL);
 
 	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
 	// ou pour l'atente de quoi ecrire pou enfin voila

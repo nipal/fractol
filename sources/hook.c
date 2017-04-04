@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/04 21:00:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 22:46:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_polygone	*apply_ellipse_anime(t_polygone *org)
 	i = 0;
 	while (org)
 	{
-		if (!(tmp = ellipsoide_shape(lst_anime[i].ovaloide, the_time))
+		if (!(tmp = ellipsoide_shape(lst_anime[i].ovaloide, get_time_ellipse_anime(get_env(NULL), lst_anime + i)))
 			|| !(pos = matrix_add(tmp, org->pos)))
 			return (NULL);
 		node = creat_node(0, pos->m, col->m); 
@@ -88,16 +88,14 @@ void		draw_preview_anime(t_win *w)
 {
 	int	i;
 	int	len;
-	double	the_time;
 	t_polygone	*node;
 
-	the_time = (((double)(time_prg % periode))/(double) periode);
 	len = get_polygone_len(w->e->trans_model);
 	node = w->e->trans_model;
 	i = 0;
 	while (i < len && node)
 	{
-		draw_preview_one_anime(w, lst_anime + i, node->pos, the_time);
+		draw_preview_one_anime(w, lst_anime + i, node->pos, get_time_ellipse_anime(w->e, lst_anime + i));
 		node = node->next;
 		i++;
 	}

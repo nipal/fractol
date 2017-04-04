@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/04 20:59:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 22:30:50 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ typedef	struct	s_range_tsl
 	double		smin;
 	double		smax;
 	double		lmin;
-	_evouble		lmax;
+	double		lmax;
 }				t_range_tsl;
 
 typedef	struct	timeval	t_timeval;
@@ -311,7 +311,9 @@ struct			s_env
 	int			id_anime_clicked;
 	t_border	*border_abox;
 	t_border	*border_speed;
+
 	t_timeval	time;
+	double		periode;
 };
 
 typedef	struct	s_mandel_pt
@@ -758,6 +760,7 @@ void		init_border(t_border *b, int x0, int x1, int y0, int y1);
 /*
 **	ellipsoide.c
 */
+double			get_time_ellipse_anime(t_env *e, t_anime *a);
 void		draw_preview_one_anime(t_win *w, t_anime *anime, t_matrix *pos, double time);
 void			draw_ellipsoide(t_win *w, t_polygone *pt);
 t_matrix		*ellipsoide_shape(t_polygone *pt, double t);

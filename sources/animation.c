@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 15:50:03 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/03 07:24:52 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 22:35:01 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			init_t_anime(t_anime *anime, t_border *b_anime, t_border *b_speed, t_borde
 	//	init_slider
 	anime->speed = init_slider(col_speed, b_speed); 
 	anime->offset = init_slider(col_offset, b_offset); 
-	anime->speed->v1 = 0.5;
+	anime->speed->v1 = 0;
 	anime->offset->v1 = 0;
 	matrix_free(&col_speed);
 	matrix_free(&col_offset);
@@ -85,11 +85,12 @@ t_polygone		*init_ovaloid(t_border *b)
 void		draw_preview_path(t_env *e)
 {
 	int	id_anime;
-	static	t_matrix	*col = NULL;
+//	static	t_matrix	*col = NULL;
 
 	id_anime = e->id_anime_clicked;
-	if (!col)
-		col = tsl_to_rvb_new(0,1,1);
+//	if (!col)
+//		col = tsl_to_rvb_new(0,1,1);
+
 
 	//	ovaloide
 	draw_ellipsoide(e->param, lst_anime[id_anime].ovaloide);	

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 23:41:50 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/04 21:02:26 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 22:43:40 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,9 @@ double			get_time_ellipse_anime(t_env *e, t_anime *a)
 {
 	double	time;
 
-	time_prg = (e->time.tv_sec % 10) * 1000 + (e->time.tv_usec / 1000);
-	lkjlj;
-
-	time = (() / ((double)periode));
+	time = (e->time.tv_sec % 100) * 1000000 + e->time.tv_usec;
+	time = (time / e->periode) * a->speed->v1 * 10 + a->offset->v1;
+	time = ((time - (int)time));
 	return (time);
 }
 
@@ -68,7 +67,7 @@ void			draw_preview_one_anime(t_win *w, t_anime *anime, t_matrix *pos, double ti
 {
 	t_matrix	*mt, *prev, *pt, *col, *tmp;
 	int			i, max;
-	double		param, mult;
+	double		param;
 
 	if (!anime || !pos || !pos
 		|| !(prev = matrix_init(1, 3))
@@ -81,7 +80,7 @@ void			draw_preview_one_anime(t_win *w, t_anime *anime, t_matrix *pos, double ti
 	max = 100;
 	while (i < max)
 	{
-		param = (((double) i) * mult) / ((double) max);
+		param = ((double) i) / ((double) max);
 		if (!(tmp = ellipsoide_shape(anime->ovaloide, param))
 			|| !(pt = matrix_add(tmp, pos)))
 			return ;

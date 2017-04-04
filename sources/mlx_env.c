@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 23:29:19 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/04 22:22:53 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void		env(t_env *e)
 	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
 	e->border_abox = &border_abox;
 
+	e->periode = 10000000;
 	e->id_anime_clicked = 0;
 	e->zoom = ZOOM;
 	e->zoom_finished = 1;

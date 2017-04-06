@@ -1,0 +1,97 @@
+
+
+	Il faut voir si on peu garder la memoir allouer avec open cl
+
+
+	# recuperation des sources
+	# 
+
+===========================================================================================================
+		Partie																input			output
+===========================================================================================================
+								/* Load kernel source code */								#	fichier.cl				#	src	(char*)					#
+
+
+								/*Initialize Data */										#							#	init_data*					#
+
+
+
+								/* Get platform/device information */						#							#								#
+unique							/* Create OpenCL Context */									#							#								#
+multiple	(un part kernel)	/* Create Command Queue */									#	context					#								#
+
+								/* Create memory buffer*/									#	context					#								#
+====> init kernel
+&&	(alloc_kernel)				/* Create Kernel program from the read in source */			#	context + src_ocl		#	kernel						#
+&& 	(compile : divice)			/* Build Kernel Program */									#							#								#
+&&	(alloc kernel: "name")		/* Create OpenCL Kernel */									#							#								#	
+&&	(compile kernel)			/* Build Kernel Program */									#							#								#	
+&&	(define args)				/* Set OpenCL kernel argument */							#							#								#	
+
+====> exec boucle 
+	==							/* Transfer data to memory buffer */						#							#								#
+	==							/* Execute OpenCL kernel */									#							#								#	
+	==							/* Transfer result from the memory buffer */				#							#								#	
+	==							/* Display result */										#							#								#	
+	==			   ==
+
+
+free memmory					/* Finalization */											#							#								#
+
+
+- Il faut stoquer platforme device information
+- lire un fichier et stocker sa taille
+- 	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								/* Load kernel source code */							
+
+
+								/*Initialize Data */									
+
+
+								/* Get platform/device information */					
+unique							/* Create OpenCL Context */								
+multiple	(un part kernel)	/* Create Command Queue */								
+
+								/* Create memory buffer*/								
+====> init kernel
+&&	(alloc_kernel)				/* Create Kernel program from the read in source */		
+&& 	(compile : divice)			/* Build Kernel Program */								
+&&	(alloc kernel: "name")		/* Create OpenCL Kernel */								
+&&	(compile kernel)			/* Build Kernel Program */								
+&&	(define args)				/* Set OpenCL kernel argument */						
+
+====> exec boucle 
+	==							/* Transfer data to memory buffer */					
+	==							/* Execute OpenCL kernel */								
+	==							/* Transfer result from the memory buffer */			
+	==							/* Display result */									
+	==			   ==
+
+
+free memmory					/* Finalization */										
+
+- Il faut stoquer platforme device information
+- lire un fichier et stocker sa taille
+- 	 
+
+
+
+
+//	Est ce que on pourrait encre tou automatise? est ce que on pourrai eja finir cee qu\on a comencer
+

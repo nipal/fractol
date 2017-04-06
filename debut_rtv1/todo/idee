@@ -1,0 +1,11 @@
+La le but serra de syncroniser un buffer mlx avec opencl
+
+(DONE)			-re integer un systeme d'initialisation de fenetre
+(DONE)			-bien informer le buffer
+(not usefull)	-faire un truc en 2d
+(allmust)		(bien re ranger les fichier opencl)
+
+				faire une lecture automatique du buffeur
+				redefinir ls interaction
+				definir un peu la camera et les objet
+				

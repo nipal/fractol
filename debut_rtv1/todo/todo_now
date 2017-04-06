@@ -1,0 +1,134 @@
+La j'ai des angle qui s'incremente avec les touch de vim (donc c'est cool)
+j'ai la possibilite de faire des petite multiplication vecteur matrice	=> il faudra peu etre ameliorer le truc au niveau de la copie
+
+==>	je modifie un 'landmark a base d'angle et de position'
+
+?? il faudrait peuetre maper des touche pour le deplacement 
+
+$$$$ la il faut que je syncronise ca avec les truv d'initialisation de la direction de chaque rayon $$$$
+
+////	la on va juste determiner la preumier phase:
+
+			 determiner pour chaque pixel l'obet qui colisionne (si il y en a un) et la distance a celui-ci
+
+
+//	si on fait le changement de repere onre defini la position
+//	et l'orientation du veteur directeur
+//		la nouvelle position:
+//			diff_pos = pos_cam - pos_obj;
+//			diff_ang = ang_cam - ang_obj;
+//			mat_rot  = rot(diff_ang); 
+//			new_pos  = pos_obj + (mat_rot * diff_pos)
+//
+//	il faut traviller un peu le pre prosessing cote cpu:
+//		Chaque objet contien:
+//			-diff pos (avec la rotation defectuer si besoin)
+//			-mat_rotation: 	si pas beosin se sera la mstrice identite
+
+
+
+Les objet:
+
+0	plan 	
+1	sphere		// a terme il y aurra
+2	cylindre	// des dformation possible
+3	cone		// sphere => ellipsoloide, 
+
+
+//	on va faire un kernel par type d'objet
+//	on va lancer un kernel par objet (dans un boucle quoi)
+
+//	on va ausi faire un zbuffer/id
+
+
+:::	pour chaque pixel:
+		float2 (dist, id)	// on ne va pas pour linstant separer dans des buffer different
+							// comme ca on a plus de chance de ne pas avoir 2 coeur qui agisse sur la memoir
+							// et en plus de buffer n'est pas sanser sortir de la carte graphique
+
+&&&&&&&&&&&&&&&&&&&
+
+	- cree le buffer, l'initialiser le passer a opencl et tout
+	- gerer tout les kernel pour chaque objet. (si on les passe un par un ou si on fait une boucle)
+	- definir le format des objet  quoi comme info, que'est ce qui est calculer avant (en prepros)
+	- placer des objet dans la scene pour tester
+	- intersection avec les forme depuis l'endroit (ombre)
+	- calcul de la normal a la surface
+
+	- lumiere diffuse 	--> PREMIER TRUC COOL A AFFICHER
+	- lumiere speculaire
+	- multi spot
+	- gere la lumiere (additive/soustractive)
+
+
+--> il faut un kernel qui init le zbuffer
+--> il faudrait un peu remasturiser les kernel
+
+
+-->	definir les quatre objet
+-->	definir la lumier
+-->	coder leur kernel respectif
+--> definir les normal
+--> definir une fonction de coloration (lumier difuse)
+
+:: OBJET ::
+	- position	 (avec un 0 en composante w pour pas trop avoir de probleme (si non on repasse en 3))
+	- matrice de rotation
+	- couleur 
+
+:: LUMIER ::
+	- id			=> int	
+	- position 		=> float4
+	- couleur		=> int
+
+:: SPHER ::
+	- id			=> int	
+	- position 		=> float4
+	- couleur		=> int
+	- size 			=> float
+
+:: PLAN :: 
+	- id			=> int	
+	- position 		=> float4
+	- couleur		=> int
+	- orientation	=> float4
+
+:: CYLINDR ::
+	- id			=> int	
+	- position 		=> float4
+	- couleur		=> int
+	- rayon^2		=> float
+	- mat_rot		=> float16
+
+:: CONE :: 
+	- id			=> int	
+	- position 		=> float4
+	- couleur		=> int
+	- coef_ouvert	=> float
+	- mat_rot		=> float16
+
+//	on donne a chaque objet un id et c'est celui qui corespond a l'ordre dans les tableau qu'on envoie a opencl. donc les data
+
+
+il faut avoir tout les model en memoire. 
+	-on peux a chaque tour load tout les objet avec les truc propre a la confiduration (matrice de rotatin etc)
+	-Il faut des fonction pour ajouter, enlever et modifier des objet. (En mode rtpratique)
+
+
+Pour tout mettre en memoir on donne des tableau d'un seul type d'objet.
+Donc on va faire des champ de donner communne a toute
+On pourrais aussi immaginer un autre systeme de redirection interne.
+voila voila
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ () $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+Il va faloir definir tout les objet syncroniser avec les id qu'il faut.
+faire des fonction pour actualiser les buffer de parametre.
+
+
+
+++++++++++++++++++ ETAPES ++++++++++++++++++
+	- calculer les distances
+	- definir les normale;
+	- calculer les lumiere (puissance ET couleur) :::: a partir de plein de truc
+	- 

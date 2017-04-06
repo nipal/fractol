@@ -1,0 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makafile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/12/18 23:15:31 by fjanoty           #+#    #+#              #
+#    Updated: 2016/12/18 23:17:27 by fjanoty          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#	La ce qu'on va faire c'est le concateneur de fichier
+#	Comme ca on pourra avoir plusieurs fichier opencl sans que ca complexifie 
+#	la creation de kernel	
+
+

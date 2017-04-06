@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/03/31 23:31:41 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/04/06 02:52:27 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ SRC		= 	main.c						\
 			zoom_koch.c 				\
 			actu_polygone.c 			\
 			init_param_koch.c 			\
-			test.c						\
 			ovaloide.c					\
 			print_rectangle.c			\
 			user_interface.c			\
@@ -60,6 +59,8 @@ SRC		= 	main.c						\
 			client.c					\
 			exit.c						\
 			animation.c					\
+			draw_ifs_iteratif.c			\
+
 			client_data.c
 
 

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/14 02:08:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 17:19:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 22:09:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include <math.h>
 # define MAX_SOURCE_SIZE (0xf0000)	
 
-char* g_ocl_error[100];
+//extern char* g_ocl_error[100];
 
 
 /*

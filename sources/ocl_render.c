@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:23:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 21:01:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 23:18:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,11 @@
 // 		-> on malloc une structure
 
 #include "fractol.h"
-
-/*
-//	on aura besoinr que d'une seule structure comme celle la pour tout le programe
-typedef	struct		s_ocl_core
-{
-	cl_platform_id	platform_id;
-	cl_device_id	device_id;
-	cl_program		program;
-	cl_context		context;	// c'est une variable qu'on initialise qu'une fois mais qu'on a souvent besoin
-}					t_ocl_core;
-
-typedef	struct			s_ocl_mem
-{
-	cl_mem				gpu_buff;
-	void				*cpu_buff;
-	int					size;
-}						t_ocl_mem;
-
-//	On aura besoin d'un structure par kernel
-typedef	struct			s_ocl_ker
-{
-	cl_kernel			kernel;
-	cl_command_queue	command_queue;
-	t_ocl_mem			data[ARG_KER_MAX];
-}						t_ocl_ker;
-*/
-
 /*
  *	on pourrai prendre en parametre le nom de la fonction et du fichier don on vien et d'indiquer l'indice
  *	qui a eu une erreur. Et donc voila
  * */
+
 int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name)
 {
 	int	i;
@@ -55,6 +29,7 @@ int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *fi
 		if (ret[i])
 		{
 			printf("error file:%s	function:%s	ret[%d]:%d\n", file_name, func_name, i, ret[i]);
+			print_ocl_error(ret[i], i, file_name, func_name);
 			return (ret[i]);
 		}
 		i++;
@@ -98,16 +73,58 @@ int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name)
 	return (check_ocl_err(ret, 2, __func__, __FILE__));
 }
 
-int	init_kernel_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_kernel)
+int	branch_arg_to_kernel(t_ocl_ker *ker, int nb_arg_buff)
 {
-	//	il faut reserver la memoir donc connaitre la taille de truc que voila
-	//		- on peu faire des test de memoir pour ce qu'on peu reserver au max
+	int		i;
+	cl_int	ret;
 
-	(void)core;
-	(void)ifs_kernel;	
+	i = 0;
+	while (i < nb_arg_buff)
+	{
+		if ((ret = clSetKernelArg(ker->kernel, 0, sizeof(cl_mem), (void *)&(ker->data[i].gpu_buff))))
+			print_ocl_error(ret, i, __FILE__, __func__);
+		i++;
+	}
+	return (0);
+}
 
+# define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
+# define MAX_ITER 15 // vraiment... c'est trop pour un buffer mais bon... OK
+
+int	init_mem_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_ker)
+{
+	cl_int	ret[3];
+
+	//	arg0 pt_ifs: le buffer de point a caluculer un tru qui ne sort jamais d'opencl
+	ifs_ker->data[0].gpu_buff = clCreateBuffer(core->context, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2, NULL, ret + 0);
+	ifs_ker->data[0].cpu_buff = NULL; // on les met tous a NULL on verra plus tard
+	ifs_ker->data[0].size = BIG_OCL_BUF_SIZE * sizeof(float) * 2;
+	ifs_ker->data[0].io_acces = CL_MEM_READ_WRITE; 
+	
+	//	arg1 transform: les points de transformation pour tout ca quoi
+	ifs_ker->data[1].gpu_buff = clCreateBuffer(core->context, CL_MEM_READ_ONLY, MAX_NODE * sizeof(float) * 2, NULL, ret + 1);
+	ifs_ker->data[1].cpu_buff = NULL; // on les met tous a NULL on verra plus tard
+	ifs_ker->data[1].size = MAX_NODE * sizeof(float) * 2;
+	ifs_ker->data[1].io_acces = CL_MEM_READ_ONLY; 
+	
+	//	arg2 beg_dat_id: les indice de debut de chaque section (les transche d'iterration)
+	ifs_ker->data[2].gpu_buff = clCreateBuffer(core->context, CL_MEM_READ_ONLY, MAX_ITER * sizeof(int), NULL, ret + 2);
+	ifs_ker->data[2].cpu_buff = NULL; // on les met tous a NULL on verra plus tard
+	ifs_ker->data[2].size = MAX_ITER * sizeof(int);
+	ifs_ker->data[2].io_acces = CL_MEM_READ_ONLY; 
+
+	branch_arg_to_kernel(ifs_ker, 3);
+	return (check_ocl_err(ret, 3, __func__, __FILE__));
+}
+
+int	init_kernel_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_cl)
+{
+	
+//__kernel	void	calcul_ifs_point(__global float2 *pt_ifs, __global float2 *transform, __global int *beg_data_id, int trans_len, int num_iter)
+		
 
 	// et binder ce qu'il y a a faire	
+	(void)core;
 	return (0);
 }
 
@@ -123,4 +140,18 @@ int	init_ocl_ker_arg();
 /*
  *	Il faut determiner des structure de variable pour facilement nitialiser les bail
  *	des fonction qui ne font qu'une seul tache
+ * */
+
+/*
+ 
+typedef	struct			s_ocl_mem
+{
+	cl_mem				gpu_buff;
+	void				*cpu_buff;
+	size_t				size_total;
+	size_t				size_used;
+	short				io_acces;
+}						t_ocl_mem;
+
+
  * */

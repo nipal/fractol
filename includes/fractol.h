@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 20:57:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 23:08:44 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -890,8 +890,7 @@ typedef	struct			s_ocl_mem
 {
 	cl_mem				gpu_buff;
 	void				*cpu_buff;
-	size_t				size_total;
-	size_t				size_used;
+	size_t				size;
 	short				io_acces;
 }						t_ocl_mem;
 
@@ -901,11 +900,17 @@ typedef	struct			s_ocl_ker
 	cl_kernel			kernel;
 	cl_command_queue	command_queue;
 	t_ocl_mem			data[ARG_KER_MAX];
+	int					nb_arg;
 }						t_ocl_ker;
 
 int	init_ocl_core(t_ocl_core *core, const char *file_name);
 int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
+int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
 
-
+/*
+ *	error_opencl.c	
+ * */
+int		print_ocl_error(int err_cl, int no_err, const char *file, const char *func);
+void	init_ocl_error();
 
 #endif

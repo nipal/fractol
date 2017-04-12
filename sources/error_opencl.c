@@ -6,13 +6,14 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 01:24:46 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 21:07:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 22:07:52 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
 char* g_ocl_error[100];
+
 void	init_ocl_error()
 {
 	ft_bzero(g_ocl_error, sizeof(g_ocl_error));
@@ -65,12 +66,14 @@ void	init_ocl_error()
 	g_ocl_error[63]	= "CL_INVALID_GLOBAL_WORK_SIZE";
 }
 
-int		print_ocl_error(int err_cl, int nbl, char *name)
+int		print_ocl_error(int err_cl, int no_err, char *file, char *func)
 {
 	ft_putstr("file:");
-	ft_putstr(name);
-	ft_putstr("	line:");
-	ft_putnbr(nbl);
+	ft_putstr(file);
+	ft_putstr("	func:");
+	ft_putstr(func);
+	ft_putstr("	err:");
+	ft_putnbr(no_err);
 	ft_putstr("		*** ");
 	if (err_cl > 0)
 	{
@@ -79,16 +82,14 @@ int		print_ocl_error(int err_cl, int nbl, char *name)
 		return (1);
 	}
 	err_cl *= -1;
-	if ((err_cl > 12 && err_cl < 30) || err_cl > 63)
+	if ((err_cl > 12 && err_cl < 30) || err_cl > 63 || err_cl < 0)
 	{
 		ft_putstr("invalid cl error ***\n");
-		exit(1);
 	}
 	else if (g_ocl_error[err_cl])
 	{
 		ft_putstr(g_ocl_error[err_cl]);
 		ft_putstr(" ***\n");
-		exit(1);
 	}
 		exit(1);
 	return (1);

@@ -6,14 +6,15 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:23:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 21:01:47 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 20:50:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // init -> on definie des valeur de base et on ne fait pas de malloc
 // 		-> on malloc une structure
 
-#include "fractol.h"
+#include "mini_include.h"
+
 
 /*
 //	on aura besoinr que d'une seule structure comme celle la pour tout le programe

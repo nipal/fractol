@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/04/12 15:23:35 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/04/12 21:05:49 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,8 @@ SRC		= 	main.c						\
 			animation.c					\
 			draw_ifs_iteratif.c			\
 			ocl_render.c				\
+			read_file.c					\
+			error_opencl.c				\
 			client_data.c
 
 
@@ -76,7 +78,8 @@ $(NAME): $(OBJ)
 		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -L ../libft/ -lft \
 		-L ../c_maths -lc_maths \
 		-L  ../minilibx_macos/ \
-		-lmlx -framework OpenGL -framework AppKit  
+		-lmlx -framework OpenGL -framework AppKit  \
+		-framework OpenGL -framework AppKit -framework opencl 
 
 #		-L /usr/lib/ -lmlx -lm -lX11 -lXext
 

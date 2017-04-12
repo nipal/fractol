@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 23:48:33 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 21:03:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 18:36:03 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 **	-On allou une chaine a la bonne taille et on copie tout dedans.
 */
 
-#include "fractol.h"
+#include "mini_include.h"
 
 static	int		open_file(const	char *name)
 {

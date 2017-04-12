@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/14 02:08:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/19 21:24:57 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 17:19:49 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ struct			s_buff_file
 	char		buff[BUFF_FILE_SIZE];
 		t_buff_file	*next;
 };
-
-
 
 
 /*

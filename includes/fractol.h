@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/06 01:59:57 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/12 15:29:52 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -839,4 +839,9 @@ void			draw_preview_path(t_env *e);
 t_polygone		*apply_ellipse_anime(t_polygone *org);
 void			scrol_button_anime(t_win *w, t_anime *anime);
 
+
+/*
+ * read_file.c
+*/
+char	*read_file(const char *name, size_t *str_size);
 #endif

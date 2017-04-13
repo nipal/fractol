@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/13 11:22:08 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/13 18:49:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,39 +35,52 @@ void							init_koch_const(t_koch_const *kco
 	kco->min_print = data[3];
 }
 
+void	send_ifs_param_to_client(t_env *e)
+{
+	size_t			cur_client;
+	size_t			n_client;
+	size_t			n_updated;
+	t_client_data	*client_data;
+	double col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
+					e->sliders[1]->v1, e->sliders[1]->v2,
+					e->sliders[2]->v1, e->sliders[2]->v2};
+	t_data_nw		data;
+
+	data = format_data_to_network(e->transform, e->base, e->max_iter, col);
+	n_client = get_all_client_data(&client_data);
+	n_updated = 0;
+	cur_client = 0;
+	while (n_updated < n_client)
+	{
+		if (client_data[cur_client].in_use)
+		{
+			if (send(client_data[cur_client].socket, &data, sizeof(t_data_nw), MSG_OOB) == -1)
+			{
+				shutdown(client_data[cur_client].socket, SHUT_RDWR);
+				remove_client(cur_client);
+			}
+			n_updated++;
+		}
+		cur_client++;
+	}
+
+}
+
 void							print_fractal(t_env *e)
 {
 	double			data_koch[4];
 	t_koch_const	kco;
 	t_data_nw		data;
-	size_t			cur_client;
-	size_t			n_client;
-	size_t			n_updated;
-	t_client_data	*client_data;
+	float col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
+					e->sliders[1]->v1, e->sliders[1]->v2,
+					e->sliders[2]->v1, e->sliders[2]->v2};
 
 	if (e->transform && e->base)
 	{
 		if (e->status == SERVEUR)
 		{
-			//	la il fauraun double
-			double col[6] = {e->sliders[0]->v1, e->sliders[0]->v2, e->sliders[1]->v1, e->sliders[1]->v2, e->sliders[2]->v1, e->sliders[2]->v2};
-			data = format_data_to_network(e->transform, e->base, e->max_iter, col);
-			n_client = get_all_client_data(&client_data);
-			n_updated = 0;
-			cur_client = 0;
-			while (n_updated < n_client)
-			{
-				if (client_data[cur_client].in_use)
-				{
-					if (send(client_data[cur_client].socket, &data, sizeof(t_data_nw), MSG_OOB) == -1)
-					{
-						shutdown(client_data[cur_client].socket, SHUT_RDWR);
-						remove_client(cur_client);
-					}
-					n_updated++;
-				}
-				cur_client++;
-			}
+			send_ifs_param_to_client(e);
+			ocl_ifs_calcul_run(&(e->ker[IFS_CALCUL_PT]), e->trans_model2, e->base_model, e->max_iter, col);
 		}
 		data_koch[0] = e->max_iter;
 		data_koch[1] = get_polygone_len(e->transform);

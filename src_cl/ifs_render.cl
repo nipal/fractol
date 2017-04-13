@@ -10,6 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+typedef	struct	s_pt_line
+{
+	float2		p1;
+	float2		p2;
+}				t_pt_line;
+
+typedef	struct	s_col_line
+{
+	float4		c1;
+	float4		c2;
+}				t_col_line;
+
+
+
 //	le truc qui permet d'avoir un teste facile d'une image...
 __kernel void test_image(__global int *time, __global int *data)
 {
@@ -34,7 +48,7 @@ float	get_line_length(float2 p1, float2 p2)
 	return (max_p[id_max]);
 }
 
-__kernel	void	draw_line(__global int *img, int line_width, float2 p1, float4 c1, float2 p2, float4 c2)
+__kernel	void	draw_line(__global int *img, __global t_pt *pt, __global t_col *col, __global float2 *dim_ecr)
 {
 
 	//	2  vecteur unitaire : {direction + couleur}
@@ -47,27 +61,37 @@ __kernel	void	draw_line(__global int *img, int line_width, float2 p1, float4 c1,
 	float4	diff_col;
 	float2	unit_pos;
 	float4	unit_col;
+	float2	p;
+	float4	c;
 	int		indice;
 	int		col_value;
 	float	dist;
 	int		nb_point;
 	int		i;
+	int		id;
+	bool	is_inside;
 
-	diff_pos = p2 - p1;
-	diff_col = c2 - c1;
-	dist = get_line_length(p1, p2);
+	id = get_global_id(0);
+	diff_pos = pt[id].p2 - pt[id].p1;
+	diff_col = col[id].c2 - col[id].c1;
+	dist = get_pt_length(pt[id].p1, pt[id].p2);
 	nb_point = dist;
 	unit_pos = diff_pos / dist;
 	unit_col = diff_col / dist;
 	i = 0;
-
+	p = pt[id].p1;
+	c = col[id].c1;
 	while(i < nb_point)
 	{
-		indice = ((int) unit_pos.x) + ((int)unit_pos.y * line_width);
+		//	Il faudra ne pas ecrire dans le buffer si on sort de l'ecran
+		
+		indice = ((int) p.x) + ((int)(p.y * dim_ecr[0].x));
 		col_value = (((int)c1.x) << 16) | (((int)c1.y) << 8) | (((int)c1.z));
-		img[indice] = col_value;
-		p1 += unit_pos;
-		c1 += unit_col;
+		is_inside = (p.x >= 0 && p.x < dim_ecr[0].x && p.y >= 0 && p.y < dim_ecr[0].y);	
+		if (is_inside)
+			img[indice] = col_value;
+		p += unit_pos;
+		c += unit_col;
 		i++;
 	}
 }
@@ -86,7 +110,7 @@ __kernel	void	draw_line(__global int *img, int line_width, float2 p1, float4 c1,
 *	On a pas la base pck le buffer "pt_ifs" serra deja un peu remplis, generalement on peu considerer que au moins la base serra dedans
 */
 
-__kernel	void	calcul_ifs_point(__global float2 *pt_ifs, __global float2 *transform, __global int *beg_data_id, int *trans_len, int *num_iter)
+__kernel	void	calcul_ifs_point(__global float2 *pt_ifs, __global float2 *transform, __global int *beg_data_id, __global int *trans_len, __global int *num_iter)
 {
 	int		glob_id;
 	float2	ux;

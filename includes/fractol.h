@@ -6,12 +6,14 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/13 14:26:07 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/13 22:39:59 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+
+# define NB_KER 10
 
 # define STACK_SIZE 100
 # define SERVEUR 0
@@ -75,8 +77,74 @@
 # define Y 1
 
 
-
 typedef	struct s_polygone	t_polygone;
+typedef	struct s_env	t_env;
+
+///////////// ocl_render /////////////
+
+#include <OpenCL/opencl.h>	
+
+# define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
+# define MAX_ITER 16 // vraiment... c'est trop pour un buffer mais bon... OK
+# define ARG_KER_MAX 10
+# define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
+# define DRAW_LINE 1		// no comment 
+
+//	on aura besoinr que d'une seule structure comme celle la pour tout le programe
+typedef	struct		s_ocl_core
+{
+	cl_platform_id	platform_id;
+	cl_device_id	device_id;
+	cl_program		program;
+	cl_context		context;	// c'est une variable qu'on initialise qu'une fois mais qu'on a souvent besoin
+}					t_ocl_core;
+
+typedef	struct			s_ocl_mem
+{
+	cl_mem				gpu_buff;
+	void				*cpu_buff;
+	size_t				size;
+	short				io_acces;
+}						t_ocl_mem;
+
+//	On aura besoin d'un structure par kernel
+typedef	struct			s_ocl_ker
+{
+	cl_context			context;
+	cl_kernel			kernel;
+	cl_command_queue	command_queue;
+	t_ocl_mem			data[ARG_KER_MAX];
+	int					nb_arg;
+}						t_ocl_ker;
+
+int	init_ocl_core(t_ocl_core *core, const char *file_name);
+int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
+int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
+
+/*
+ *	error_opencl.c	
+ * */
+int		print_ocl_error(int err_cl, int no_err, const char *file, const char *func);
+void	init_ocl_error();
+
+/*
+ *	ocl_format_ifs_calcul.c
+ * */
+int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *base, int nb_iter, float col[6]);
+int	ocl_init_ifs(t_env *e);
+
+/*
+ *	ifs_render.c
+ * */
+
+cl_int	ocl_create_mem(t_ocl_ker *ker, int id_arg, short io_acces, size_t size);
+cl_int	ocl_init_mem(t_ocl_ker *ker, int id_arg, short io_acces, size_t size, cl_mem buff);
+int	branch_arg_to_kernel(t_ocl_ker *ker, int nb_arg_buff);
+int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
+int	init_ocl_core(t_ocl_core *core, const char *file_name);
+int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
+///////// end_ocl //////////////////
+
 
 
 struct			s_polygone
@@ -114,7 +182,6 @@ typedef	union	u_pix
 	char		comp[4];
 }				t_pix;
 
-typedef	struct s_env	t_env;
 
 typedef	struct	s_win
 {
@@ -307,13 +374,16 @@ struct			s_env
 	int			sock;		// pour le reseau aussi
 	int			status;		// pour savoir si on est client ou serveur
 	int			port;		// bah c'est explicite non ?
-
+	////////////////
 	int			id_anime_clicked;
 	t_border	*border_abox;
 	t_border	*border_speed;
-
+	///////////
 	t_timeval	time;
 	double		periode;
+	//////// openCl ////////////
+	t_ocl_core	ocl;
+	t_ocl_ker	ker[NB_KER];
 };
 
 typedef	struct	s_mandel_pt
@@ -873,58 +943,5 @@ struct			s_buff_file
 	char		buff[BUFF_FILE_SIZE];
 		t_buff_file	*next;
 };
-
-///////////// ocl_render /////////////
-
-#include <OpenCL/opencl.h>	
-
-# define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
-# define MAX_ITER 16 // vraiment... c'est trop pour un buffer mais bon... OK
-# define ARG_KER_MAX 10
-
-//	on aura besoinr que d'une seule structure comme celle la pour tout le programe
-typedef	struct		s_ocl_core
-{
-	cl_platform_id	platform_id;
-	cl_device_id	device_id;
-	cl_program		program;
-	cl_context		context;	// c'est une variable qu'on initialise qu'une fois mais qu'on a souvent besoin
-}					t_ocl_core;
-
-
-
-/*
- * 					t_ocl_mem
- *	c'est une structure qui englobe un peut toutes la gesiton de la memoir qui transite entre le gpu et le cpu
- *	dans le but de pouvoir faire passer dans une boucle qui automatise un peu les baille quand on aurra arreter 
- *	de coder avec le cul
- * */
-
-typedef	struct			s_ocl_mem
-{
-	cl_mem				gpu_buff;
-	void				*cpu_buff;
-	size_t				size;
-	short				io_acces;
-}						t_ocl_mem;
-
-//	On aura besoin d'un structure par kernel
-typedef	struct			s_ocl_ker
-{
-	cl_kernel			kernel;
-	cl_command_queue	command_queue;
-	t_ocl_mem			data[ARG_KER_MAX];
-	int					nb_arg;
-}						t_ocl_ker;
-
-int	init_ocl_core(t_ocl_core *core, const char *file_name);
-int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
-int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
-
-/*
- *	error_opencl.c	
- * */
-int		print_ocl_error(int err_cl, int no_err, const char *file, const char *func);
-void	init_ocl_error();
 
 #endif

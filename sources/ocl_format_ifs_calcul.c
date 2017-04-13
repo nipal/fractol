@@ -6,11 +6,26 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/13 14:28:15 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/13 22:36:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+
+int	init_mem_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_ker)
+{
+	cl_int	ret[5];
+
+	ifs_ker->nb_arg = 5;
+	ret[0] = ocl_create_mem(ifs_ker, 0, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2);
+	ret[1] = ocl_create_mem(ifs_ker, 1, CL_MEM_READ_ONLY, MAX_ITER * sizeof(int));
+	ret[2] = ocl_create_mem(ifs_ker, 2, CL_MEM_READ_ONLY, sizeof(int));
+	ret[3] = ocl_create_mem(ifs_ker, 3, CL_MEM_READ_ONLY, sizeof(int));
+	ret[4] = ocl_create_mem(ifs_ker, 4, CL_MEM_READ_ONLY, sizeof(int));
+	branch_arg_to_kernel(ifs_ker, 5);
+	return (check_ocl_err(ret, 5, __func__, __FILE__));
+}
 
 int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])
 {
@@ -104,6 +119,9 @@ int	ocl_writeto_ifs_calcul(t_ocl_ker *ifs_cl, t_ifs_ocl *data)
 	return (check_ocl_err(ret, 5, __func__, __FILE__));
 }
 
+
+
+//	le truc qui lance le calcule de tout les point
 int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])
 {
 	int			i;
@@ -132,3 +150,9 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
  * Alors il faut rajouter les 2 variable qu'il manquait
  * - il leurs faut un cl_buff et transmetre les data et voila
  * */
+
+int	ocl_init_ifs(t_env *e)
+{
+	init_ocl_core(&(e->ocl), "src_cl/ifs_render.cl");
+	return (0);
+}

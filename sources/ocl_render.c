@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:23:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 23:18:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/13 14:25:03 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,17 @@ int	branch_arg_to_kernel(t_ocl_ker *ker, int nb_arg_buff)
 	i = 0;
 	while (i < nb_arg_buff)
 	{
-		if ((ret = clSetKernelArg(ker->kernel, 0, sizeof(cl_mem), (void *)&(ker->data[i].gpu_buff))))
+		if ((ret = clSetKernelArg(ker->kernel, i, sizeof(cl_mem), (void *)&(ker->data[i].gpu_buff))))
 			print_ocl_error(ret, i, __FILE__, __func__);
 		i++;
 	}
 	return (0);
 }
 
-# define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
-# define MAX_ITER 15 // vraiment... c'est trop pour un buffer mais bon... OK
 
 int	init_mem_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_ker)
 {
-	cl_int	ret[3];
+	cl_int	ret[5];
 
 	//	arg0 pt_ifs: le buffer de point a caluculer un tru qui ne sort jamais d'opencl
 	ifs_ker->data[0].gpu_buff = clCreateBuffer(core->context, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2, NULL, ret + 0);
@@ -113,8 +111,20 @@ int	init_mem_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_ker)
 	ifs_ker->data[2].size = MAX_ITER * sizeof(int);
 	ifs_ker->data[2].io_acces = CL_MEM_READ_ONLY; 
 
-	branch_arg_to_kernel(ifs_ker, 3);
-	return (check_ocl_err(ret, 3, __func__, __FILE__));
+	// arg3 trans_len
+	ifs_ker->data[3].gpu_buff = clCreateBuffer(core->context, CL_MEM_READ_ONLY, sizeof(int), NULL, ret + 3);
+	ifs_ker->data[3].cpu_buff = NULL; // on les met tous a NULL on verra plus tard
+	ifs_ker->data[3].size = sizeof(int);
+	ifs_ker->data[3].io_acces = CL_MEM_READ_ONLY; 
+
+	// arg4 num_iter
+	ifs_ker->data[4].gpu_buff = clCreateBuffer(core->context, CL_MEM_READ_ONLY, sizeof(int), NULL, ret + 4);
+	ifs_ker->data[4].cpu_buff = NULL; // on les met tous a NULL on verra plus tard
+	ifs_ker->data[4].size = sizeof(int);
+	ifs_ker->data[4].io_acces = CL_MEM_READ_ONLY; 
+
+	branch_arg_to_kernel(ifs_ker, 5);
+	return (check_ocl_err(ret, 5, __func__, __FILE__));
 }
 
 int	init_kernel_calcul_ifs(t_ocl_core *core, t_ocl_ker *ifs_cl)
@@ -152,6 +162,14 @@ typedef	struct			s_ocl_mem
 	size_t				size_used;
 	short				io_acces;
 }						t_ocl_mem;
-
-
  * */
+
+/*
+ * On va faire une fonction de lancement des kernel. Et en gros ce qu'il faut pour que ca marche
+ * 	- formater la data a lui transmetre (tout les buffer)
+ * 	- gerer l'envoie des data du CPU -> GPU
+ * 	- lancer les kernel avec les bon parametre (le nombre la taille tout ca)
+ * 	- gerer la reception des data opencl (donc pour nous le buffer graphique de la mlx)
+ * */
+
+

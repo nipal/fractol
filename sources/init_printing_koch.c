@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/31 16:08:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/13 11:22:08 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void							print_fractal(t_env *e)
 		if (e->status == SERVEUR)
 		{
 			//	la il fauraun double
-		double col[6] = {e->sliders[0]->v1, e->sliders[0]->v2, e->sliders[1]->v1, e->sliders[1]->v2, e->sliders[2]->v1, e->sliders[2]->v2};
+			double col[6] = {e->sliders[0]->v1, e->sliders[0]->v2, e->sliders[1]->v1, e->sliders[1]->v2, e->sliders[2]->v1, e->sliders[2]->v2};
 			data = format_data_to_network(e->transform, e->base, e->max_iter, col);
 			n_client = get_all_client_data(&client_data);
 			n_updated = 0;

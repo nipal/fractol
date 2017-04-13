@@ -86,7 +86,7 @@ __kernel	void	draw_line(__global int *img, int line_width, float2 p1, float4 c1,
 *	On a pas la base pck le buffer "pt_ifs" serra deja un peu remplis, generalement on peu considerer que au moins la base serra dedans
 */
 
-__kernel	void	calcul_ifs_point(__global float2 *pt_ifs, __global float2 *transform, __global int *beg_data_id, int trans_len, int num_iter)
+__kernel	void	calcul_ifs_point(__global float2 *pt_ifs, __global float2 *transform, __global int *beg_data_id, int *trans_len, int *num_iter)
 {
 	int		glob_id;
 	float2	ux;
@@ -98,9 +98,9 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs, __global float2 *transfo
 
 //	calcule des id pour apres tout faire en une ligne
 	glob_id = get_global_id(0);
-	id_trans = glob_id % trans_len;
-	id_parent = (glob_id / trans_len) + beg_data_id[num_iter - 1];
-	id_now = glob_id + beg_data_id[num_iter];
+	id_trans = glob_id % trans_len[0];
+	id_parent = (glob_id / trans_len[0]) + beg_data_id[num_iter[0] - 1];
+	id_now = glob_id + beg_data_id[num_iter[0]];
 
 	ux = pt_ifs[id_parent + 1] - pt_ifs[id_parent];
 	uy = (float2)(-ux.y, ux.x);

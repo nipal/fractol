@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 23:08:44 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/13 14:26:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -794,6 +794,18 @@ typedef	struct	s_data_nw
 	double	col_val[6];	// les parametre de couleur
 }				t_data_nw;
 
+typedef	struct	s_ifs_ocl
+{
+	float	pt_trans[MAX_NODE][2];
+	float	pt_base[MAX_NODE][2];
+	int		trans_len;
+	int		base_len;
+	int		max_iter;
+	float	col_val[6];	// les parametre de couleur
+}				t_ifs_ocl;
+
+
+
 
 int	get_server_socket(int ss);
 
@@ -866,6 +878,8 @@ struct			s_buff_file
 
 #include <OpenCL/opencl.h>	
 
+# define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
+# define MAX_ITER 16 // vraiment... c'est trop pour un buffer mais bon... OK
 # define ARG_KER_MAX 10
 
 //	on aura besoinr que d'une seule structure comme celle la pour tout le programe

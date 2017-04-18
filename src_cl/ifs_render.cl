@@ -14,13 +14,13 @@ typedef	struct	s_pt_line
 {
 	float2		p1;
 	float2		p2;
-}				t_pt_line;
+}				t_pt;
 
 typedef	struct	s_col_line
 {
 	float4		c1;
 	float4		c2;
-}				t_col_line;
+}				t_col;
 
 
 
@@ -48,15 +48,14 @@ float	get_line_length(float2 p1, float2 p2)
 	return (max_p[id_max]);
 }
 
-__kernel	void	draw_line(__global int *img, __global t_pt *pt, __global t_col *col, __global float2 *dim_ecr)
-{
 
+__kernel	void	draw_line(__global int *img, __global float2 *pt, __global float4 *col, __global float2 *dim_ecr)
+{
 	//	2  vecteur unitaire : {direction + couleur}
 	//	nombre d' iteration 
 	// comment faire pour ne pas avoir de boucle???
 	// si c' est une ligne qui est juste le prolongement d' une autre,
 	// on peu se permetre de smplifier des calcule mais on verra ca plus tard 
-
 	float2	diff_pos;
 	float4	diff_col;
 	float2	unit_pos;
@@ -72,21 +71,21 @@ __kernel	void	draw_line(__global int *img, __global t_pt *pt, __global t_col *co
 	bool	is_inside;
 
 	id = get_global_id(0);
-	diff_pos = pt[id].p2 - pt[id].p1;
-	diff_col = col[id].c2 - col[id].c1;
-	dist = get_pt_length(pt[id].p1, pt[id].p2);
+	diff_pos = pt[id + 1] - pt[id];
+	diff_col = col[id + 1] - col[id];
+	dist = get_line_length(pt[id], pt[id + 1]);
 	nb_point = dist;
 	unit_pos = diff_pos / dist;
 	unit_col = diff_col / dist;
 	i = 0;
-	p = pt[id].p1;
-	c = col[id].c1;
+	p = pt[id];
+	c = col[id];
 	while(i < nb_point)
 	{
 		//	Il faudra ne pas ecrire dans le buffer si on sort de l'ecran
 		
 		indice = ((int) p.x) + ((int)(p.y * dim_ecr[0].x));
-		col_value = (((int)c1.x) << 16) | (((int)c1.y) << 8) | (((int)c1.z));
+		col_value = (((int)c.x) << 16) | (((int)c.y) << 8) | (((int)c.z));
 		is_inside = (p.x >= 0 && p.x < dim_ecr[0].x && p.y >= 0 && p.y < dim_ecr[0].y);	
 		if (is_inside)
 			img[indice] = col_value;

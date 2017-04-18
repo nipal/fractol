@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 01:24:46 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/13 14:25:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/18 06:56:45 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char* g_ocl_error[100];
 
-void	init_ocl_error()
+void	init_ocl_error(void)
 {
 	ft_bzero(g_ocl_error, sizeof(g_ocl_error));
 	g_ocl_error[0]	= "CL_SUCCESS";

@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/13 22:39:59 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/18 08:51:31 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef	struct s_polygone	t_polygone;
 typedef	struct s_env	t_env;
 
 ///////////// ocl_render /////////////
-
 #include <OpenCL/opencl.h>	
 
 # define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
@@ -89,6 +88,30 @@ typedef	struct s_env	t_env;
 # define ARG_KER_MAX 10
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
+
+enum	e_ocl_kernel
+{
+	e_ifs_calcul_pt,
+	e_draw_line
+};
+
+enum	e_ker_draw_line
+{
+	e_img,
+	e_pt,
+	e_col,
+	e_dim_ecr	
+};
+
+enum	e_ker_calcul_ifs_point
+{
+	e_pt_ifs,
+	e_transform,
+	e_beg_id,
+	e_trans_len,
+	e_num_iter
+};
+
 
 //	on aura besoinr que d'une seule structure comme celle la pour tout le programe
 typedef	struct		s_ocl_core
@@ -125,7 +148,7 @@ int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *fi
  *	error_opencl.c	
  * */
 int		print_ocl_error(int err_cl, int no_err, const char *file, const char *func);
-void	init_ocl_error();
+void	init_ocl_error(void);
 
 /*
  *	ocl_format_ifs_calcul.c

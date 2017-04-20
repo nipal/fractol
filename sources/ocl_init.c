@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:23:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/18 06:49:07 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/20 04:45:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,16 @@ int	init_ocl_core(t_ocl_core *core, const char *file_name)
 	core->context = clCreateContext(NULL, 1, &(core->device_id), NULL, NULL, ret + 2);
 	core->program = clCreateProgramWithSource(core->context, 1, (const char **)&source_str, (const size_t *)&source_size, ret + 3);
 	ret[4] = clBuildProgram(core->program, 1, &(core->device_id), NULL, NULL, NULL);
+	if (ret[4])
+	{
+		size_t	size = 0;
+		//main code
+		clGetProgramBuildInfo(core->program, core->device_id, CL_PROGRAM_BUILD_LOG ,0,NULL,&size);
+		char *buildlog=(char*)malloc(size);
+		clGetProgramBuildInfo(core->program, core->device_id, CL_PROGRAM_BUILD_LOG ,size,buildlog,NULL);
+		printf("\n\nBuildlog:   %s\n\n",buildlog);
+		free(buildlog);
+	}
 	return (check_ocl_err(ret, 5, __func__, __FILE__));	
 }
 
@@ -110,4 +120,16 @@ cl_int	ocl_init_mem(t_ocl_ker *ker, int id_arg, short io_acces, size_t size, cl_
 	ker->data[id_arg].size = size;
 	ker->data[id_arg].io_acces = io_acces;
 	return (ret);
+}
+
+cl_int	ocl_set_mem(t_ocl_ker *ker, t_ocl_mem *mem_src, int id_arg, short io_acces, size_t size, cl_mem buff)
+{
+	cl_int	ret;
+	
+	ker->data[id_arg].gpu_buff = mem_src->gpu_buff;
+	ker->data[id_arg].cpu_buff = mem_src->cpu_buff;
+	ker->data[id_arg].size = mem_src->size;
+	ker->data[id_arg].io_acces = mem_src->io_acces;
+	return (ret);
+
 }

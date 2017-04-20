@@ -10,21 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef	struct	s_pt_line
+typedef	struct	s_ifs_param
 {
-	float2		p1;
-	float2		p2;
-}				t_pt;
-
-typedef	struct	s_col_line
-{
-	float4		c1;
-	float4		c2;
-}				t_col;
+	char	len_base;
+	char	len_trans;
+	char	max_iter;
+	char	max_pt;
+}				t_ifs_param;
 
 
-
-//	le truc qui permet d'avoir un teste facile d'une image...
 __kernel void test_image(__global int *time, __global int *data)
 {
 	int	id = get_global_id(0);
@@ -33,18 +27,11 @@ __kernel void test_image(__global int *time, __global int *data)
 	val = (id + *time) % 256;
 	data[id] = ((val * 7)% 256) << 16 | (256 - val) << 8 | abs(128 - val) * 2;
 }
+char4	hsv_to_rgb(__const float hue, __const float sat, __const float val);
+float	get_iter(int id, __const char max_iter, __const char len_trans, __const char len_base);
+float	get_line_length(float2 p1, float2 p2);
 
-float	modulo(__const float x, __const float mod)
-{
-	float	r;
-
-	r = x / mod;
-	r = r - (int)r;
-	r *= mod;
-	return (r);
-}
-
-char4	hsv_to_rgb(__const float __const hue, __const float sat, __const float val)
+char4	hsv_to_rgb(__const float hue, __const float sat, __const float val)
 {
 	float	c, x, m, rgb[3];
 	char	id_x, id_c, id_0, i;
@@ -55,7 +42,7 @@ char4	hsv_to_rgb(__const float __const hue, __const float sat, __const float val
 	i = val / 60;
 	id_x = (7 - i) % 3;
 	id_c = (2 + i >> 1) % 3;
-	id_0 = 3 - (id_x, id_c);
+	id_0 = 3 - (id_x + id_c);
 	rgb[id_x] = (x + m) * 255;
 	rgb[id_c] = (c + m) * 255;
 	rgb[id_0] = (0 + m) * 255;
@@ -77,18 +64,8 @@ float	get_iter(int id, __const char max_iter, __const char len_trans, __const ch
 }
 
 
-typedef	struct	s_ifs_param
-{
-	char	len_base;
-	char	len_trans;
-	char	max_iter;
-	char	max_pt;
-}				t_ifs_param;
-
-
 __kernel	void	define_color(__global char4 *col, __global t_ifs_param *p)
 {
-	// il faut calculer h, s, v
 	// puis appeler gentiement la focnitn qui donne les couleurs
 	float	hue, sat, val, iter;
 	int	id;
@@ -103,7 +80,6 @@ __kernel	void	define_color(__global char4 *col, __global t_ifs_param *p)
 
 float	get_line_length(float2 p1, float2 p2)
 {
-	float	dist;
 	int		id_max;
 	int		max_p[2];
 
@@ -118,11 +94,12 @@ float	get_line_length(float2 p1, float2 p2)
 __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *col, __global float2 *dim_ecr)
 {
 	float2	diff_pos;
-	char4	diff_col;
+	float4	diff_col;
+	char4	dc;
 	float2	unit_pos;
-	char4	unit_col;
+	float4	unit_col;
 	float2	p;
-	char4	c;
+	float4	c;
 	int		indice;
 	int		col_value;
 	float	dist;
@@ -133,20 +110,19 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 
 	id = get_global_id(0);
 	diff_pos = pt[id + 1] - pt[id];
-	diff_col = col[id + 1] - col[id];
+	dc = col[id + 1] - col[id];
+	diff_col = (float4)(dc.x, dc.y, dc.z, 0);
 	dist = get_line_length(pt[id], pt[id + 1]);
 	nb_point = dist;
 	unit_pos = diff_pos / dist;
 	unit_col = diff_col / dist;
 	i = 0;
 	p = pt[id];
-	c = col[id];
+	c = (float4)(col[id].x, col[id].y, col[id].z, 0);
 	while(i < nb_point)
 	{
-		//	Il faudra ne pas ecrire dans le buffer si on sort de l'ecran
-		
 		indice = ((int) p.x) + ((int)(p.y * dim_ecr[0].x));
-		col_value = (((int)c.x) << 16) | (((int)c.y) << 8) | (((int)c.z));
+		col_value = ((((int)c.x) & 255) << 16) | ((((int)c.y) & 255) << 8) | ((((int)c.z)) & 255);
 		is_inside = (p.x >= 0 && p.x < dim_ecr[0].x && p.y >= 0 && p.y < dim_ecr[0].y);	
 		if (is_inside)
 			img[indice] = col_value;
@@ -155,8 +131,6 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 		i++;
 	}
 }
-
-
 
 /*
 **	au debut on peu juste tester avec un truc qui ne remet pas a zero

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 02:49:05 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/06 04:57:28 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/20 02:02:25 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,18 @@ int main(int ac, char **av)
 	int	start_indice[20];
 	int	max_iter;
 	int	size_mem;
-	int	nb_pt;
 	int	len_base;
 	int	len_trans;
 	int	i;
 
-	if (ac < 3)
+	if (ac != 4)
 	{
-		printf("usage: %s	len_base len_transformation\n", av[0]);
+		printf("usage: %s	len_base len_transformation size_mem\n", av[0]);
 		return (0);
 	}
 	len_base = atoi(av[1]);
 	len_trans = atoi(av[2]);
-	nb_pt = 50000000;
-	size_mem = (sizeof(float) * 2) * nb_pt;
+	size_mem =  atoi(av[3]);
 	max_iter = calcul_nb_ite_max(len_base, len_trans, size_mem, start_indice);
 	printf("len_base:%d	len_trans:%d	size_mem:%d\n", len_base, len_trans, size_mem);
 	printf("max_iter:%d\n", max_iter);

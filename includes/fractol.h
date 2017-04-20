@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/18 08:51:31 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/20 07:33:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ typedef	struct s_env	t_env;
 enum	e_ocl_kernel
 {
 	e_ifs_calcul_pt,
-	e_draw_line
+	e_define_color,
+	e_draw_line,
 };
 
 enum	e_ker_draw_line

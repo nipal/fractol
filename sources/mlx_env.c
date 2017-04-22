@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/04 22:22:53 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/21 21:30:11 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void		env(t_env *e)
 	init_statment(e);
 
 	init_lst_anime(e);
-
+	
+	ocl_init_ifs(e);
 	mlx_loop(e->mlx);
 	mlx_do_sync(e->mlx);
 

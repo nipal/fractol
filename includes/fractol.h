@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/20 07:33:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/21 23:21:17 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@
 
 
 typedef	struct s_polygone	t_polygone;
-typedef	struct s_env	t_env;
+typedef	struct s_env		t_env;
+typedef	struct s_win		t_win;
+typedef	struct	s_data_nw	t_data_nw;
 
 ///////////// ocl_render /////////////
 #include <OpenCL/opencl.h>	
@@ -89,6 +91,8 @@ typedef	struct s_env	t_env;
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
 
+# define MAX_GPU_BUFF 524288000  // (2^20) * 500 ==> 500 Mo
+
 enum	e_ocl_kernel
 {
 	e_ifs_calcul_pt,
@@ -96,23 +100,28 @@ enum	e_ocl_kernel
 	e_draw_line,
 };
 
-enum	e_ker_draw_line
-{
-	e_img,
-	e_pt,
-	e_col,
-	e_dim_ecr	
-};
-
 enum	e_ker_calcul_ifs_point
 {
-	e_pt_ifs,
-	e_transform,
-	e_beg_id,
-	e_trans_len,
-	e_num_iter
+	e_cip_pt_ifs,
+	e_cip_transform,
+	e_cip_beg_id,
+	e_cip_trans_len,
+	e_cip_num_iter
 };
 
+enum	e_ker_define_color
+{
+	e_dc_col,
+	e_dc_param
+};
+
+enum	e_ker_draw_line
+{
+	e_dl_img,
+	e_dl_pt,
+	e_dl_col,
+	e_dl_param	
+};
 
 //	on aura besoinr que d'une seule structure comme celle la pour tout le programe
 typedef	struct		s_ocl_core
@@ -141,10 +150,28 @@ typedef	struct			s_ocl_ker
 	int					nb_arg;
 }						t_ocl_ker;
 
+typedef	struct	s_ifs_spec
+{
+	char	len_base;
+	char	len_trans;
+	char	max_iter;
+	char	max_pt;
+	int		dim_ecr[2];
+}				t_ifs_spec;
+
+/*
+ *	
+ * */
+int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker);
+int	ocl_mem_creat_define_color(t_ocl_ker *def_col,  size_t size_colore);
+int	ocl_mem_creat_draw_line(t_ocl_ker *ifs_ker, size_t img_size, t_ocl_mem *arg1, t_ocl_mem *arg2);
+
 int	init_ocl_core(t_ocl_core *core, const char *file_name);
 int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
 int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
 
+int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc);
+int	init_ifs(t_env *e, t_win *w);
 /*
  *	error_opencl.c	
  * */
@@ -167,6 +194,12 @@ int	branch_arg_to_kernel(t_ocl_ker *ker, int nb_arg_buff);
 int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
 int	init_ocl_core(t_ocl_core *core, const char *file_name);
 int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
+
+/*
+ *	
+ * */
+int	ocl_render_run(t_env *e);
+
 ///////// end_ocl //////////////////
 
 
@@ -874,7 +907,7 @@ typedef	struct	s_ifs_param
 	int			transform_len;
 	int			base_len;
 	int			max_iter;
-	double	col_val[6];	// les parametre de couleur
+	double		col_val[6];	// les parametre de couleur
 
 }				t_ifs_param;
 

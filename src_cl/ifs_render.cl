@@ -10,13 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef	struct	s_ifs_param
+typedef	struct	s_ifs_spec
 {
 	char	len_base;
 	char	len_trans;
 	char	max_iter;
-	char	max_pt;
-}				t_ifs_param;
+	int		max_pt;
+	int2	dim_ecr;
+}				t_ifs_spec;
 
 
 __kernel void test_image(__global int *time, __global int *data)
@@ -64,16 +65,16 @@ float	get_iter(int id, __const char max_iter, __const char len_trans, __const ch
 }
 
 
-__kernel	void	define_color(__global char4 *col, __global t_ifs_param *p)
+__kernel	void	define_color(__global char4 *col, __global t_ifs_spec *param)
 {
 	// puis appeler gentiement la focnitn qui donne les couleurs
 	float	hue, sat, val, iter;
 	int	id;
 
 	id = get_global_id(0);
-	iter = get_iter(id, p[0].max_iter, p[0].len_trans, p[0].len_base);
-	hue = ((float) id) / ((float) p[0].max_pt);
-	sat = (iter / ((float) p[0].max_iter)) * 360;
+	iter = get_iter(id, param[0].max_iter, param[0].len_trans, param[0].len_base);
+	hue = ((float) id) / ((float) param[0].max_pt);
+	sat = (iter / ((float) param[0].max_iter)) * 360;
 	val = sat;
 	col[id] = hsv_to_rgb(hue, sat, val);
 }
@@ -91,7 +92,7 @@ float	get_line_length(float2 p1, float2 p2)
 	return (max_p[id_max]);
 }
 
-__kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *col, __global float2 *dim_ecr)
+__kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *col, __global t_ifs_spec *param)
 {
 	float2	diff_pos;
 	float4	diff_col;
@@ -121,9 +122,9 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 	c = (float4)(col[id].x, col[id].y, col[id].z, 0);
 	while(i < nb_point)
 	{
-		indice = ((int) p.x) + ((int)(p.y * dim_ecr[0].x));
+		indice = ((int) p.x) + ((int)(p.y * param[0].dim_ecr.x));
 		col_value = ((((int)c.x) & 255) << 16) | ((((int)c.y) & 255) << 8) | ((((int)c.z)) & 255);
-		is_inside = (p.x >= 0 && p.x < dim_ecr[0].x && p.y >= 0 && p.y < dim_ecr[0].y);	
+		is_inside = (p.x >= 0 && p.x < param[0].dim_ecr.x && p.y >= 0 && p.y < param[0].dim_ecr.y);	
 		if (is_inside)
 			img[indice] = col_value;
 		p += unit_pos;

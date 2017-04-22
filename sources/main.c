@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 07:31:16 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/18 06:57:10 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/21 21:35:49 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int		main(int ac, char **av)
 	t_env				e;
 
 	bzero(&e, sizeof(t_env));
-	init_ocl_error();
-	ocl_init_ifs(&e);
 	if (ac == 2)
 	{
 		e.status = SERVEUR;

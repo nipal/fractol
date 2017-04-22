@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/20 07:48:05 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/21 23:36:19 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,53 @@ int	init_ifs(t_env *e, t_win *w)
  	size_t	size_buff_pt;
 	size_t	size_colore;
 	size_t	size_img;
-	int		nb_pt;
+	size_t	nb_pt;
 
-	//	on a la taille max du system (pour un buffer)
-	//		==> il faudra voir si on peu utiliser plusieur buffer
-	//			ou si il y a une histoire de buf max en mem temps
-	//	on en deduit le nombre de point max
-	//	on en deduit la couleur
-	//	ou si non on fait des buffeur tres tres gros et c'est plus tard que on gerera le reste
+	nb_pt = (MAX_GPU_BUFF) / (sizeof(float) * 2);
+	size_img = w->size_x * w->size_y * sizeof(int);
+	size_buff_pt = MAX_GPU_BUFF;
+	size_colore = MAX_GPU_BUFF;
 	
-	size_img = w->size_x * e->size_y * sizeof(int);
-	init_mem_calcul_ifs(e->ocl, e->ker[e_ifs_calcul_pt]);
-	ocl_mem_creat_define_color(e->ker[e_define_color], size_colore)
-	ocl_mem_creat_draw_line(e->ocl, e->ker[e_draw_line], size_img, size_buff_pt, t_ocl_mem *arg1, t_ocl_mem *arg2)
+	init_kernel(&(e->ocl), &(e->ker[e_ifs_calcul_pt]), "calcul_ifs_point");
+	init_kernel(&(e->ocl), &(e->ker[e_define_color]), "define_color");
+	init_kernel(&(e->ocl), &(e->ker[e_draw_line]), "draw_line");
+
+	ocl_mem_creat_calcul_ifs(&(e->ker[e_ifs_calcul_pt]));
+	ocl_mem_creat_define_color(&(e->ker[e_define_color]), size_colore);
+	ocl_mem_creat_draw_line(&(e->ker[e_draw_line]), size_img, &(e->ker[e_ifs_calcul_pt].data[e_cip_pt_ifs]), &(e->ker[e_define_color].data[e_dc_col]));
+	return (0);
+}
+
+//	on va faire du sale ==> on doit l'appeler avec le kernel dc pck je suis mauvais...
+int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc)
+{
+	cl_int		ret;
+	t_ifs_spec	param;
+
+	param.len_base = data->base_len;
+	param.len_trans = data->trans_len;
+	param.max_iter = data->max_iter;
+	param.max_pt = data->base_len * pow(data->trans_len, data->max_iter);
+	param.dim_ecr[0] = w->size_x;
+	param.dim_ecr[1] = w->size_y;
+	ret = clEnqueueWriteBuffer(ker_dc->command_queue, ker_dc->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &param, 0, NULL, NULL);
+	return (0);
+}
+
+int	ocl_init_ifs(t_env *e)
+{
+	init_ocl_error();
+	init_ocl_core(&(e->ocl), "src_cl/ifs_render.cl");
+	init_ifs(e, e->fractal);
+	return (0);
+}
+
+int	ocl_render_run(t_env *e)
+{
+	float col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
+					e->sliders[1]->v1, e->sliders[1]->v2,
+					e->sliders[2]->v1, e->sliders[2]->v2};
+
+	ocl_ifs_calcul_run(&(e->ker[e_ifs_calcul_pt]), e->transform, e->base, e->max_iter, col);
+	return (0);
 }

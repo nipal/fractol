@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/04/19 22:26:59 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/04/21 19:05:28 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,9 @@ SRC		= 	main.c						\
 			animation.c					\
 			draw_ifs_iteratif.c			\
 			ocl_init.c					\
+			ocl_init_ifs.c				\
 			ocl_calcul_ifs_point.c		\
+			ocl_define_colore.c			\
 			ocl_draw_line.c				\
 			read_file.c					\
 			error_opencl.c				\

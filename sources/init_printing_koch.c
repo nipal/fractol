@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/14 21:51:02 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/21 23:22:18 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void							print_fractal(t_env *e)
 		if (e->status == SERVEUR)
 		{
 			send_ifs_param_to_client(e);
+			ocl_render_run(e);
 	//		ocl_ifs_calcul_run(&(e->ker[IFS_CALCUL_PT]), e->trans_model2, e->base_model, e->max_iter, col);
 		}
 		data_koch[0] = e->max_iter;

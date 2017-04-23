@@ -134,11 +134,11 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 	c = (float4)(col[id].x, col[id].y, col[id].z, 0);
 	while(i <= nb_point)
 	{
-		indice = ((int) p.x) + (int)((int)(p.y) * spec->ecr_x);
+		indice = ((int) p.x) + (int)((int)(p.y) * spec->ecr_y);
 		col_value = ((((int)c.x) & 0xFF) << 16) | ((((int)c.y) & 0xFF) << 8) | ((((int)c.z)) & 0xFF);
-		is_inside = (p.x >= 0 && p.x < spec[0].ecr_x && p.y >= 0 && p.y < spec[0].ecr_y);	
+		is_inside = ((p.x >= 0 && p.x < spec->ecr_x) && (p.y >= 0 && p.y < spec->ecr_y));	
 		if (is_inside)
-			img[indice] = col_value;
+			img[indice] = 0xffffff;
 // printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
 // printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
 // printf("ecr_X:%f	ecr_Y:%f\n", spec->ecr_x, spec->ecr_y);
@@ -153,20 +153,6 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 //print_spec(spec);
 //	printf("nb_point:%d\n", nb_point);		
 }
-
-/*
-**	au debut on peu juste tester avec un truc qui ne remet pas a zero
-**	puis on pourra faire un genre de bzero_cl
-*/
-
-/*
-*	pt_ifs 		=>	le buffer de tout les point a calculer pour la fractale
-*	transform	=>	le buffer de point de la transformation
-*	beg_data_id	=>	le tableau qui recense les offset d'indice pour "pt_ifs" en fonction de "num_iter"
-*	num_iter	=>	la passe de rendu qu'on est entrain de calculer (si on en est par exemple a la 5eme passe de rendue sur pt_ifs)
-*
-*	On a pas la base pck le buffer "pt_ifs" serra deja un peu remplis, generalement on peu considerer que au moins la base serra dedans
-*/
 
 __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 									, __global float2 *transform
@@ -185,7 +171,7 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 //	calcule des id pour apres tout faire en une ligne
 	glob_id = get_global_id(0);
 	id_trans = glob_id % (trans_len[0] + 1);
-	id_parent = (glob_id / (trans_len[0] + 1)) + beg_data_id[num_iter[0]];
+	id_parent = (glob_id / (trans_len[0] + 1)) + beg_data_id[num_iter[0] - 1];
 	id_now = glob_id + beg_data_id[num_iter[0]];
 
 	ux = pt_ifs[id_parent + 1] - pt_ifs[id_parent];

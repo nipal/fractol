@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/22 22:17:11 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/23 07:38:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,11 +177,13 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 //	print_id_tab(id_tab, MAX_ITER);
 	// on faire une boucle pour lancer les kernel pour faire les differente passe de rendu
 	i = 1;
+//	printf("nb_iter:%d\n", nb_iter);
 	while (i < nb_iter)
 	{
 		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
+		printf("iter[%d]:%zu\n", i, global_work_size[0]);
 		// la on actualise l'etage d'iteration 
-	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff, CL_TRUE, 0, ifs_cl->data[4].size, &(i), 0, NULL, NULL);
+	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff, CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
 		if (ret2)
 			check_ocl_err(&ret2, 1, "tata truc", __FILE__);
 		ret[i] = clEnqueueNDRangeKernel(ifs_cl->command_queue, ifs_cl->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);

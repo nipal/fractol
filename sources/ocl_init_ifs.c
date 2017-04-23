@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/21 23:36:19 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/23 01:51:55 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	init_ifs(t_env *e, t_win *w)
 
 	ocl_mem_creat_calcul_ifs(&(e->ker[e_ifs_calcul_pt]));
 	ocl_mem_creat_define_color(&(e->ker[e_define_color]), size_colore);
-	ocl_mem_creat_draw_line(&(e->ker[e_draw_line]), size_img, &(e->ker[e_ifs_calcul_pt].data[e_cip_pt_ifs]), &(e->ker[e_define_color].data[e_dc_col]));
+	ocl_mem_creat_draw_line(&(e->ker[e_draw_line]), size_img,
+					&(e->ker[e_ifs_calcul_pt].data[e_cip_pt_ifs]),
+					&(e->ker[e_define_color].data[e_dc_col]),
+					&(e->ker[e_define_color].data[e_dc_param]));
 	return (0);
 }
 
@@ -48,8 +51,8 @@ int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc)
 	param.len_trans = data->trans_len;
 	param.max_iter = data->max_iter;
 	param.max_pt = data->base_len * pow(data->trans_len, data->max_iter);
-	param.dim_ecr[0] = w->size_x;
-	param.dim_ecr[1] = w->size_y;
+	param.ecr_x = w->size_x;
+	param.ecr_y = w->size_y;
 	ret = clEnqueueWriteBuffer(ker_dc->command_queue, ker_dc->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &param, 0, NULL, NULL);
 	return (0);
 }
@@ -62,12 +65,19 @@ int	ocl_init_ifs(t_env *e)
 	return (0);
 }
 
+int	ocl_read_from_draw_line(t_win *w, t_ocl_ker *ker);
+
 int	ocl_render_run(t_env *e)
 {
-	float col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
-					e->sliders[1]->v1, e->sliders[1]->v2,
-					e->sliders[2]->v1, e->sliders[2]->v2};
+	int			id_tab[MAX_ITER];
+	float		col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
+						e->sliders[1]->v1, e->sliders[1]->v2,
+						e->sliders[2]->v1, e->sliders[2]->v2};
 
 	ocl_ifs_calcul_run(&(e->ker[e_ifs_calcul_pt]), e->transform, e->base, e->max_iter, col);
+	ocl_run_define_colore(e, &(e->ker[e_define_color]), id_tab);
+	ocl_run_draw_line(&(e->ker[e_draw_line]), id_tab, e->max_iter);
+
+	ocl_read_from_draw_line(e->fractal, &(e->ker[e_draw_line]));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/21 23:21:17 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/22 23:33:38 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef	struct	s_data_nw	t_data_nw;
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
 
-# define MAX_GPU_BUFF 524288000  // (2^20) * 500 ==> 500 Mo
+# define MAX_GPU_BUFF 1048576 * 100  // (2^20) * 500 ==> 500 Mo
 
 enum	e_ocl_kernel
 {
@@ -102,7 +102,7 @@ enum	e_ocl_kernel
 
 enum	e_ker_calcul_ifs_point
 {
-	e_cip_pt_ifs,
+	e_cip_pt_ifs		= 0,
 	e_cip_transform,
 	e_cip_beg_id,
 	e_cip_trans_len,
@@ -152,11 +152,12 @@ typedef	struct			s_ocl_ker
 
 typedef	struct	s_ifs_spec
 {
-	char	len_base;
-	char	len_trans;
-	char	max_iter;
-	char	max_pt;
-	int		dim_ecr[2];
+	int		len_base;
+	int		len_trans;
+	int		max_iter;
+	int		max_pt;
+	int		ecr_x;
+	int		ecr_y;
 }				t_ifs_spec;
 
 /*
@@ -164,7 +165,7 @@ typedef	struct	s_ifs_spec
  * */
 int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker);
 int	ocl_mem_creat_define_color(t_ocl_ker *def_col,  size_t size_colore);
-int	ocl_mem_creat_draw_line(t_ocl_ker *ifs_ker, size_t img_size, t_ocl_mem *arg1, t_ocl_mem *arg2);
+int	ocl_mem_creat_draw_line(t_ocl_ker *ifs_ker, size_t img_size, t_ocl_mem *buff_pt, t_ocl_mem *buff_col, t_ocl_mem *ifs_spec);
 
 int	init_ocl_core(t_ocl_core *core, const char *file_name);
 int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
@@ -181,7 +182,7 @@ void	init_ocl_error(void);
 /*
  *	ocl_format_ifs_calcul.c
  * */
-int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *base, int nb_iter, float col[6]);
+int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg);
 int	ocl_init_ifs(t_env *e);
 
 /*
@@ -196,9 +197,12 @@ int	init_ocl_core(t_ocl_core *core, const char *file_name);
 int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
 
 /*
- *	
+ *	tout les osl run, il faudra un peu faire le menage la c'est tout sal
  * */
 int	ocl_render_run(t_env *e);
+int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *base, int nb_iter, float col[6]);
+int	ocl_run_draw_line(t_ocl_ker *dl, int *id_tab, int max_iter);
+int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab);
 
 ///////// end_ocl //////////////////
 

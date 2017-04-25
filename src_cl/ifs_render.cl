@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#define MAX_ITER 20
+
 typedef	struct	s_ifs_spec
 {
 	int		len_base;
@@ -18,6 +20,8 @@ typedef	struct	s_ifs_spec
 	int		max_pt;
 	int		ecr_x;
 	int		ecr_y;
+	int		nb_iter;
+	int		beg_id[MAX_ITER];
 }				t_ifs_spec;
 
 
@@ -118,10 +122,11 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 	float	dist;
 	int		nb_point;
 	int		i;
-	int		id;
+	int		id, id_col;
 	bool	is_inside;
 
-	id = get_global_id(0);
+	id_col = get_global_id(0);
+	id = id_col + spec->beg_id[spec->nb_iter - 1];
 	diff_pos = pt[id + 1] - pt[id];
 	dc = col[id + 1] - col[id];
 	diff_col = (float4)(dc.x, dc.y, dc.z, 0);
@@ -160,6 +165,7 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 									, __global int *trans_len
 									, __global int *num_iter)
 {
+
 	int		glob_id;
 	float2	ux;
 	float2	uy;
@@ -183,4 +189,5 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	//printf("calcul:%d	========	dad_1:{%f, %f} dad_2:{%f, %f}	tr[%d]:{%f, %f}\n", glob_id, pt_ifs[id_parent - 1].x, pt_ifs[id_parent - 1].y, pt_ifs[id_parent].x, pt_ifs[id_parent].y, id_trans, transform[id_trans].x, transform[id_trans].y);
 
 //	printf("glob_id:%d	id_current:%d	id_parent:%d	id_trans:%d		len_trans:%d	num_iter:%d\n", glob_id, id_now, id_parent, id_trans, trans_len[0], num_iter[0]);
+
 }

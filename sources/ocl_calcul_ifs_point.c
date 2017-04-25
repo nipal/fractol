@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/23 07:38:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/25 20:25:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker)
 
 	ifs_ker->nb_arg = 5;
 	ret[0] = ocl_create_mem(ifs_ker, e_cip_pt_ifs	, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2);
-	ret[1] = ocl_create_mem(ifs_ker, e_cip_transform, CL_MEM_READ_WRITE, MAX_ITER * sizeof(int));
+	ret[1] = ocl_create_mem(ifs_ker, e_cip_transform, CL_MEM_READ_WRITE, MAX_ITER * sizeof(int) * 2);
 	ret[2] = ocl_create_mem(ifs_ker, e_cip_beg_id	, CL_MEM_READ_WRITE, sizeof(int) * MAX_ITER);
 	ret[3] = ocl_create_mem(ifs_ker, e_cip_trans_len, CL_MEM_READ_WRITE, sizeof(int));
 	ret[4] = ocl_create_mem(ifs_ker, e_cip_num_iter	, CL_MEM_READ_WRITE, sizeof(int));
@@ -43,7 +43,7 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	//	on copie juste la valeur des point de la base dans la structure de buffer
 	node = base;
 	i = 0;
-	while (i < MAX_NODE && node && i < data->base_len)
+	while (i < MAX_NODE && node)
 	{
 		data->pt_base[i][0] = (float) node->pos->m[0];
 		data->pt_base[i][1] = (float) node->pos->m[1];
@@ -64,7 +64,7 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	i = 1;
 	data->pt_trans[i][0] = 0;
 	data->pt_trans[i][1] = 0;
-	while (i < MAX_NODE && node && i <= data->trans_len)
+	while (i < MAX_NODE && node)
 	{
 		data->pt_trans[i][0] = (float) node->pos->m[0];
 		data->pt_trans[i][1] = (float) node->pos->m[1];
@@ -111,8 +111,8 @@ int	ocl_writeto_ifs_calcul(t_ocl_ker *ifs_cl, t_ifs_ocl *data)
 	ft_bzero(tab_id, sizeof(tab_id));
 	set_id_isf_ptbuff(data->base_len, data->trans_len, data->max_iter, tab_id);
 
-	ret[0] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_pt_ifs].gpu_buff, CL_TRUE	, 0, data->base_len * sizeof(float) * 2, data->pt_base, 0, NULL, NULL);
-	ret[1] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_transform].gpu_buff, CL_TRUE, 0, (data->trans_len + 1) * sizeof(float) * 2, data->pt_trans, 0, NULL, NULL);
+	ret[0] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_pt_ifs].gpu_buff, CL_TRUE	, 0, MAX_NODE * sizeof(float) * 2, data->pt_base, 0, NULL, NULL);
+	ret[1] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_transform].gpu_buff, CL_TRUE, 0, MAX_NODE * sizeof(float) * 2, data->pt_trans, 0, NULL, NULL);
 	ret[2] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_beg_id].gpu_buff, CL_TRUE	, 0, sizeof(int) * MAX_ITER, tab_id, 0, NULL, NULL);
 	ret[3] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_trans_len].gpu_buff, CL_TRUE, 0, ifs_cl->data[3].size, &(data->trans_len), 0, NULL, NULL);
 	ret[4] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff, CL_TRUE	, 0, ifs_cl->data[4].size, &(data->max_iter), 0, NULL, NULL);
@@ -178,12 +178,14 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 	// on faire une boucle pour lancer les kernel pour faire les differente passe de rendu
 	i = 1;
 //	printf("nb_iter:%d\n", nb_iter);
-	while (i < nb_iter)
+	while (i <= nb_iter)
 	{
-		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
-		printf("iter[%d]:%zu\n", i, global_work_size[0]);
+		global_work_size[0] = id_tab[i] - id_tab[i - 1]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
+//		printf("iter[%d]-->%zu\n", i, global_work_size[0]);
+//		printf("iter[%d]:%zu\n", i, global_work_size[0]);
 		// la on actualise l'etage d'iteration 
-	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff, CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
+	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff,
+				CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
 		if (ret2)
 			check_ocl_err(&ret2, 1, "tata truc", __FILE__);
 		ret[i] = clEnqueueNDRangeKernel(ifs_cl->command_queue, ifs_cl->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);

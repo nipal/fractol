@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/22 23:33:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/23 08:23:40 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef	struct	s_data_nw	t_data_nw;
 #include <OpenCL/opencl.h>	
 
 # define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
-# define MAX_ITER 16 // vraiment... c'est trop pour un buffer mais bon... OK
+# define MAX_ITER 20 // vraiment... c'est trop pour un buffer mais bon... OK
 # define ARG_KER_MAX 10
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
@@ -158,6 +158,8 @@ typedef	struct	s_ifs_spec
 	int		max_pt;
 	int		ecr_x;
 	int		ecr_y;
+	int		nb_iter;
+	int		beg_id[MAX_ITER];
 }				t_ifs_spec;
 
 /*

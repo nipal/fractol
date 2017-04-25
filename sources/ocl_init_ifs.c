@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/23 07:25:37 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/25 06:44:25 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc)
 	param.max_pt = data->base_len * pow(data->trans_len, data->max_iter);
 	param.ecr_x = w->size_x;
 	param.ecr_y = w->size_y;
-	ret = clEnqueueWriteBuffer(ker_dc->command_queue, ker_dc->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &param, 0, NULL, NULL);
+	ret = clEnqueueWriteBuffer(ker_dc->command_queue, ker_dc->data[e_dc_param].gpu_buff,
+			CL_TRUE, 0, sizeof(t_ifs_spec), &param, 0, NULL, NULL);
 	return (0);
 }
 

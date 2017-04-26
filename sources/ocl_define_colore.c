@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/23 08:25:49 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/25 23:14:35 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ int	ocl_read_from_define_colore(t_win *w, t_ocl_ker *ker)
 	return (check_ocl_err(&ret, 1, __func__, __FILE__));
 }
 
+void	set_range_val(t_range *value, float beg, float end)
+{
+	value->beg = beg;
+	value->end = end;
+	value->delta = end - beg;
+}
+
 void	set_dc_spec(t_ifs_spec *spec, t_env *e, t_win *w, int *id_tab)
 {
 
@@ -54,12 +61,45 @@ void	set_dc_spec(t_ifs_spec *spec, t_env *e, t_win *w, int *id_tab)
 	set_id_isf_ptbuff(spec->len_base, spec->len_trans, e->max_iter, id_tab);
 
 	spec->max_pt = id_tab[e->max_iter] - id_tab[e->max_iter - 1]; 
-//	printf("ecrX:%d	ecrY:%d\n", w->size_x, w->size_y);
 	spec->ecr_x = w->size_x;
 	spec->ecr_y = w->size_y;
 	spec->nb_iter = e->max_iter;
+
+	set_range_val(&(spec->hue), e->sliders[0]->v1, e->sliders[0]->v2);
+	set_range_val(&(spec->sat), e->sliders[1]->v1, e->sliders[1]->v2);
+	set_range_val(&(spec->val), e->sliders[2]->v1, e->sliders[2]->v2);
+
 	memmove(&(spec->beg_id), id_tab, sizeof(int) * MAX_ITER);
 //	printf("spec->ecrX:%d	spec->ecrY:%d\n", spec->dim_ecr[0], spec->dim_ecr[1]);
+}
+
+int		need_col_update(t_ifs_spec *spec)
+{
+	static	int	first = 1;
+	static	t_ifs_spec	prev_spec;
+	int		ret;
+
+	ret = 0;
+	if (first)
+	{
+		first = 0;
+		ret = 1;
+		prev_spec = *spec;
+	}
+	else
+	{
+		if (spec->len_trans != prev_spec.len_trans
+			|| spec->len_base != prev_spec.len_trans
+			|| spec->max_iter != prev_spec.max_iter
+			|| ft_memcmp(&spec->hue, &prev_spec.hue, sizeof(t_range))
+			|| ft_memcmp(&spec->sat, &prev_spec.sat, sizeof(t_range))
+			|| ft_memcmp(&spec->val, &prev_spec.val, sizeof(t_range)))
+		{
+			ret = 1;
+			prev_spec = *spec;
+		}
+	}
+	return (ret);
 }
 
 //	c'est la fonction qu'on a besoin d'appeler
@@ -73,10 +113,18 @@ int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab)
 	cl_int		ret[2];
 	(void)def_col;
 
-	//	on initialise les data pour le kernel
+
+	//	on initialise les data pour le kernel 
 	set_dc_spec(&spec, e, e->fractal, id_tab);
+	if (!need_col_update(&spec))
+		return (0);
 	ret[0] = clEnqueueWriteBuffer(def_col->command_queue, def_col->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &spec, 0, NULL, NULL);
 
+	//	Il faudra lancer la fonciton de calcule de la coloration si:
+	//		- len_base 		[CHANGE]
+	//		- len_trans 	[CHANGE]
+	//		- nb_iter		[CHANGE]
+	//			===>	DONC il faudra avoir une genre de memoire... on peu le faire salement en static
 	global_work_size[0] = id_tab[e->max_iter] - id_tab[e->max_iter - 1];
 	ret[1] = clEnqueueNDRangeKernel(def_col->command_queue, def_col->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
 		return (check_ocl_err(ret, 2, __func__, __FILE__));

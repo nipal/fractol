@@ -12,6 +12,14 @@
 
 #define MAX_ITER 20
 
+
+typedef	struct	s_range
+{
+	float		beg;
+	float		end;
+	float		delta;
+}				t_range;
+
 typedef	struct	s_ifs_spec
 {
 	int		len_base;
@@ -22,6 +30,9 @@ typedef	struct	s_ifs_spec
 	int		ecr_y;
 	int		nb_iter;
 	int		beg_id[MAX_ITER];
+	t_range	hue;
+	t_range	sat;
+	t_range	val;
 }				t_ifs_spec;
 
 
@@ -37,11 +48,6 @@ char4	hsv_to_rgb(__const float hue, __const float sat, __const float val);
 float	get_iter(int id, __const char max_iter, __const char len_trans, __const char len_base);
 float	get_line_length(float2 p1, float2 p2);
 void	print_spec(t_ifs_spec *spec);
-
-void	print_spec(t_ifs_spec *spec)
-{
-	printf("len_base:%d	len_trans:%d	max_iter:%d	max_pt:%d	ecr_x:%d	ecr_y:%d\n", spec->len_base, spec->len_trans, spec->max_iter, spec->max_pt, spec->ecr_x, spec->ecr_y);
-}
 
 char4	hsv_to_rgb(__const float hue, __const float sat, __const float val)
 {
@@ -85,11 +91,14 @@ __kernel	void	define_color(__global char4 *col, __global t_ifs_spec *spec)
 	id = get_global_id(0);
 	iter = get_iter(id, spec[0].max_iter, spec[0].len_trans, spec[0].len_base);
 	hue = ((float) id) / ((float) spec[0].max_pt);
-	sat = (iter / ((float) spec[0].max_iter)) * 360;
+	sat = (iter / ((float) spec[0].max_iter));
 	val = sat;
-	col[id] = hsv_to_rgb(hue, sat, val);
 
-//	printf("spec->ecrX:%d	spec->ecrY:%d\n", spec->ecr_x, spec->ecr_y);
+	hue = (spec->hue.beg + (hue * spec->hue.delta)) * 360;
+//printf("hue:%f		[%d/%d]\n", hue, id, spec->max_pt);
+	sat = spec->sat.beg + (sat * spec->sat.delta);
+	val = spec->val.beg + (val * spec->val.delta);
+	col[id] = hsv_to_rgb(hue, sat, val);
 }
 
 float	get_line_length(float2 p1, float2 p2)
@@ -143,7 +152,7 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 		col_value = ((((int)c.x) & 0xFF) << 16) | ((((int)c.y) & 0xFF) << 8) | ((((int)c.z)) & 0xFF);
 		is_inside = ((p.x >= 0 && p.x < spec->ecr_x) && (p.y >= 0 && p.y < spec->ecr_y));	
 		if (is_inside)
-			img[indice] = 0xffffff;
+			img[indice] = col_value;
 // printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
 // printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
 // printf("ecr_X:%f	ecr_Y:%f\n", spec->ecr_x, spec->ecr_y);
@@ -169,7 +178,6 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	int		glob_id;
 	float2	ux;
 	float2	uy;
-	float2	new;
 	int		id_trans;
 	int		id_parent;
 	int		id_now;

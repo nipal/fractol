@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/23 08:23:40 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/25 21:41:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,13 @@ typedef	struct			s_ocl_ker
 	int					nb_arg;
 }						t_ocl_ker;
 
+typedef	struct	s_range
+{
+	float		beg;
+	float		end;
+	float		delta;
+}				t_range;
+
 typedef	struct	s_ifs_spec
 {
 	int		len_base;
@@ -160,6 +167,9 @@ typedef	struct	s_ifs_spec
 	int		ecr_y;
 	int		nb_iter;
 	int		beg_id[MAX_ITER];
+	t_range	hue;
+	t_range	sat;
+	t_range	val;
 }				t_ifs_spec;
 
 /*

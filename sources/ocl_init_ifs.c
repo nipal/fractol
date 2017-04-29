@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/25 06:44:25 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/27 07:11:04 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	ocl_render_run(t_env *e)
 						e->sliders[1]->v1, e->sliders[1]->v2,
 						e->sliders[2]->v1, e->sliders[2]->v2};
 
-	ocl_ifs_calcul_run(&(e->ker[e_ifs_calcul_pt]), e->transform, e->base, e->max_iter, col);
 	ocl_run_define_colore(e, &(e->ker[e_define_color]), id_tab);
+	ocl_ifs_calcul_run(&(e->ker[e_ifs_calcul_pt]), e->transform, e->base, e->max_iter, col);
 	ocl_run_draw_line(&(e->ker[e_draw_line]), id_tab, e->max_iter);
 
 	ocl_read_from_draw_line(e->fractal, &(e->ker[e_draw_line]));

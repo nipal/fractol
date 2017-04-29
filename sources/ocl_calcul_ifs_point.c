@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/25 20:25:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/29 16:53:55 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	bzero(data, sizeof(t_ifs_ocl));
 	data->base_len = get_polygone_len(base);
 	data->trans_len = get_polygone_len(transform);
+//	printf();
 
 	//	on copie juste la valeur des point de la base dans la structure de buffer
 	node = base;
@@ -147,7 +148,7 @@ int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg)
 
 	i = 1;
 	indice_beg[0] = 0;
-	sum = nb_base;
+	sum = nb_base - 1;
 //	printf("base:%d	trans:%d	iter:%d\n", nb_base, nb_trans, nb_iter);
 	while (i < MAX_ITER)
 	{
@@ -172,15 +173,15 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 
 	// les work_size c'est le nombre de coeur qu'on execute en meme temps
 	format_data_to_ocl(&data, transform, base, nb_iter, col);	
-	set_id_isf_ptbuff(data.base_len, data.trans_len, nb_iter, id_tab);
+	set_id_isf_ptbuff(data.base_len + 1, data.trans_len + 1, nb_iter, id_tab);
 	ocl_writeto_ifs_calcul(ifs_cl, &data);
 //	print_id_tab(id_tab, MAX_ITER);
 	// on faire une boucle pour lancer les kernel pour faire les differente passe de rendu
 	i = 1;
 //	printf("nb_iter:%d\n", nb_iter);
-	while (i <= nb_iter)
+	while (i < nb_iter)
 	{
-		global_work_size[0] = id_tab[i] - id_tab[i - 1]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
+		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
 //		printf("iter[%d]-->%zu\n", i, global_work_size[0]);
 //		printf("iter[%d]:%zu\n", i, global_work_size[0]);
 		// la on actualise l'etage d'iteration 
@@ -193,6 +194,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 			check_ocl_err(ret, i + 1, __func__, __FILE__);
 		i++;
 	}
+//printf("calcul_pt:%zu\n", global_work_size[0]);
 	
 //	printf("nb_iter:%d\n", nb_iter);
 //	printf("beg:%d	end:%d	diff:%d\n", id_tab[nb_iter - 1], id_tab[nb_iter], (id_tab[nb_iter] - id_tab[nb_iter - 1]));

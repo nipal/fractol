@@ -86,9 +86,11 @@ __kernel	void	define_color(__global char4 *col, __global t_ifs_spec *spec)
 {
 	// puis appeler gentiement la focnitn qui donne les couleurs
 	float	hue, sat, val, iter;
+	float	ok;
 	int	id;
 
 	id = get_global_id(0);
+
 	iter = get_iter(id, spec[0].max_iter, spec[0].len_trans, spec[0].len_base);
 	hue = ((float) id) / ((float) spec[0].max_pt);
 	sat = (iter / ((float) spec[0].max_iter));
@@ -198,4 +200,6 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 
 //	printf("glob_id:%d	id_current:%d	id_parent:%d	id_trans:%d		len_trans:%d	num_iter:%d\n", glob_id, id_now, id_parent, id_trans, trans_len[0], num_iter[0]);
 
+//	if (pt_ifs[id_parent + 1].x == 0 && pt_ifs[id_parent + 1].y == 0)
+//		printf("out	:%d/%d\n", glob_id);
 }

@@ -1,0 +1,25 @@
+PROBLEME:
+	alors on a une problem sur la coloration:
+		- deja on reste souvent au toure du bleu, ce qui est un tantinet limitant
+		- en suite on a un peu l'impression que les deux point du slider
+			n'on pas clairement le meme impacte pour la liminosite et la saturation
+SOURCE POTEMTIEL:
+	Donc ca vient
+		- soit de l'algo de coloration ( hsv -> rgb)
+		- soit du reste:
+			- copie des valeur dansle bon ordre ou un truc du genre (transmition des parametre)
+			- parametre qui module la couleur (nb_iteration, distance tout ca)
+			- 
+
+SOLUTION:
+
+
+===============
+
+symptome | diagnoastique | cause | traitement
+
+Il faut doc etablir un diagnostique de la/les cause des probleme
+
+=====================================
+
+IL faut trouver combien de truc on calcul en vrai

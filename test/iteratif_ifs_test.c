@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 02:49:05 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/20 02:02:25 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/30 23:00:15 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int main(int ac, char **av)
 	size_mem =  atoi(av[3]);
 	max_iter = calcul_nb_ite_max(len_base, len_trans, size_mem, start_indice);
 	printf("len_base:%d	len_trans:%d	size_mem:%d\n", len_base, len_trans, size_mem);
-	printf("max_iter:%d\n", max_iter);
+//	printf("max_iter:%d\n", max_iter);
 	for (i = 0; i < max_iter; i++)
 		printf("	begin[%d]:%d\n", i, start_indice[i]);
 	return (0);

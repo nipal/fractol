@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/04/21 19:05:28 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/01 03:05:03 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,14 +101,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-gdb: fclean
-		$(CC) -c $(FLAGS-DEBUG) $(SRC) -I ../includes -I ../c_maths
-		$(CC) -o $(NAME) $(FLAGS-DEBUG) $(OBJ) -L ../libft/ -lft \
-		-L ../c_maths -lc_maths \
-		-L /usr/lib/ -lmlx -lm -lX11 -lXext
-
-#		-L /usr/lib/ -lmlx -lm -lX11 -lXext
-#		 cp -f $(NAME) $(NAME_SAVE) 
-
-

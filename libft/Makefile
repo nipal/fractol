@@ -6,9 +6,11 @@
 #    By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/09/13 19:48:58 by fjanoty           #+#    #+#              #
-#    Updated: 2016/12/10 12:02:09 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/01 03:07:44 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+DEPS = ../includes/libft.h
 
 NAME	= libft.a
 SRC		= ft_atoi.c \
@@ -84,8 +86,11 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 #%.o: %.c
-$(OBJ):
-	    $(CC) $(CFLAGS) -I ../includes/ -c $(SRC)
+#$(OBJ):
+#	    $(CC) $(CFLAGS) -I ../includes/ -c $(SRC)
+
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes
 
 clean:
 	rm -f $(OBJ)

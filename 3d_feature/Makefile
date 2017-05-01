@@ -6,7 +6,7 @@
 #    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/01 03:02:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/05/01 03:12:56 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/01 04:07:58 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ OBJ		= $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes

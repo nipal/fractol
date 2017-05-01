@@ -6,7 +6,7 @@
 #    By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/01 03:02:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/05/01 04:07:58 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/01 05:56:35 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,9 @@
 NAME	=	libvec_mat
 DEPS 	= vec_math.h
 
-SRC		= cam.c		\
-		  basis.c	\
-		  matrix.c	\
-		  vector.c	\
+SRC		= 	basis.c		\
+		  	matrix.c	\
+		  	vector.c	\
 
 OBJ		= $(SRC:.c=.o)
 
@@ -30,8 +29,6 @@ $(NAME): $(OBJ)
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes
-
-	# -I /usr/includes/
 
 clean:
 	rm -f $(OBJ)

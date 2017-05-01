@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/05/01 03:05:03 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/01 06:49:25 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,20 @@ SRC		= 	main.c						\
 			client_data.c
 
 
-OBJ		= $(SRC:.c=.o)
+OBJ			= $(SRC:.c=.o)
+
+SPACE		=
+SPACE		+= 
+
+PRELIB		= -I $(SPACE)
+
+LIB_DIR		= -L ../libft -L ../c_maths -L ../vec_math -L ../minilibx_macos
+
+LIB_NAME	= -lft -lc_maths -lvec_math -lmlx
+
+FRAMEWORK	= -framework OpenGl -framework AppKit -framework opencl
+
+
 
 # CFLAGS =  -Wall -Wextra -Werror
 
@@ -79,20 +92,15 @@ OBJ		= $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) -L ../libft/ -lft \
-		-L ../c_maths -lc_maths \
-		-L  ../minilibx_macos/ \
-		-lmlx -framework OpenGL -framework AppKit  \
-		-framework OpenGL -framework AppKit -framework opencl 
+		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) $(LIB_DIR) $(LIB_NAME) $(FRAMEWORK)
 
 #		-L /usr/lib/ -lmlx -lm -lX11 -lXext
 
 
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths 
+	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths  
 
-	# -I /usr/includes/
 
 clean:
 	rm -f $(OBJ)

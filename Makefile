@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:28:32 by fjanoty           #+#    #+#              #
-#    Updated: 2017/04/29 16:47:31 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/01 06:13:11 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,25 +29,27 @@ NAME			= fdf
 SRC_DIR			= ./sources
 LIB_FT			= ./libft
 LIB_M			= ./c_maths
+LIB_MV			= ./vec_math
+LIB_MLX			= ./minilibx_macos
 
 all:
+	make -C $(LIB_MLX)
 	make -C $(LIB_FT)
 	make -C $(LIB_M)
+	make -C $(LIB_MV)
 	make -C $(SRC_DIR)
 
 clean:
+	make -C $(LIB_MLX)	clean
 	make -C $(LIB_FT)  clean
 	make -C $(LIB_M)  clean
+	make -C $(LIB_MV)  clean
 	make -C $(SRC_DIR) clean
 
 fclean: clean
 	make -C $(LIB_FT)  fclean
 	make -C $(LIB_M)  fclean
+	make -C $(LIB_MV)  fclean
 	make -C $(SRC_DIR) fclean
 
 re: fclean all
-
-gdb:
-	make -C $(LIB_FT) gdb
-	make -C $(LIB_M) gdb
-	make -C $(SRC_DIR) gdb

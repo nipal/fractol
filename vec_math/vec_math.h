@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 03:04:00 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/01 05:24:51 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 08:15:32 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,33 @@ void	basis_normalise(t_basis *b);
 void	basis_orthonormalise(t_basis *b);
 void	basis_vec_w2b(t_basis *b, float src[DIM], float dst[DIM]); // vec: World -> Basis
 void	basis_vec_b2w(t_basis *b, float src[DIM], float dst[DIM]); // vec: Basis -> World
+
+/////////// pobablement d'autre fichier -->
+
+typedef	struct	s_drawline
+{
+	t_basis		*from;
+	t_basis		*to
+	float		pos[DIM];
+	float		col[DIM];
+	float		diff_col[DIM];
+	float		diff_pos[DIM]
+}				t_drawline;
+
+typedef	struct	s_cam
+{
+	t_basis		*b;
+	t_win		*w;
+}				t_cam;
+
+t_drawline	*drawline_init_change(t_basis *from, t_basis *to);
+t_drawline	*drawline_init_pos(t_drawline *dr, float p1[DIM], float p2[DIM]);
+t_drawline	*drawline_init_col(t_drawline *dr, float c1[DIM], float c2[DIM]);
+void		draw_line(t_cam *c, t_drawline *dr);
+void		cam_init(t_cam *c, float pos[DIM], float ang[DIM]);
+
+
+
 #endif
 
 /*

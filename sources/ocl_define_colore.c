@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/29 16:51:02 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 07:23:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,13 @@ int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab)
 	if (!need_col_update(&spec))
 		return (0);
 	ret[0] = clEnqueueWriteBuffer(def_col->command_queue, def_col->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &spec, 0, NULL, NULL);
-
-	//	Il faudra lancer la fonciton de calcule de la coloration si:
-	//		- len_base 		[CHANGE]
-	//		- len_trans 	[CHANGE]
-	//		- nb_iter		[CHANGE]
-	//			===>	DONC il faudra avoir une genre de memoire... on peu le faire salement en static
-	global_work_size[0] = id_tab[e->max_iter + 1] - id_tab[e->max_iter];
+	global_work_size[0] = id_tab[e->max_iter] - id_tab[e->max_iter - 1];
 	ret[1] = clEnqueueNDRangeKernel(def_col->command_queue, def_col->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
+
+	/*
+	int i = e->max_iter - 1;
+	printf("define_color[%d]	beg:%d	eng:%d	total:%d\n", i, id_tab[i + 1], id_tab[i], (id_tab[i + 1] - id_tab[i]));
+	*/
 		return (check_ocl_err(ret, 2, __func__, __FILE__));
 	return (0);
 }

@@ -200,6 +200,13 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 
 //	printf("glob_id:%d	id_current:%d	id_parent:%d	id_trans:%d		len_trans:%d	num_iter:%d\n", glob_id, id_now, id_parent, id_trans, trans_len[0], num_iter[0]);
 
-//	if (pt_ifs[id_parent + 1].x == 0 && pt_ifs[id_parent + 1].y == 0)
-//		printf("out	:%d/%d\n", glob_id);
+
+	int	iter = num_iter[0];
+	if (pt_ifs[id_parent + 1].x == 0 && pt_ifs[id_parent + 1].y == 0)
+		printf("ITER[%d] id:%d	parent:%d\n", iter, glob_id, (id_parent + 1));
+
+	if (glob_id == 0)
+	{
+		printf("iter[%d]:	parent:%d	now:%d		trans_len:%d\n", iter, beg_data_id[iter - 1], beg_data_id[iter], trans_len[0]);
+	}
 }

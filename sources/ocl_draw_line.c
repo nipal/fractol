@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 19:58:57 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/29 16:54:26 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 07:26:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,14 @@ int	ocl_run_draw_line(t_ocl_ker *dl, int *id_tab, int max_iter)
 	size_t		local_work_size[3] = {1, 0, 0};
 	cl_int	ret[1];
 
-	global_work_size[0] = id_tab[max_iter + 1] - id_tab[max_iter];
+	global_work_size[0] = id_tab[max_iter] - id_tab[max_iter - 1] - 1;
 //	printf("nb_pt:%zu\n", global_work_size[0]);
 	ret[0] = clEnqueueNDRangeKernel(dl->command_queue, dl->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
 
 //printf("draw_line:%zu\n", global_work_size[0]);
+/*
+	int i = max_iter - 1;
+	printf("draw_line[%i]	beg:%d	eng:%d	total:%d\n", i, id_tab[i + 1], id_tab[i], (id_tab[i + 1] - id_tab[i]));
+	*/
 	return (check_ocl_err(ret, 1, __func__, __FILE__));
 }

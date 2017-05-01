@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/29 16:53:55 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 07:31:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,13 +148,11 @@ int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg)
 
 	i = 1;
 	indice_beg[0] = 0;
-	sum = nb_base - 1;
-//	printf("base:%d	trans:%d	iter:%d\n", nb_base, nb_trans, nb_iter);
+	sum = nb_base;
 	while (i < MAX_ITER)
 	{
-		sum += (sum - 1) * (nb_trans);// le truc presedent
+		sum += (sum - 1) * (nb_trans + 1);// le truc presedent
 		indice_beg[i] = indice_beg[i - 1] + sum;
-//		printf("==>	%d	<==\n", sum);
 		i++;
 	}
 	return (0);
@@ -173,18 +171,17 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 
 	// les work_size c'est le nombre de coeur qu'on execute en meme temps
 	format_data_to_ocl(&data, transform, base, nb_iter, col);	
-	set_id_isf_ptbuff(data.base_len + 1, data.trans_len + 1, nb_iter, id_tab);
+	set_id_isf_ptbuff(data.base_len, data.trans_len, nb_iter, id_tab);
 	ocl_writeto_ifs_calcul(ifs_cl, &data);
-//	print_id_tab(id_tab, MAX_ITER);
-	// on faire une boucle pour lancer les kernel pour faire les differente passe de rendu
+	print_id_tab(id_tab, MAX_ITER);
 	i = 1;
-//	printf("nb_iter:%d\n", nb_iter);
 	while (i < nb_iter)
 	{
 		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
 //		printf("iter[%d]-->%zu\n", i, global_work_size[0]);
 //		printf("iter[%d]:%zu\n", i, global_work_size[0]);
 		// la on actualise l'etage d'iteration 
+		
 	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff,
 				CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
 		if (ret2)
@@ -194,6 +191,12 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 			check_ocl_err(ret, i + 1, __func__, __FILE__);
 		i++;
 	}
+
+
+//printf("calcul[%d]	beg:%d	eng:%d	total:%d\n", (i - 1), id_tab[i], id_tab[i - 1], (id_tab[i] - id_tab[i - 1]));
+
+
+
 //printf("calcul_pt:%zu\n", global_work_size[0]);
 	
 //	printf("nb_iter:%d\n", nb_iter);

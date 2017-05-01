@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 03:13:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/01 05:05:18 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 05:27:21 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	basis_init(t_basis *b)
 {
-	axes[0] = &(b->ux);
-	axes[1] = &(b->uy);
-	axes[2] = &(b->uz);
+	b->axes[0] = (b->ux);
+	b->axes[1] = (b->uy);
+	b->axes[2] = (b->uz);
 }
 
 void	basis_reset(t_basis *b)
@@ -30,16 +30,16 @@ void	basis_reset(t_basis *b)
 
 void	basis_set(t_basis *b, float ux[DIM], float uy[DIM], float uz[DIM])
 {
-	b->ux = ux;
-	b->uy = uy;
-	b->uz = uz;
+	memmove(b->ux, ux, sizeof(float) * 3);
+	memmove(b->uy, uy, sizeof(float) * 3);
+	memmove(b->uz, uz, sizeof(float) * 3);
 }
 
 void	basis_normalise(t_basis *b)
 {
-	vec_normalise(b->ux);
-	vec_normalise(b->uy);
-	vec_normalise(b->uz);
+	vec_normalise(b->ux, b->ux);
+	vec_normalise(b->uy, b->uy);
+	vec_normalise(b->uz, b->uz);
 }
 
 /*
@@ -47,16 +47,16 @@ void	basis_normalise(t_basis *b)
 **	
 **	normalent a la sortie on a une base ortho normer pafait
 **		par contre il faut que (ux dot_prod uy) != 0 
-**		si non on ne fait rien
+**		si non il y aurra juste des normalisation
 */
 
 void	basis_orthonormalise(t_basis *b)
 {
 	vec_cross(b->ux, b->uy, b->uz);
-	vec_normalise(b->uz);
+	vec_normalise(b->uz, b->uz);
 	vec_cross(b->uz, b->ux, b->uy);
-	vec_normalise(b->uy);
-	vec_normalise(b->ux);
+	vec_normalise(b->uy, b->uy);
+	vec_normalise(b->ux, b->ux);
 }
 
 // vec: World -> Basis
@@ -88,7 +88,7 @@ void	basis_vec_b2w(t_basis *b, float src[DIM], float dst[DIM])
 	while (i < DIM)
 	{
 		vec_scalar_prod(b->axes[i], src[i], tmp);
-		vec_add(result, tmp2, result);
+		vec_add(result, tmp, result);
 		i++;
 	}
 	memmove(dst, result, sizeof(result));

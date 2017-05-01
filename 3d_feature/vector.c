@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 03:13:38 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/01 04:52:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 05:30:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	vec_cross(float src_a[DIM], float src_b[DIM], float dst[DIM])
 		tmp[i] = src_a[id_1] * src_b[id_2] - src_a[id_2] * src_b[id_1];
 		i++;
 	}
-	memove(dst, tmp, sizeof(tmp));
+	memmove(dst, tmp, sizeof(tmp));
 }
 
 void	vec_scalar_prod(float src[DIM], float fact, float dst[DIM])
@@ -91,12 +91,12 @@ void	vec_normalise(float src[DIM], float dst[DIM])
 	float	dist;
 
 	if ((dist = sqrt(vec_dot(src, src))) == 0)
-		prinf("Error length_vec = 0\n");
+		printf("Error length_vec = 0\n");
 	else
-		vec_scalar_prod(src. 1 / dist);
+		vec_scalar_prod(src, 1 / dist, src);
 }
 
 float	vec_get_norme(float vec[DIM])
 {
-	return (sqrt(vec_dot(src, src)));
+	return (sqrt(vec_dot(vec, vec)));
 }

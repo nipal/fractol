@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 03:04:00 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/01 05:05:14 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/01 05:24:51 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef	union	u_axes
 typedef	struct	s_basis
 {
 	float	pos[3];
-	float	(*axes)[DIM];
+	float*	axes[DIM];
 	float	ux[DIM];
 	float	uy[DIM];
 	float	uz[DIM];
@@ -57,3 +57,11 @@ void	basis_orthonormalise(t_basis *b);
 void	basis_vec_w2b(t_basis *b, float src[DIM], float dst[DIM]); // vec: World -> Basis
 void	basis_vec_b2w(t_basis *b, float src[DIM], float dst[DIM]); // vec: Basis -> World
 #endif
+
+/*
+**	Alors il reste a faire:
+**			- les fonction de dessin
+**			- les fonction/gestion de hook souris
+**				ca serrait un peu comme si on re faisait un systeme de fenetre youpi
+**	
+*/

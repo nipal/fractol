@@ -1,0 +1,1020 @@
+Archive : libvec_math.a
+libvec_math.a(3d_landmark.o):
+(__TEXT,__text) section
+_landmark_normalise:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%rbx
+	pushq	%rax
+	movq	%rdi, %rbx
+	leaq	0x18(%rbx), %rdi
+	movq	%rdi, %rsi
+	callq	0x15
+	leaq	0x24(%rbx), %rdi
+	movq	%rdi, %rsi
+	callq	0x21
+	addq	$0x30, %rbx
+	movq	%rbx, %rdi
+	movq	%rbx, %rsi
+	addq	$0x8, %rsp
+	popq	%rbx
+	popq	%rbp
+	jmp	0x36
+	nopw	%cs:(%rax,%rax)
+_landmark_get_id_beg_norme:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%rbx
+	pushq	%rax
+	movq	%rdi, %r14
+	addq	$0x18, %r14
+	xorl	%ebx, %ebx
+	movq	%r14, %r15
+	nopw	%cs:(%rax,%rax)
+	movl	$0xffffffff, %eax
+	cmpq	$0x2, %rbx
+	jg	0xae
+	incq	%rbx
+	movslq	%ebx, %rax
+	imulq	$0x55555556, %rax, %rcx
+	movq	%rcx, %rdx
+	shrq	$0x3f, %rdx
+	shrq	$0x20, %rcx
+	addl	%edx, %ecx
+	leal	(%rcx,%rcx,2), %ecx
+	subl	%ecx, %eax
+	leal	(%rax,%rax,2), %eax
+	cltq
+	leaq	(%r14,%rax,4), %rsi
+	movq	%r15, %rdi
+	callq	0x9b
+	addq	$0xc, %r15
+	ucomiss	0x342(%rip), %xmm0
+	jne	0xaa
+	jnp	0x60
+	decl	%ebx
+	movl	%ebx, %eax
+	addq	$0x8, %rsp
+	popq	%rbx
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+	nopl	(%rax)
+_landmark_orthonormalise:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%r13
+	pushq	%r12
+	pushq	%rbx
+	pushq	%rax
+	movq	%rdi, %r14
+	leaq	0x18(%r14), %r13
+	movq	%r13, %rdi
+	movq	%r13, %rsi
+	callq	0xe0
+	leaq	0x24(%r14), %r15
+	movq	%r15, %rdi
+	movq	%r15, %rsi
+	callq	0xef
+	addq	$0x30, %r14
+	movq	%r14, %rdi
+	movq	%r14, %rsi
+	callq	0xfe
+	movq	$-0x1, %rax
+	movq	%r13, %rbx
+	nopl	(%rax,%rax)
+	leaq	0x1(%rax), %r12
+	cmpq	$0x2, %r12
+	jg	0x248
+	addq	$0x2, %rax
+	cltq
+	imulq	$0x55555556, %rax, %rcx
+	movq	%rcx, %rdx
+	shrq	$0x3f, %rdx
+	shrq	$0x20, %rcx
+	addl	%edx, %ecx
+	leal	(%rcx,%rcx,2), %ecx
+	subl	%ecx, %eax
+	leal	(%rax,%rax,2), %eax
+	cltq
+	leaq	(%r13,%rax,4), %rsi
+	movq	%rbx, %rdi
+	callq	0x14f
+	addq	$0xc, %rbx
+	ucomiss	0x292(%rip), %xmm0
+	movq	%r12, %rax
+	jne	0x161
+	jnp	0x110
+	testl	%r12d, %r12d
+	js	0x248
+	movq	%r12, %rax
+	shlq	$0x20, %rax
+	leaq	(%rax,%rax,2), %rbx
+	sarq	$0x1e, %rbx
+	addq	%r13, %rbx
+	leal	0x1(%r12), %eax
+	cltq
+	imulq	$0x55555556, %rax, %rax
+	movq	%rax, %rcx
+	shrq	$0x3f, %rcx
+	shrq	$0x20, %rax
+	addl	%ecx, %eax
+	leal	(%rax,%rax,2), %eax
+	negl	%eax
+	leal	0x1(%r12,%rax), %eax
+	leal	(%rax,%rax,2), %eax
+	cltq
+	leaq	(%r13,%rax,4), %rsi
+	movq	%rsi, -0x30(%rbp)
+	leal	0x2(%r12), %eax
+	cltq
+	imulq	$0x55555556, %rax, %rax
+	movq	%rax, %rcx
+	shrq	$0x3f, %rcx
+	shrq	$0x20, %rax
+	addl	%ecx, %eax
+	leal	(%rax,%rax,2), %eax
+	negl	%eax
+	leal	0x2(%r12,%rax), %eax
+	leal	(%rax,%rax,2), %eax
+	cltq
+	leaq	(%r13,%rax,4), %r12
+	movq	%rbx, %rdi
+	movq	%r12, %rdx
+	callq	0x1e9
+	movq	%r13, %rdi
+	movq	%r13, %rsi
+	callq	0x1f4
+	movq	%r15, %rdi
+	movq	%r15, %rsi
+	callq	0x1ff
+	movq	%r14, %rdi
+	movq	%r14, %rsi
+	callq	0x20a
+	movq	%r12, %rdi
+	movq	%rbx, %rsi
+	movq	-0x30(%rbp), %rdx
+	callq	0x219
+	movq	%r13, %rdi
+	movq	%r13, %rsi
+	callq	0x224
+	movq	%r15, %rdi
+	movq	%r15, %rsi
+	callq	0x22f
+	movq	%r14, %rdi
+	movq	%r14, %rsi
+	addq	$0x8, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r13
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	jmp	0x248
+	leaq	0x1a1(%rip), %rdi
+	addq	$0x8, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r13
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	jmp	0x262
+	nopw	%cs:(%rax,%rax)
+_landmark_set_vec_from:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%r13
+	pushq	%r12
+	pushq	%rbx
+	subq	$0x28, %rsp
+	movq	%rdx, %r14
+	movq	%rsi, %r13
+	movq	%rdi, %rbx
+	movq	(%rip), %rax
+	movq	(%rax), %rax
+	movq	%rax, -0x30(%rbp)
+	movl	$0x0, -0x40(%rbp)
+	movq	$0x0, -0x48(%rbp)
+	leaq	0x18(%rbx), %rdi
+	movss	(%r13), %xmm0
+	leaq	-0x3c(%rbp), %r15
+	movq	%r15, %rsi
+	callq	0x2bd
+	leaq	-0x48(%rbp), %r12
+	movq	%r15, %rdi
+	movq	%r12, %rsi
+	movq	%r12, %rdx
+	callq	0x2cf
+	leaq	0x24(%rbx), %rdi
+	movss	0x4(%r13), %xmm0
+	movq	%r15, %rsi
+	callq	0x2e1
+	movq	%r15, %rdi
+	movq	%r12, %rsi
+	movq	%r12, %rdx
+	callq	0x2ef
+	leaq	0x30(%rbx), %rdi
+	movss	0x8(%r13), %xmm0
+	movq	%r15, %rsi
+	callq	0x301
+	movq	%r15, %rdi
+	movq	%r12, %rsi
+	movq	%r12, %rdx
+	callq	0x30f
+	leaq	0xc(%rbx), %rsi
+	movq	%r15, %rdi
+	movq	%r12, %rdx
+	callq	0x31e
+	movq	-0x48(%rbp), %rax
+	movl	-0x40(%rbp), %ecx
+	movl	%ecx, 0x8(%r14)
+	movq	%rax, (%r14)
+	movq	(%rip), %rax
+	movq	(%rax), %rax
+	cmpq	-0x30(%rbp), %rax
+	jne	0x34b
+	addq	$0x28, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r13
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+	callq	0x350
+_landmark_set_vec_in:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%r12
+	pushq	%rbx
+	subq	$0x20, %rsp
+	movq	%rdx, %r14
+	movq	%rdi, %rbx
+	movq	(%rip), %r12
+	movq	(%r12), %r12
+	movq	%r12, -0x28(%rbp)
+	leaq	0xc(%rbx), %rax
+	leaq	-0x34(%rbp), %r15
+	movq	%rsi, %rdi
+	movq	%rax, %rsi
+	movq	%r15, %rdx
+	callq	0x38a
+	leaq	0x18(%rbx), %rdi
+	movq	%r15, %rsi
+	callq	0x396
+	movss	%xmm0, -0x40(%rbp)
+	leaq	0x24(%rbx), %rdi
+	movq	%r15, %rsi
+	callq	0x3a7
+	movss	%xmm0, -0x3c(%rbp)
+	addq	$0x30, %rbx
+	movq	%rbx, %rdi
+	movq	%r15, %rsi
+	callq	0x3bb
+	movss	%xmm0, -0x38(%rbp)
+	movq	-0x40(%rbp), %rax
+	movl	-0x38(%rbp), %ecx
+	movl	%ecx, 0x8(%r14)
+	movq	%rax, (%r14)
+	cmpq	-0x28(%rbp), %r12
+	jne	0x3e1
+	addq	$0x20, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+	callq	0x3e6
+libvec_math.a(3d_matrix.o):
+(__TEXT,__text) section
+_id_rot_err:
+	movl	%esi, %ecx
+	movl	%edi, %edx
+	cmpl	%ecx, %edx
+	je	0x14
+	cmpl	$0x2, %edx
+	ja	0x14
+	xorl	%eax, %eax
+	cmpl	$0x3, %ecx
+	jb	0x30
+	pushq	%rbp
+	movq	%rsp, %rbp
+	leaq	0x6ad(%rip), %rdi
+	xorl	%eax, %eax
+	movl	%edx, %esi
+	movl	%ecx, %edx
+	callq	0x2a
+	movl	$0x1, %eax
+	popq	%rbp
+	retq
+	nopw	%cs:(%rax,%rax)
+_mat_mult:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	subq	$0x30, %rsp
+	movq	(%rip), %r8
+	movq	(%r8), %r8
+	movq	%r8, -0x8(%rbp)
+	movss	0xc(%rsi), %xmm7
+	movss	0x18(%rsi), %xmm0
+	movss	(%rsi), %xmm1
+	movss	0x4(%rsi), %xmm14
+	movss	0x10(%rsi), %xmm12
+	movss	0x1c(%rsi), %xmm13
+	movss	0x8(%rsi), %xmm10
+	movss	0x14(%rsi), %xmm9
+	movss	0x20(%rsi), %xmm8
+	movss	(%rdi), %xmm3
+	movss	0x4(%rdi), %xmm4
+	movaps	%xmm3, %xmm6
+	mulss	%xmm1, %xmm6
+	xorps	%xmm11, %xmm11
+	addss	%xmm11, %xmm6
+	movaps	%xmm4, %xmm2
+	mulss	%xmm7, %xmm2
+	addss	%xmm6, %xmm2
+	movss	0x8(%rdi), %xmm5
+	movaps	%xmm5, %xmm6
+	mulss	%xmm0, %xmm6
+	addss	%xmm2, %xmm6
+	movss	%xmm6, -0x30(%rbp)
+	movaps	%xmm3, %xmm2
+	mulss	%xmm14, %xmm2
+	addss	%xmm11, %xmm2
+	movaps	%xmm4, %xmm6
+	mulss	%xmm12, %xmm6
+	addss	%xmm2, %xmm6
+	movaps	%xmm5, %xmm2
+	mulss	%xmm13, %xmm2
+	addss	%xmm6, %xmm2
+	movss	%xmm2, -0x2c(%rbp)
+	mulss	%xmm10, %xmm3
+	addss	%xmm11, %xmm3
+	mulss	%xmm9, %xmm4
+	addss	%xmm3, %xmm4
+	mulss	%xmm8, %xmm5
+	addss	%xmm4, %xmm5
+	movss	%xmm5, -0x28(%rbp)
+	movss	0xc(%rdi), %xmm6
+	movss	0x10(%rdi), %xmm2
+	movaps	%xmm6, %xmm3
+	mulss	%xmm1, %xmm3
+	addss	%xmm11, %xmm3
+	movaps	%xmm2, %xmm4
+	mulss	%xmm7, %xmm4
+	addss	%xmm3, %xmm4
+	movss	0x14(%rdi), %xmm3
+	movaps	%xmm3, %xmm5
+	mulss	%xmm0, %xmm5
+	addss	%xmm4, %xmm5
+	movss	%xmm5, -0x24(%rbp)
+	movaps	%xmm6, %xmm4
+	mulss	%xmm14, %xmm4
+	addss	%xmm11, %xmm4
+	movaps	%xmm2, %xmm5
+	mulss	%xmm12, %xmm5
+	addss	%xmm4, %xmm5
+	movaps	%xmm3, %xmm4
+	mulss	%xmm13, %xmm4
+	addss	%xmm5, %xmm4
+	movss	%xmm4, -0x20(%rbp)
+	mulss	%xmm10, %xmm6
+	addss	%xmm11, %xmm6
+	mulss	%xmm9, %xmm2
+	addss	%xmm6, %xmm2
+	mulss	%xmm8, %xmm3
+	addss	%xmm2, %xmm3
+	movss	%xmm3, -0x1c(%rbp)
+	movss	0x18(%rdi), %xmm6
+	movss	0x1c(%rdi), %xmm2
+	mulss	%xmm6, %xmm1
+	addss	%xmm11, %xmm1
+	mulss	%xmm2, %xmm7
+	addss	%xmm1, %xmm7
+	movss	0x20(%rdi), %xmm1
+	mulss	%xmm1, %xmm0
+	addss	%xmm7, %xmm0
+	movss	%xmm0, -0x18(%rbp)
+	mulss	%xmm6, %xmm14
+	addss	%xmm11, %xmm14
+	mulss	%xmm2, %xmm12
+	addss	%xmm14, %xmm12
+	mulss	%xmm1, %xmm13
+	addss	%xmm12, %xmm13
+	movss	%xmm13, -0x14(%rbp)
+	mulss	%xmm10, %xmm6
+	addss	%xmm11, %xmm6
+	mulss	%xmm9, %xmm2
+	addss	%xmm6, %xmm2
+	mulss	%xmm8, %xmm1
+	addss	%xmm2, %xmm1
+	movss	%xmm1, -0x10(%rbp)
+	movq	-0x30(%rbp), %r9
+	movq	-0x28(%rbp), %rsi
+	movq	-0x20(%rbp), %rdi
+	movq	-0x18(%rbp), %rax
+	movl	-0x10(%rbp), %ecx
+	movl	%ecx, 0x20(%rdx)
+	movq	%rax, 0x18(%rdx)
+	movq	%rdi, 0x10(%rdx)
+	movq	%rsi, 0x8(%rdx)
+	movq	%r9, (%rdx)
+	cmpq	-0x8(%rbp), %r8
+	jne	0x230
+	addq	$0x30, %rsp
+	popq	%rbp
+	retq
+	callq	0x235
+	nopw	%cs:(%rax,%rax)
+_set_rot:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%rbx
+	pushq	%rax
+	movl	%edx, %r14d
+	movl	%esi, %r15d
+	movq	%rdi, %rbx
+	cmpl	%r14d, %r15d
+	je	0x2de
+	cmpl	$0x2, %r15d
+	ja	0x2de
+	cmpl	$0x3, %r14d
+	jae	0x2de
+	movl	$0x0, 0x20(%rbx)
+	movq	$0x0, 0x18(%rbx)
+	movq	$0x0, 0x10(%rbx)
+	movq	$0x0, 0x8(%rbx)
+	movq	$0x0, (%rbx)
+	cvtss2sd	%xmm0, %xmm0
+	callq	0x297
+	cvtsd2ss	%xmm1, %xmm1
+	movslq	%r15d, %rax
+	leaq	(%rax,%rax,2), %rcx
+	leaq	(%rbx,%rcx,4), %rcx
+	movss	%xmm1, (%rcx,%rax,4)
+	movslq	%r14d, %rdx
+	leaq	(%rdx,%rdx,2), %rsi
+	leaq	(%rbx,%rsi,4), %rsi
+	movss	%xmm1, (%rsi,%rdx,4)
+	cvtsd2ss	%xmm0, %xmm0
+	movaps	0x3ca(%rip), %xmm1
+	xorps	%xmm0, %xmm1
+	movss	%xmm1, (%rcx,%rdx,4)
+	movss	%xmm0, (%rsi,%rax,4)
+	addq	$0x8, %rsp
+	popq	%rbx
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+	leaq	0x3e7(%rip), %rdi
+	xorl	%eax, %eax
+	movl	%r15d, %esi
+	movl	%r14d, %edx
+	addq	$0x8, %rsp
+	popq	%rbx
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	jmp	0x2fc
+	nopl	(%rax)
+_set_mat_id:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	0x3b4(%rip), %xmm0
+	movups	%xmm0, (%rdi)
+	movups	%xmm0, 0x10(%rdi)
+	movl	$0x3f800000, 0x20(%rdi)
+	popq	%rbp
+	retq
+	nopl	(%rax)
+_set_mat_rot:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%r13
+	pushq	%r12
+	pushq	%rbx
+	subq	$0xd8, %rsp
+	movq	%rsi, %r14
+	movq	%rdi, %r12
+	movq	(%rip), %rax
+	movq	(%rax), %rax
+	movq	%rax, -0x30(%rbp)
+	movss	0x374(%rip), %xmm0
+	movups	%xmm0, (%r12)
+	movups	%xmm0, 0x10(%r12)
+	movl	$0x3f800000, 0x20(%r12)
+	xorps	%xmm1, %xmm1
+	xorl	%eax, %eax
+	nopl	(%rax)
+	movaps	%xmm14, -0x100(%rbp)
+	movaps	%xmm9, -0xb0(%rbp)
+	movaps	%xmm12, -0xf0(%rbp)
+	movaps	%xmm15, -0xe0(%rbp)
+	movaps	%xmm11, -0xd0(%rbp)
+	movaps	%xmm10, -0xc0(%rbp)
+	movaps	%xmm6, -0xa0(%rbp)
+	leaq	0x1(%rax), %r15
+	cmpq	$0x2, %rax
+	movl	%r15d, %r13d
+	movl	$0x0, %ecx
+	cmovel	%ecx, %r13d
+	leaq	0x2(%rax), %rcx
+	movslq	%ecx, %rbx
+	imulq	$0x55555556, %rbx, %rcx
+	movq	%rcx, %rdx
+	shrq	$0x3f, %rdx
+	shrq	$0x20, %rcx
+	addl	%edx, %ecx
+	leal	(%rcx,%rcx,2), %ecx
+	subl	%ecx, %ebx
+	cmpl	%ebx, %r13d
+	je	0x4a0
+	cmpl	$0x2, %r13d
+	ja	0x4a0
+	cmpl	$0x3, %ebx
+	jae	0x4a0
+	movss	(%r14,%rax,4), %xmm0
+	movaps	%xmm1, -0x80(%rbp)
+	movaps	%xmm1, -0x90(%rbp)
+	movl	$0x0, -0x70(%rbp)
+	cvtss2sd	%xmm0, %xmm0
+	callq	0x418
+	cvtsd2ss	%xmm1, %xmm1
+	movslq	%r13d, %rax
+	leaq	(%rax,%rax,2), %rcx
+	leaq	-0x90(%rbp,%rcx,4), %rcx
+	movss	%xmm1, (%rcx,%rax,4)
+	movslq	%ebx, %rdx
+	leaq	(%rdx,%rdx,2), %rsi
+	leaq	-0x90(%rbp,%rsi,4), %rsi
+	movss	%xmm1, (%rsi,%rdx,4)
+	cvtsd2ss	%xmm0, %xmm0
+	movaps	%xmm0, %xmm1
+	xorps	0x24e(%rip), %xmm1
+	movss	%xmm1, (%rcx,%rdx,4)
+	movss	%xmm0, (%rsi,%rax,4)
+	movss	-0x78(%rbp), %xmm12
+	movss	-0x8c(%rbp), %xmm15
+	movss	-0x88(%rbp), %xmm3
+	movss	-0x80(%rbp), %xmm14
+	movss	-0x74(%rbp), %xmm0
+	movaps	%xmm0, -0xb0(%rbp)
+	movss	-0x7c(%rbp), %xmm11
+	movss	-0x70(%rbp), %xmm10
+	jmp	0x4e2
+	nopw	%cs:(%rax,%rax)
+	xorl	%eax, %eax
+	leaq	0x223(%rip), %rdi
+	movl	%r13d, %esi
+	movl	%ebx, %edx
+	callq	0x4b3
+	movaps	-0xa0(%rbp), %xmm3
+	movaps	-0xc0(%rbp), %xmm10
+	movaps	-0xd0(%rbp), %xmm11
+	movaps	-0xe0(%rbp), %xmm15
+	movaps	-0xf0(%rbp), %xmm12
+	movaps	-0x100(%rbp), %xmm14
+	movaps	%xmm3, -0xa0(%rbp)
+	movss	-0x90(%rbp), %xmm1
+	movss	-0x84(%rbp), %xmm4
+	movaps	%xmm15, %xmm8
+	unpcklps	%xmm1, %xmm8
+	unpcklps	%xmm3, %xmm1
+	unpcklps	%xmm8, %xmm1
+	movss	(%r12), %xmm6
+	movss	0x4(%r12), %xmm5
+	movss	0xc(%r12), %xmm0
+	movaps	%xmm6, %xmm3
+	unpcklps	%xmm0, %xmm3
+	unpcklps	%xmm6, %xmm6
+	unpcklps	%xmm3, %xmm6
+	mulps	%xmm1, %xmm6
+	xorps	%xmm13, %xmm13
+	addps	%xmm13, %xmm6
+	movaps	%xmm14, %xmm3
+	unpcklps	%xmm4, %xmm3
+	unpcklps	%xmm11, %xmm4
+	unpcklps	%xmm3, %xmm4
+	movss	0x10(%r12), %xmm1
+	movaps	%xmm5, %xmm7
+	unpcklps	%xmm1, %xmm7
+	unpcklps	%xmm5, %xmm5
+	unpcklps	%xmm7, %xmm5
+	mulps	%xmm4, %xmm5
+	addps	%xmm6, %xmm5
+	movaps	%xmm12, %xmm7
+	unpcklps	%xmm10, %xmm7
+	movss	0x8(%r12), %xmm2
+	movss	0x14(%r12), %xmm4
+	movaps	%xmm2, %xmm6
+	unpcklps	%xmm4, %xmm6
+	unpcklps	%xmm2, %xmm2
+	unpcklps	%xmm6, %xmm2
+	movaps	-0xb0(%rbp), %xmm9
+	movaps	%xmm9, %xmm6
+	unpcklps	%xmm12, %xmm6
+	unpcklps	%xmm6, %xmm7
+	mulps	%xmm7, %xmm2
+	addps	%xmm5, %xmm2
+	movaps	%xmm2, -0x60(%rbp)
+	movaps	-0xa0(%rbp), %xmm2
+	unpcklps	%xmm15, %xmm2
+	unpcklps	%xmm2, %xmm8
+	movss	0x18(%r12), %xmm5
+	unpcklps	%xmm5, %xmm0
+	unpcklps	%xmm0, %xmm0
+	mulps	%xmm8, %xmm0
+	movaps	%xmm11, %xmm2
+	unpcklps	%xmm14, %xmm2
+	unpcklps	%xmm2, %xmm3
+	movss	0x1c(%r12), %xmm2
+	unpcklps	%xmm2, %xmm1
+	unpcklps	%xmm1, %xmm1
+	mulps	%xmm3, %xmm1
+	addps	%xmm13, %xmm0
+	addps	%xmm0, %xmm1
+	movaps	%xmm10, %xmm0
+	unpcklps	%xmm9, %xmm0
+	unpcklps	%xmm0, %xmm6
+	movss	0x20(%r12), %xmm0
+	unpcklps	%xmm0, %xmm4
+	unpcklps	%xmm4, %xmm4
+	mulps	%xmm6, %xmm4
+	movaps	-0xa0(%rbp), %xmm6
+	addps	%xmm1, %xmm4
+	movaps	%xmm4, -0x50(%rbp)
+	mulss	%xmm6, %xmm5
+	addss	0xb8(%rip), %xmm5
+	mulss	%xmm11, %xmm2
+	addss	%xmm5, %xmm2
+	mulss	%xmm10, %xmm0
+	addss	%xmm2, %xmm0
+	movss	%xmm0, -0x40(%rbp)
+	movq	-0x60(%rbp), %rax
+	movq	-0x58(%rbp), %rcx
+	movq	-0x50(%rbp), %rdx
+	movq	-0x48(%rbp), %rsi
+	movl	-0x40(%rbp), %edi
+	movl	%edi, 0x20(%r12)
+	movq	%rsi, 0x18(%r12)
+	movq	%rdx, 0x10(%r12)
+	movq	%rcx, 0x8(%r12)
+	movq	%rax, (%r12)
+	cmpq	$0x3, %r15
+	movq	%r15, %rax
+	xorps	%xmm1, %xmm1
+	jne	0x370
+	movq	(%rip), %rax
+	movq	(%rax), %rax
+	cmpq	-0x30(%rbp), %rax
+	jne	0x684
+	addq	$0xd8, %rsp
+	popq	%rbx
+	popq	%r12
+	popq	%r13
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+	callq	0x689
+libvec_math.a(3d_cam.o):
+(__TEXT,__text) section
+_nothing:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	leaq	0x15(%rip), %rdi
+	popq	%rbp
+	jmp	0x11
+libvec_math.a(3d_vector.o):
+(__TEXT,__text) section
+_vec_set:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	%xmm0, (%rdi)
+	movss	%xmm1, 0x4(%rdi)
+	movss	%xmm2, 0x8(%rdi)
+	popq	%rbp
+	retq
+	nopw	%cs:(%rax,%rax)
+_mat_vec_mult:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	subq	$0x20, %rsp
+	movq	(%rip), %rax
+	movq	(%rax), %rax
+	movq	%rax, -0x8(%rbp)
+	movss	(%rsi), %xmm1
+	movss	0x4(%rsi), %xmm0
+	movss	(%rdi), %xmm2
+	mulss	%xmm1, %xmm2
+	xorps	%xmm3, %xmm3
+	addss	%xmm3, %xmm2
+	movss	0x4(%rdi), %xmm4
+	mulss	%xmm0, %xmm4
+	addss	%xmm2, %xmm4
+	movss	0x8(%rsi), %xmm2
+	movss	0x8(%rdi), %xmm5
+	mulss	%xmm2, %xmm5
+	addss	%xmm4, %xmm5
+	movss	%xmm5, -0x14(%rbp)
+	movss	0xc(%rdi), %xmm4
+	mulss	%xmm1, %xmm4
+	addss	%xmm3, %xmm4
+	movss	0x10(%rdi), %xmm5
+	mulss	%xmm0, %xmm5
+	addss	%xmm4, %xmm5
+	movss	0x14(%rdi), %xmm4
+	mulss	%xmm2, %xmm4
+	addss	%xmm5, %xmm4
+	movss	%xmm4, -0x10(%rbp)
+	mulss	0x18(%rdi), %xmm1
+	addss	%xmm3, %xmm1
+	mulss	0x1c(%rdi), %xmm0
+	addss	%xmm1, %xmm0
+	mulss	0x20(%rdi), %xmm2
+	addss	%xmm0, %xmm2
+	movss	%xmm2, -0xc(%rbp)
+	movq	-0x14(%rbp), %rcx
+	movl	-0xc(%rbp), %esi
+	movl	%esi, 0x8(%rdx)
+	movq	%rcx, (%rdx)
+	cmpq	-0x8(%rbp), %rax
+	jne	0xd7
+	addq	$0x20, %rsp
+	popq	%rbp
+	retq
+	callq	0xdc
+	nopl	(%rax)
+_vec_rot:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%r15
+	pushq	%r14
+	pushq	%rbx
+	subq	$0x38, %rsp
+	movq	%rdx, %r14
+	movq	%rsi, %rbx
+	movq	%rdi, %rax
+	movq	(%rip), %r15
+	movq	(%r15), %r15
+	movq	%r15, -0x20(%rbp)
+	leaq	-0x50(%rbp), %rdi
+	movq	%rax, %rsi
+	callq	0x110
+	movss	(%rbx), %xmm1
+	movss	0x4(%rbx), %xmm0
+	movss	-0x50(%rbp), %xmm2
+	mulss	%xmm1, %xmm2
+	xorps	%xmm3, %xmm3
+	addss	%xmm3, %xmm2
+	movss	-0x4c(%rbp), %xmm4
+	mulss	%xmm0, %xmm4
+	addss	%xmm2, %xmm4
+	movss	0x8(%rbx), %xmm2
+	movss	-0x48(%rbp), %xmm5
+	mulss	%xmm2, %xmm5
+	addss	%xmm4, %xmm5
+	movss	%xmm5, -0x2c(%rbp)
+	movss	-0x44(%rbp), %xmm4
+	mulss	%xmm1, %xmm4
+	addss	%xmm3, %xmm4
+	movss	-0x40(%rbp), %xmm5
+	mulss	%xmm0, %xmm5
+	addss	%xmm4, %xmm5
+	movss	-0x3c(%rbp), %xmm4
+	mulss	%xmm2, %xmm4
+	addss	%xmm5, %xmm4
+	movss	%xmm4, -0x28(%rbp)
+	mulss	-0x38(%rbp), %xmm1
+	addss	%xmm3, %xmm1
+	mulss	-0x34(%rbp), %xmm0
+	addss	%xmm1, %xmm0
+	mulss	-0x30(%rbp), %xmm2
+	addss	%xmm0, %xmm2
+	movss	%xmm2, -0x24(%rbp)
+	movq	-0x2c(%rbp), %rax
+	movl	-0x24(%rbp), %ecx
+	movl	%ecx, 0x8(%r14)
+	movq	%rax, (%r14)
+	cmpq	-0x20(%rbp), %r15
+	jne	0x1b8
+	addq	$0x38, %rsp
+	popq	%rbx
+	popq	%r14
+	popq	%r15
+	popq	%rbp
+	retq
+	callq	0x1bd
+	nopl	(%rax)
+_vec_dot_product:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	(%rdi), %xmm0
+	movss	0x4(%rdi), %xmm1
+	mulss	(%rsi), %xmm0
+	xorps	%xmm2, %xmm2
+	addss	%xmm0, %xmm2
+	mulss	0x4(%rsi), %xmm1
+	addss	%xmm2, %xmm1
+	movss	0x8(%rdi), %xmm0
+	mulss	0x8(%rsi), %xmm0
+	addss	%xmm1, %xmm0
+	popq	%rbp
+	retq
+	nopw	%cs:(%rax,%rax)
+_vec_scalar_product:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	(%rdi), %xmm1
+	mulss	%xmm0, %xmm1
+	movss	%xmm1, (%rsi)
+	movss	0x4(%rdi), %xmm1
+	mulss	%xmm0, %xmm1
+	movss	%xmm1, 0x4(%rsi)
+	mulss	0x8(%rdi), %xmm0
+	movss	%xmm0, 0x8(%rsi)
+	popq	%rbp
+	retq
+	nopw	(%rax,%rax)
+_vec_cross_product:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	popq	%rbp
+	retq
+	nopw	%cs:(%rax,%rax)
+_vec_normalise:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	(%rdi), %xmm0
+	movss	0x4(%rdi), %xmm1
+	movaps	%xmm0, %xmm2
+	mulss	%xmm2, %xmm2
+	xorps	%xmm3, %xmm3
+	addss	%xmm3, %xmm2
+	mulss	%xmm1, %xmm1
+	addss	%xmm2, %xmm1
+	movss	0x8(%rdi), %xmm2
+	mulss	%xmm2, %xmm2
+	addss	%xmm1, %xmm2
+	xorps	%xmm1, %xmm1
+	sqrtss	%xmm2, %xmm1
+	ucomiss	%xmm3, %xmm1
+	jne	0x280
+	jp	0x280
+	jmp	0x2ae
+	movss	0x20c(%rip), %xmm2
+	divss	%xmm1, %xmm2
+	mulss	%xmm2, %xmm0
+	movss	%xmm0, (%rsi)
+	movss	0x4(%rdi), %xmm0
+	mulss	%xmm2, %xmm0
+	movss	%xmm0, 0x4(%rsi)
+	mulss	0x8(%rdi), %xmm2
+	movss	%xmm2, 0x8(%rsi)
+	popq	%rbp
+	retq
+	leaq	0x1eb(%rip), %rdi
+	popq	%rbp
+	jmp	0x2bb
+	nopl	(%rax,%rax)
+_vec_add:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	(%rdi), %xmm0
+	addss	(%rsi), %xmm0
+	movss	%xmm0, (%rdx)
+	movss	0x4(%rdi), %xmm0
+	addss	0x4(%rsi), %xmm0
+	movss	%xmm0, 0x4(%rdx)
+	movss	0x8(%rdi), %xmm0
+	addss	0x8(%rsi), %xmm0
+	movss	%xmm0, 0x8(%rdx)
+	popq	%rbp
+	retq
+_vec_sub:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	(%rdi), %xmm0
+	subss	(%rsi), %xmm0
+	movss	%xmm0, (%rdx)
+	movss	0x4(%rdi), %xmm0
+	subss	0x4(%rsi), %xmm0
+	movss	%xmm0, 0x4(%rdx)
+	movss	0x8(%rdi), %xmm0
+	subss	0x8(%rsi), %xmm0
+	movss	%xmm0, 0x8(%rdx)
+	popq	%rbp
+	retq
+_vec_get_norme:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movss	(%rdi), %xmm0
+	movss	0x4(%rdi), %xmm1
+	mulss	%xmm0, %xmm0
+	xorps	%xmm2, %xmm2
+	addss	%xmm0, %xmm2
+	mulss	%xmm1, %xmm1
+	addss	%xmm2, %xmm1
+	movss	0x8(%rdi), %xmm0
+	mulss	%xmm0, %xmm0
+	addss	%xmm1, %xmm0
+	sqrtss	%xmm0, %xmm0
+	popq	%rbp
+	retq
+	nopw	%cs:(%rax,%rax)
+_vec_get_ang:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%rbx
+	subq	$0x18, %rsp
+	movq	%rsi, %rbx
+	movss	(%rdi), %xmm5
+	movss	0x4(%rdi), %xmm3
+	movaps	%xmm5, %xmm0
+	mulss	%xmm0, %xmm0
+	xorps	%xmm1, %xmm1
+	addss	%xmm1, %xmm0
+	movaps	%xmm3, %xmm2
+	mulss	%xmm2, %xmm2
+	addss	%xmm0, %xmm2
+	movss	0x8(%rdi), %xmm4
+	movaps	%xmm4, %xmm0
+	mulss	%xmm0, %xmm0
+	addss	%xmm2, %xmm0
+	sqrtss	%xmm0, %xmm0
+	ucomiss	%xmm1, %xmm0
+	jne	0x3a9
+	jnp	0x3d2
+	movss	0xe7(%rip), %xmm1
+	divss	%xmm0, %xmm1
+	mulss	%xmm1, %xmm5
+	movss	%xmm5, -0x14(%rbp)
+	mulss	%xmm1, %xmm3
+	movss	%xmm3, -0xc(%rbp)
+	mulss	%xmm1, %xmm4
+	movss	%xmm4, -0x10(%rbp)
+	jmp	0x3ed
+	leaq	0xc7(%rip), %rdi
+	callq	0x3de
+	movss	%xmm0, -0x10(%rbp)
+	movss	%xmm0, -0xc(%rbp)
+	movss	%xmm0, -0x14(%rbp)
+	movss	(%rbx), %xmm2
+	movss	0x4(%rbx), %xmm0
+	movaps	%xmm2, %xmm1
+	mulss	%xmm1, %xmm1
+	xorps	%xmm4, %xmm4
+	addss	%xmm4, %xmm1
+	movaps	%xmm0, %xmm3
+	mulss	%xmm3, %xmm3
+	addss	%xmm1, %xmm3
+	movss	0x8(%rbx), %xmm1
+	movaps	%xmm1, %xmm5
+	mulss	%xmm5, %xmm5
+	addss	%xmm3, %xmm5
+	xorps	%xmm3, %xmm3
+	sqrtss	%xmm5, %xmm3
+	ucomiss	%xmm4, %xmm3
+	jne	0x42d
+	jnp	0x447
+	movss	0x63(%rip), %xmm4
+	divss	%xmm3, %xmm4
+	mulss	%xmm4, %xmm2
+	mulss	%xmm4, %xmm0
+	mulss	%xmm4, %xmm1
+	jmp	0x453
+	leaq	0x52(%rip), %rdi
+	callq	0x453
+	movss	-0x14(%rbp), %xmm3
+	mulss	%xmm2, %xmm3
+	xorps	%xmm2, %xmm2
+	addss	%xmm3, %xmm2
+	movss	-0xc(%rbp), %xmm3
+	mulss	%xmm0, %xmm3
+	addss	%xmm2, %xmm3
+	movss	-0x10(%rbp), %xmm0
+	mulss	%xmm1, %xmm0
+	addss	%xmm3, %xmm0
+	cvtss2sd	%xmm0, %xmm0
+	callq	0x486
+	cvtsd2ss	%xmm0, %xmm0
+	addq	$0x18, %rsp
+	popq	%rbx
+	popq	%rbp
+	retq

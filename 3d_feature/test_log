@@ -1,0 +1,49 @@
+
+libvec_math.a(3d_landmark.o):
+                 U ___stack_chk_fail
+                 U ___stack_chk_guard
+0000000000000040 T _landmark_get_id_beg_norme
+0000000000000000 T _landmark_normalise
+00000000000000c0 T _landmark_orthonormalise
+0000000000000270 T _landmark_set_vec_from
+0000000000000350 T _landmark_set_vec_in
+                 U _puts
+                 U _vec_add
+                 U _vec_cross_product
+                 U _vec_dot_product
+                 U _vec_normalise
+                 U _vec_scalar_product
+                 U _vec_sub
+
+libvec_math.a(3d_matrix.o):
+                 U ___sincos_stret
+                 U ___stack_chk_fail
+                 U ___stack_chk_guard
+0000000000000000 T _id_rot_err
+0000000000000040 T _mat_mult
+                 U _printf
+0000000000000300 T _set_mat_id
+0000000000000320 T _set_mat_rot
+0000000000000240 T _set_rot
+
+libvec_math.a(3d_cam.o):
+0000000000000000 T _nothing
+                 U _puts
+
+libvec_math.a(3d_vector.o):
+                 U ___stack_chk_fail
+                 U ___stack_chk_guard
+                 U _acos
+0000000000000020 T _mat_vec_mult
+                 U _puts
+                 U _set_mat_rot
+00000000000002c0 T _vec_add
+0000000000000230 T _vec_cross_product
+00000000000001c0 T _vec_dot_product
+0000000000000360 T _vec_get_ang
+0000000000000320 T _vec_get_norme
+0000000000000240 T _vec_normalise
+00000000000000e0 T _vec_rot
+0000000000000200 T _vec_scalar_product
+0000000000000000 T _vec_set
+00000000000002f0 T _vec_sub

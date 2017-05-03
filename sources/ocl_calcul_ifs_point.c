@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/01 07:31:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/03 10:18:05 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 //	/*
 	while (i < MAX_NODE)
 	{
-		data->pt_base[i][0] = 0;
-		data->pt_base[i][1] = 0;
+		data->pt_base[i][0] = 100;
+		data->pt_base[i][1] = 100;
 		i++;
 	}
 //	*/
@@ -151,7 +151,7 @@ int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg)
 	sum = nb_base;
 	while (i < MAX_ITER)
 	{
-		sum += (sum - 1) * (nb_trans + 1);// le truc presedent
+		sum += (sum - 1) * (nb_trans);// le truc presedent
 		indice_beg[i] = indice_beg[i - 1] + sum;
 		i++;
 	}
@@ -182,8 +182,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 //		printf("iter[%d]:%zu\n", i, global_work_size[0]);
 		// la on actualise l'etage d'iteration 
 		
-	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff,
-				CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
+	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff,CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
 		if (ret2)
 			check_ocl_err(&ret2, 1, "tata truc", __FILE__);
 		ret[i] = clEnqueueNDRangeKernel(ifs_cl->command_queue, ifs_cl->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);

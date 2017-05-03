@@ -45,7 +45,7 @@ __kernel void test_image(__global int *time, __global int *data)
 	data[id] = ((val * 7)% 256) << 16 | (256 - val) << 8 | abs(128 - val) * 2;
 }
 char4	hsv_to_rgb(__const float hue, __const float sat, __const float val);
-float	get_iter(int id, __const char max_iter, __const char len_trans, __const char len_base);
+int		get_iter(int id, __const char max_iter, __const char len_trans, __const char len_base);
 float	get_line_length(float2 p1, float2 p2);
 void	print_spec(t_ifs_spec *spec);
 
@@ -67,7 +67,7 @@ char4	hsv_to_rgb(__const float hue, __const float sat, __const float val)
 	return ((char4)(rgb[0], rgb[1], rgb[2], 0));
 }
 
-float	get_iter(int id, __const char max_iter, __const char len_trans, __const char len_base)
+int	get_iter(int id, __const char max_iter, __const char len_trans, __const char len_base)
 {
 	char	iter;
 
@@ -78,26 +78,26 @@ float	get_iter(int id, __const char max_iter, __const char len_trans, __const ch
 		id = id / (len_trans + 1);
 		iter++;
 	}
-	return ((float)iter);
+	return (iter);
 }
 
 
 __kernel	void	define_color(__global char4 *col, __global t_ifs_spec *spec)
 {
 	// puis appeler gentiement la focnitn qui donne les couleurs
-	float	hue, sat, val, iter;
+	float	hue, sat, val;
 	float	ok;
-	int	id;
+	int	id, iter;
 
 	id = get_global_id(0);
 
 	iter = get_iter(id, spec[0].max_iter, spec[0].len_trans, spec[0].len_base);
+
 	hue = ((float) id) / ((float) spec[0].max_pt);
-	sat = (iter / ((float) spec[0].max_iter));
-	val = sat;
+	sat = (1 - (float)iter / ((float) spec[0].max_iter));
+	val = (float)(id % (spec->len_trans + 1)) / ((float) (spec->len_trans + 1));
 
 	hue = (spec->hue.beg + (hue * spec->hue.delta)) * 360;
-//printf("hue:%f		[%d/%d]\n", hue, id, spec->max_pt);
 	sat = spec->sat.beg + (sat * spec->sat.delta);
 	val = spec->val.beg + (val * spec->val.delta);
 	col[id] = hsv_to_rgb(hue, sat, val);

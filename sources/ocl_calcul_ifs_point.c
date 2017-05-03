@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/03 10:18:05 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/03 10:40:40 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 	format_data_to_ocl(&data, transform, base, nb_iter, col);	
 	set_id_isf_ptbuff(data.base_len, data.trans_len, nb_iter, id_tab);
 	ocl_writeto_ifs_calcul(ifs_cl, &data);
-	print_id_tab(id_tab, MAX_ITER);
+//	print_id_tab(id_tab, MAX_ITER);
 	i = 1;
 	while (i < nb_iter)
 	{

@@ -55,12 +55,12 @@ char4	hsv_to_rgb(__const float hue, __const float sat, __const float val)
 	char	id_x, id_c, id_0, i;
 
 	c = val * sat;
-	x = c * (1 - fabs(fmod(hue / 60, 2) - 1));
+	x = c * (1 - fabs(fmod(hue / 60.0, 2) - 1));
 	m = val - c;
 	i = val / 60;
 	id_x = (7 - i) % 3;
-	id_c = (2 + (i >> 1)) % 3;
-	id_0 = 3 - (id_x + id_c);
+	id_0 = (2 + (i >> 1)) % 3;
+	id_c = 3 - (id_x + id_0);
 	rgb[id_x] = (x + m) * 255;
 	rgb[id_c] = (c + m) * 255;
 	rgb[id_0] = (0 + m) * 255;
@@ -94,8 +94,9 @@ __kernel	void	define_color(__global char4 *col, __global t_ifs_spec *spec)
 	iter = get_iter(id, spec[0].max_iter, spec[0].len_trans, spec[0].len_base);
 
 	hue = ((float) id) / ((float) spec[0].max_pt);
-	sat = (1 - (float)iter / ((float) spec[0].max_iter));
+//	sat = (1 - (float)iter / ((float) spec[0].max_iter));
 	val = (float)(id % (spec->len_trans + 1)) / ((float) (spec->len_trans + 1));
+	sat = val * val;
 
 	hue = (spec->hue.beg + (hue * spec->hue.delta)) * 360;
 	sat = spec->sat.beg + (sat * spec->sat.delta);
@@ -114,8 +115,6 @@ float	get_line_length(float2 p1, float2 p2)
 	max_p[1] *= (max_p[1] > 0) ? 1 : -1; 
 	id_max = (max_p[0] > max_p[1]) ? 0 : 1;
 
-//	printf("p1:{%f, %f}	p2:{%f, %f}\n", p1.x, p1.y, p2.x, p2.y);
-//	printf("max[0]:%d	max[1]:%d\n", max_p[0], max_p[1]);
 	return (max_p[id_max]);
 }
 
@@ -155,19 +154,10 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 		is_inside = ((p.x >= 0 && p.x < spec->ecr_x) && (p.y >= 0 && p.y < spec->ecr_y));	
 		if (is_inside)
 			img[indice] = col_value;
-// printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
-// printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
-// printf("ecr_X:%f	ecr_Y:%f\n", spec->ecr_x, spec->ecr_y);
-// printf("=========spec->ecrX:%d	spec->ecrY:%d\n", spec->ecr_x, spec->ecr_y);
 		p += unit_pos;
 		c += unit_col;
 		i++;
 	}
-//printf("p1[%d]:{%f, %f};	p2[%d]:{%f, %f}\n", id, pt[id].x, pt[id].y, (id + 1), pt[id + 1].y, pt[id + 1].y);
-
-//	printf("len_base:%d	len_trans:%d	max_iter:%d	max_pt:%d	ecr_x:%d	ecr_y:%d\n", spec->len_base, spec->len_trans, spec->max_iter, spec->max_pt, spec->ecr_x, spec->ecr_y);
-//print_spec(spec);
-//	printf("nb_point:%d\n", nb_point);		
 }
 
 __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
@@ -184,7 +174,6 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	int		id_parent;
 	int		id_now;
 
-//	calcule des id pour apres tout faire en une ligne
 	glob_id = get_global_id(0);
 	id_trans = glob_id % (trans_len[0] + 1);
 	id_parent = (glob_id / (trans_len[0] + 1)) + beg_data_id[num_iter[0] - 1];
@@ -194,20 +183,4 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	uy = (float2)(-ux.y, ux.x);
 
 	pt_ifs[id_now] = pt_ifs[id_parent] + transform[id_trans].x * ux + transform[id_trans].y * uy;
-
-
-	//printf("calcul:%d	========	dad_1:{%f, %f} dad_2:{%f, %f}	tr[%d]:{%f, %f}\n", glob_id, pt_ifs[id_parent - 1].x, pt_ifs[id_parent - 1].y, pt_ifs[id_parent].x, pt_ifs[id_parent].y, id_trans, transform[id_trans].x, transform[id_trans].y);
-
-//	printf("glob_id:%d	id_current:%d	id_parent:%d	id_trans:%d		len_trans:%d	num_iter:%d\n", glob_id, id_now, id_parent, id_trans, trans_len[0], num_iter[0]);
-/*
-
-	int	iter = num_iter[0];
-	if (pt_ifs[id_parent + 1].x == 0 && pt_ifs[id_parent + 1].y == 0)
-		printf("ITER[%d] id:%d	parent:%d\n", iter, glob_id, (id_parent + 1));
-
-	if (glob_id == 0)
-	{
-		printf("iter[%d]:	parent:%d	now:%d		trans_len:%d\n", iter, beg_data_id[iter - 1], beg_data_id[iter], trans_len[0]);
-	}
-*/
 }

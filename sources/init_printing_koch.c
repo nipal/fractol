@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/23 09:33:23 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/06 00:58:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void							print_fractal(t_env *e)
 		data_koch[1] = get_polygone_len(e->transform);
 		data_koch[2] = get_polygone_len(e->base);
 		data_koch[3] = 400;	//	ne sert a rien
-		init_koch_const(&kco, e->transform, e->fractal, data_koch);
+//		init_koch_const(&kco, e->transform, e->fractal, data_koch);
 //		print_koch_fractale(&kco, init_kch(e->base, 0, 0, 1), 0);
 //		actu_win_rest(e->fractal);
 	}

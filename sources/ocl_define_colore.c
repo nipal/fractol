@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/01 07:23:20 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/10 20:36:42 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,8 @@ int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab)
 	if (!need_col_update(&spec))
 		return (0);
 	ret[0] = clEnqueueWriteBuffer(def_col->command_queue, def_col->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &spec, 0, NULL, NULL);
-	global_work_size[0] = id_tab[e->max_iter] - id_tab[e->max_iter - 1];
+	global_work_size[0] = id_tab[e->max_iter - 1] - id_tab[e->max_iter - 2];
+	//printf("define_color:%zu\n", global_work_size[0]);
 	ret[1] = clEnqueueNDRangeKernel(def_col->command_queue, def_col->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
 
 	/*

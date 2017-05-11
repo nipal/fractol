@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/03 10:40:40 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/05/10 15:34:37 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,10 +178,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 	while (i < nb_iter)
 	{
 		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
-//		printf("iter[%d]-->%zu\n", i, global_work_size[0]);
-//		printf("iter[%d]:%zu\n", i, global_work_size[0]);
-		// la on actualise l'etage d'iteration 
-		
+
 	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff,CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
 		if (ret2)
 			check_ocl_err(&ret2, 1, "tata truc", __FILE__);
@@ -190,23 +187,6 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 			check_ocl_err(ret, i + 1, __func__, __FILE__);
 		i++;
 	}
-
-
-//printf("calcul[%d]	beg:%d	eng:%d	total:%d\n", (i - 1), id_tab[i], id_tab[i - 1], (id_tab[i] - id_tab[i - 1]));
-
-
-
-//printf("calcul_pt:%zu\n", global_work_size[0]);
-	
-//	printf("nb_iter:%d\n", nb_iter);
-//	printf("beg:%d	end:%d	diff:%d\n", id_tab[nb_iter - 1], id_tab[nb_iter], (id_tab[nb_iter] - id_tab[nb_iter - 1]));
 	return (0);
 }
-
-
-/*
- * Alors il faut rajouter les 2 variable qu'il manquait
- * - il leurs faut un cl_buff et transmetre les data et voila
- * */
-
 

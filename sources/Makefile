@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/05/01 07:01:42 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/05/06 06:45:53 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,32 +71,17 @@ SRC		= 	main.c						\
 
 
 OBJ			= $(SRC:.c=.o)
-
-SPACE		=
-SPACE		+= 
-
-PRELIB		= -I $(SPACE)
-
 LIB_DIR		= -L ../libft -L ../c_maths -L ../vec_math -L ../minilibx_macos
+#		-L /usr/lib/ -lmlx -lm -lX11 -lXext
 
 LIB_NAME	= -lft -lc_maths -lvec_math -lmlx
 
 FRAMEWORK	= -framework OpenGl -framework AppKit -framework opencl
 
-
-
-# CFLAGS =  -Wall -Wextra -Werror
-
-#FLAGS-DEBUG = -g3 -Wall -Wextra -Werror
-
 all: $(NAME)
 
 $(NAME): $(OBJ)
 		$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) $(LIB_DIR) $(LIB_NAME) $(FRAMEWORK)
-
-#		-L /usr/lib/ -lmlx -lm -lX11 -lXext
-
-
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -o $@ -c $< -I ../includes -I ../c_maths  

@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/03/30 02:03:28 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/15 21:32:53 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,90 @@ int		free_slider(t_slider ***tabs)
 	return (1);
 }
 
+/*
+//	___Finalization__
+
+`	ret = clFlush(command_queue);	
+	ret = clFinish(command_queue);
+	ret = clReleaseKernel(kernel);
+	ret = clReleaseProgram(program);
+	ret = clReleaseMemObject(Amobj);
+	ret = clReleaseMemObject(Bmobj);
+	ret = clReleaseMemObject(Cmobj);
+	ret = clReleaseCommandQueue(command_queue);
+	ret = clReleaseContext(context);
+*/
+
+/*
+**	on veut liberer tout plein de truc:
+**		-le cl_program
+**		-les cl_mem
+*/
+
+// 
+typedef	unsigned	long	ulong;
+
+int		k_mem = 0;
+ulong	allreadty_rm[ARG_KER_MAX * NB_KER];
+
+int	ok_to_realease(cl_mem buff)
+{
+	int	i;
+
+	if (!((ulong)buff))
+		return (0);
+	i = 0;
+	while (i < k_mem)
+	{
+		if ((ulong)buff == allreadty_rm[i])
+			return (0);
+		i++;
+	}
+	allreadty_rm[k_mem] = (ulong)buff;
+	k_mem++;
+	return (1);
+}
+
+//	NB_KER
+void	ocl_exit(t_ocl_core *core, t_ocl_ker *ker, int nb_ker, int nb_mem)
+{
+	cl_int	ret;
+	int		i;
+	int		j;
+
+bzero(allreadty_rm, sizeof(allreadty_rm));
+
+	i = 0;
+	while (i < nb_ker)
+	{
+		if (ker[i].kernel)
+		{
+			ret = clFlush(ker[i].command_queue);	
+			ret = clFinish(ker[i].command_queue);
+			ret = clReleaseKernel(ker[i].kernel);
+			j = 0;
+			while (j < nb_mem)
+			{
+				if (ok_to_realease(ker[i].data[j].gpu_buff))
+				{
+					ret = clReleaseMemObject(ker[i].data[j].gpu_buff);
+					
+				}
+				else
+					printf("ker:%d	mem:%d	no more arg\n", i, j);
+				j++;
+			}
+			ret = clReleaseCommandQueue(ker[i].command_queue);
+		}
+		else
+			printf("ker:%d	no more ker\n", i);
+		i++;
+	}
+	ret = clReleaseContext(core->context);
+	ret = clReleaseProgram(core->program);
+	printf("size ocl_mem:%zu\n", sizeof(ker[i].data[j].gpu_buff));
+}
+
 int		ft_exit(t_env *e)
 {
 	static	int first_time = 1;
@@ -69,10 +153,9 @@ int		ft_exit(t_env *e)
 	matrix_free(&(e->prev_mouse));
 	matrix_free(&(e->mouse));
 	free(e->z_buffer);
+	ocl_exit(&(e->ocl), e->ker, NB_KER, ARG_KER_MAX);
 	if (e->img_low)
 		free(e->img_low);
-	if (e->status == SERVEUR)
-		close_sockets(0);
 	exit(0);
 	return (0);
 }

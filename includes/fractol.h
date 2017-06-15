@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/25 21:41:39 by fjanoty          ###   ########.fr       */
+/*   Created: 2017/06/15 20:54:37 by fjanoty           #+#    #+#             */
+/*   Updated: 2017/06/15 21:10:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define NB_KER 10
+# define NB_KER 4
 
 # define STACK_SIZE 100
 # define SERVEUR 0
@@ -31,9 +31,6 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdio.h>
-# include <netdb.h>
-# include <netinet/in.h>
-# include <arpa/inet.h>
 
 # define MAX_CLIENT 100
 
@@ -87,7 +84,7 @@ typedef	struct	s_data_nw	t_data_nw;
 
 # define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
 # define MAX_ITER 20 // vraiment... c'est trop pour un buffer mais bon... OK
-# define ARG_KER_MAX 10
+# define ARG_KER_MAX 6
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
 
@@ -179,8 +176,6 @@ int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker);
 int	ocl_mem_creat_define_color(t_ocl_ker *def_col,  size_t size_colore);
 int	ocl_mem_creat_draw_line(t_ocl_ker *ifs_ker, size_t img_size, t_ocl_mem *buff_pt, t_ocl_mem *buff_col, t_ocl_mem *ifs_spec);
 
-int	init_ocl_core(t_ocl_core *core, const char *file_name);
-int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
 int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
 
 int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc);
@@ -218,8 +213,6 @@ int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab);
 
 ///////// end_ocl //////////////////
 
-
-
 struct			s_polygone
 {
 	int			lvl;
@@ -227,27 +220,6 @@ struct			s_polygone
 	t_matrix	*col;
 	t_polygone	*next;
 };
-
-typedef	struct	s_average
-{
-	double		du;
-	int			il;
-	int			jl;
-	int			ih;
-	int			ih0;
-	int			jh;
-	double		coef[6];
-}				t_average;
-
-typedef	struct	s_mouse
-{
-	int			pos_x;
-	int			pos_y;
-	int			left_press;
-	int			left_release;
-	int			right_press;
-	int			right_release;
-}				t_mouse;
 
 typedef	union	u_pix
 {
@@ -315,24 +287,6 @@ typedef	struct	s_koch_changing
 	double		dist;
 	double		prev_du;
 }				t_koch_changing;
-
-
-
-/*
-**	key_release 	(key_code == release) ?  (1, 2, 0) -> 0 : 1 -> 2
-**	key_press		0 -> 1
-**
-**	0 -> inactif
-**	1 -> viens d'etre activer
-**	2 -> n'est pas revenu
-*/
-
-typedef struct	s_key
-{
-	int			echap;
-	int			add_iter;
-	int			enter;
-}				t_key;
 
 typedef	struct	s_cam
 {
@@ -459,52 +413,6 @@ struct			s_env
 	t_ocl_ker	ker[NB_KER];
 };
 
-typedef	struct	s_mandel_pt
-{
-	double		min;
-	double		max;
-	double		v0;
-	double		v1;
-	double		v2;
-	double		v3;
-}				t_mandel_pt;
-
-typedef	struct	s_mandel_color
-{
-	int			i;
-	int			j;
-	int			y_maxl;
-	int			x_maxl;
-	int			iter;
-}				t_mandel_color;
-
-typedef	struct	s_pt2d
-{
-	double		x;
-	double		y;
-}				t_pt2d;
-
-typedef	struct	s_pt2i
-{
-	int			x;
-	int			y;
-}				t_pt2i;
-
-typedef	struct	s_calc_gr
-{
-	int			i;
-	int			j;
-	int			id;
-	int			iter;
-}				t_calc_gr;
-
-typedef	struct	s_cop_julia
-{
-	double		*beg_x;
-	double		*beg_y;
-	double		ctx;
-	double		cty;
-}				t_cop_julia;
 
 typedef	struct	s_d3
 {
@@ -527,13 +435,14 @@ typedef	struct	s_lim
 	int			h;
 }				t_lim;
 
+/*
 typedef	struct	s_network
 {
 	int			port;
 	int			sock;
 	fd_set		read_fd;
 }				t_network;
-
+*/
 
 //	les pramaetre d'animation d'un client a afficher
 typedef	struct	s_anime_data
@@ -555,16 +464,6 @@ typedef	struct	s_anime
 //	
 
 }				t_anime;
-
-
-
-typedef struct	s_client_data
-{
-	unsigned char	in_use;
-	int				socket;
-	struct in_addr	addr;
-	t_anime_data	*p_a_data;
-}				t_client_data;
 
 extern int time_prg;
 extern int periode;
@@ -611,23 +510,6 @@ int				free_int_map(t_env *e);
 int				free_cam(t_env *e);
 int				ft_exit(t_env *e);
 int				main_work(t_env *e);
-
-/*
-**	new_calcul_mandel
-*/
-
-/*
-**	calcul mandelbrot
-*/
-
-void			do_zoom_simple(t_env *e);
-int				resize_window(double pos[4], double mult, t_pt2d siz, t_env *e);
-void			set_color_fractal(t_win *w);
-void			calc_average(double pos[8], double max[4], t_env *e);
-double			get_iter_average(double mult[2], double **val);
-void			calcul_grid(double *img, double pos[4], t_pt2d max, t_env *e);
-void			calculate_average(double **img_low, double **img_height
-				, double pos_l[4], double pos_h[4]);
 
 /*
 **	drawline
@@ -823,43 +705,6 @@ int				get_pos_to_draw(t_win *w, t_polygone *node, t_matrix *pos_a
 				, t_matrix *pos_b);
 void			zoom_border(t_border *b, double x, double y, double scale);
 
-/*
-**	mandel_event
-*/
-
-int				mandel_press_key(int key_code, t_win *w);
-int				mandel_release_key(int key_code, t_win *w);
-int				mandel_motion_cursor(int x, int y, t_win *w);
-int				mandel_press_button(int button, int x, int y, t_win *w);
-int				mandel_release_button(int button, int x, int y, t_win *w);
-int				do_the_translation(t_env *e, double ux, double uy);
-
-int				do_the_zoom_simple(t_env *e, int x, int y, double mult);
-int				do_the_translation(t_env *e, double ux, double uy);
-
-/*
-**	init_mandel
-*/
-
-int				init_mandel_event(t_win *w);
-int				bcl_mandel(void);
-double			**init_data_tab(int size_x, int size_y);
-int				init_mandel(t_env *e, int id);
-
-/*
-** mini_parseur.c
-*/
-
-void			print_usage(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
-				, char *name);
-int				check_one_id(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
-				, char *name, int *id);
-int				check_id(char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]
-				, int ac, char **av, int *id);
-int				check_syntax(int *id);
-int				parse_imput(int ac, char **av
-				, char tab[NB_NAME_FRAC][NB_NAME_ALT][NB_LETTER_NAME]);
-void			print_binary(int nb);
 
 /*
 **	main.c
@@ -948,26 +793,7 @@ typedef	struct	s_ifs_ocl
 }				t_ifs_ocl;
 
 
-
-
-int	get_server_socket(int ss);
-
-int				remove_client(size_t socket_id);
-int				add_client(
-					int					new_socket,
-					struct in_addr		new_addr);
-size_t			get_all_client_data(
-					t_client_data **p_client_data);
-
-void			close_sockets(int s);
-int				create_server(int port);
-void			add_new_client(int new_sock);
-void			wait_for_event(int sock, fd_set *active_fd, int status);
 t_env			*get_env(t_env *e);
-
-
-int				get_client_socket(int ss);
-int				create_client(char *addr, int port);
 
 /*
 **	polygone_adapte.c

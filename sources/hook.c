@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/04 22:46:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/15 18:35:56 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int			main_work(t_env *e)
 
 	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
 	// ou pour l'atente de quoi ecrire pou enfin voila
-	wait_for_event(e->sock, &(e->read_fd), e->status);
+//	wait_for_event(e->sock, &(e->read_fd), e->status);
 
 	/////////////////////////////
 	polygone_destroy(&(e->trans_model2));
@@ -161,13 +161,6 @@ int			main_work(t_env *e)
 	print_fractal(e);
 	//////////////
 
-	if (e->status == SERVEUR)
-		draw_param_ui(e);
-	else if (e->status == CLIENT)
-	{
-		// la il faudra faire les truc de dessin pour le client pck il n'a pas d'event
-		// et puis oil n'as pas le droit de sessiner ce qu'il veut.
-		// depuis quand le cient est roi?
-	}
+	draw_param_ui(e);
 	return (1);
 }

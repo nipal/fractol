@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/10 04:08:06 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/21 21:30:11 by fjanoty          ###   ########.fr       */
+/*   Created: 2017/06/15 22:53:52 by fjanoty           #+#    #+#             */
+/*   Updated: 2017/06/15 22:54:37 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 #include "fractol.h"
 #include <stdio.h>

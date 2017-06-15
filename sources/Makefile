@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/06/15 19:28:42 by fjanoty          ###   ########.fr        #
+#    Updated: 2017/06/15 22:48:39 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,9 @@ DEPS = ../includes/fractol.h
 
 SRC		= 	main.c						\
 			draw_line.c					\
-			koch_generalise.c 			\
 			segment_manipule_basic.c 	\
+			koch_generalise.c 			\
 			mlx_env.c 			 		\
-			print_somthing.c 			\
 			hook.c 					 	\
 			polygone_new.c 			 	\
 			polygone_destroy.c 			\
@@ -31,6 +30,8 @@ SRC		= 	main.c						\
 			polygone_maj.c 			 	\
 			polygone_adapte.c			\
 			polygone_describe.c			\
+			segment_mecanique.c 		\
+			polygone_manip_node.c 		\
 			modify_model.c 				\
 			color_transpose.c 			\
 			new_printing.c 			 	\
@@ -40,8 +41,6 @@ SRC		= 	main.c						\
 			param_koch.c 				\
 			border.c 					\
 			base_ifs.c 					\
-			segment_mecanique.c 		\
-			polygone_manip_node.c 		\
 			sliding_button.c 			\
 			manage_sliding_button.c		\
 			drawing_button.c 			\
@@ -51,9 +50,9 @@ SRC		= 	main.c						\
 			print_rectangle.c			\
 			user_interface.c			\
 			ellipsoide.c				\
-			exit.c						\
 			animation.c					\
-			draw_ifs_iteratif.c			\
+			init_printing_koch.c 		\
+			printing_koch_final.c 		\
 			ocl_init.c					\
 			ocl_init_ifs.c				\
 			ocl_calcul_ifs_point.c		\
@@ -61,14 +60,7 @@ SRC		= 	main.c						\
 			ocl_draw_line.c				\
 			read_file.c					\
 			error_opencl.c				\
-			printing_koch_final.c 		\
-			init_printing_koch.c 		\
-
-#			serveur.c					
-#			calcul_madelbrot.c 			
-#			client_data.c
-#			client.c					\
-#			ovaloide.c					\
+			exit.c						\
 
 
 OBJ			= $(SRC:.c=.o)

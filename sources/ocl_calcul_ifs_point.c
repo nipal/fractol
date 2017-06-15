@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/10 15:34:37 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 00:01:08 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 
 int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg);
+
 int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker)
 {
 	cl_int	ret[5];
@@ -133,11 +134,6 @@ void	print_id_tab(int *tab, int size)
 		i++;
 	}
 }
-
-/*
- *		a
- *
- * */
 
 // il faut initialiser les index
 int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg)

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/15 20:54:37 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/15 21:10:24 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 00:37:27 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef	struct s_polygone	t_polygone;
 typedef	struct s_env		t_env;
 typedef	struct s_win		t_win;
 typedef	struct	s_data_nw	t_data_nw;
+typedef	unsigned	long	ulong;
 
 ///////////// ocl_render /////////////
 #include <OpenCL/opencl.h>	
@@ -152,10 +153,15 @@ typedef	struct	s_range
 	float		beg;
 	float		end;
 	float		delta;
+	float		none;
 }				t_range;
+
+#define NB_MAX_SEG	16
 
 typedef	struct	s_ifs_spec
 {
+	float	pt_base[NB_MAX_SEG][2];
+	float	pt_trans[NB_MAX_SEG][2];
 	int		len_base;
 	int		len_trans;
 	int		max_iter;

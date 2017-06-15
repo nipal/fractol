@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/07 02:43:21 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/03 06:31:07 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/15 22:50:08 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,13 @@ int						draw_line2(t_win *win, t_matrix *mat_line)
 	t_matrix	*org;
 	t_matrix	*print;
 
-//			if (ft_strcmp(win->name, "fractal") == 0)
-//			{
-//				i = *((int*)(-2));
-//			}
-//			return (1);
 	if (!(mat_line)
 		|| !(diff = matrix_init(6, 1))
 		|| !(org = matrix_init(6, 1)))
 		return (0);
 	i = -1;
-	ft_memmove(org->m, mat_line->m, sizeof(double) * 6);
-	ft_memmove(diff->m, mat_line->m + 6, sizeof(double) * 6);
+	memmove(org->m, mat_line->m, sizeof(double) * 6);
+	memmove(diff->m, mat_line->m + 6, sizeof(double) * 6);
 	size = (int)(mat_line->m[NORME] + 0.5);
 	while (++i < size)
 	{

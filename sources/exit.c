@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/15 21:32:53 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/15 22:28:43 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,20 @@ int		free_slider(t_slider ***tabs)
 */
 
 // 
-typedef	unsigned	long	ulong;
 
-int		k_mem = 0;
-ulong	allreadty_rm[ARG_KER_MAX * NB_KER];
 
 int	ok_to_realease(cl_mem buff)
 {
+	static	int		k_mem = 0;
+	static	int		first = 1;
+	static	ulong	allreadty_rm[ARG_KER_MAX * NB_KER];
 	int	i;
 
+	if (first)
+	{
+		first = 0;
+		bzero(allreadty_rm, sizeof(allreadty_rm));
+	}
 	if (!((ulong)buff))
 		return (0);
 	i = 0;
@@ -106,7 +111,6 @@ void	ocl_exit(t_ocl_core *core, t_ocl_ker *ker, int nb_ker, int nb_mem)
 	int		i;
 	int		j;
 
-bzero(allreadty_rm, sizeof(allreadty_rm));
 
 	i = 0;
 	while (i < nb_ker)
@@ -120,18 +124,11 @@ bzero(allreadty_rm, sizeof(allreadty_rm));
 			while (j < nb_mem)
 			{
 				if (ok_to_realease(ker[i].data[j].gpu_buff))
-				{
 					ret = clReleaseMemObject(ker[i].data[j].gpu_buff);
-					
-				}
-				else
-					printf("ker:%d	mem:%d	no more arg\n", i, j);
 				j++;
 			}
 			ret = clReleaseCommandQueue(ker[i].command_queue);
 		}
-		else
-			printf("ker:%d	no more ker\n", i);
 		i++;
 	}
 	ret = clReleaseContext(core->context);

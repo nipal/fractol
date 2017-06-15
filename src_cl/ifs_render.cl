@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #define MAX_ITER 20
+#define NB_MAX_SEG	16
 
 
 typedef	struct	s_range
@@ -22,6 +23,8 @@ typedef	struct	s_range
 
 typedef	struct	s_ifs_spec
 {
+	float2	pt_base[NB_MAX_SEG];
+	float2	pt_trans[NB_MAX_SEG];
 	int		len_base;
 	int		len_trans;
 	int		max_iter;

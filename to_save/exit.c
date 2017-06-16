@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:20:14 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 18:19:22 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,47 @@ void	free_img(int ***img, int size_y)
 		img[0] = NULL;
 	}
 }
+
+int		free_slider(t_slider ***tabs)
+{
+	int	i;
+
+	i = 0;
+	while (tabs[0][i])
+	{
+		matrix_free(&(tabs[0][i]->color));
+		free(tabs[0][i]->border);
+		free(tabs[0][i]);
+		tabs[0][i] = NULL;
+		i++;
+	}
+	free(*tabs);
+	*tabs = NULL;
+	return (1);
+}
+
+/*
+//	___Finalization__
+
+`	ret = clFlush(command_queue);	
+	ret = clFinish(command_queue);
+	ret = clReleaseKernel(kernel);
+	ret = clReleaseProgram(program);
+	ret = clReleaseMemObject(Amobj);
+	ret = clReleaseMemObject(Bmobj);
+	ret = clReleaseMemObject(Cmobj);
+	ret = clReleaseCommandQueue(command_queue);
+	ret = clReleaseContext(context);
+*/
+
+/*
+**	on veut liberer tout plein de truc:
+**		-le cl_program
+**		-les cl_mem
+*/
+
+// 
+
 
 int	ok_to_realease(cl_mem buff)
 {
@@ -109,6 +150,8 @@ int		ft_exit(t_env *e)
 //	matrix_free(&(e->mouse));
 	free(e->z_buffer);
 	ocl_exit(&(e->ocl), e->ker, NB_KER, ARG_KER_MAX);
+	if (e->img_low)
+		free(e->img_low);
 	exit(0);
 	return (0);
 }

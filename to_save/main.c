@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 07:31:16 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:15:56 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 18:26:20 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_win		*window_init(t_env *e, int size_x, int size_y, char *name)
 		name = "new w";
 	if (!e || !(size_x > 0 && size_y > 0)
 			|| !(w = (t_win*)malloc(sizeof(t_win)))
+			|| !(w->mouse = matrix_init(1, 3))
+			|| !(w->prev_mouse = matrix_init(1, 3))
 			|| !(w->win = mlx_new_window(e->mlx, size_x, size_y, name))
 			|| !(w->img = mlx_new_image(e->mlx, size_x, size_y))
 			|| !(w->data = (t_pix*)mlx_get_data_addr(w->img, &(w->depth)
@@ -79,6 +81,7 @@ int			main_work(t_env *e)
 
 void		env(t_env *e)
 {
+	t_border border_abox;
 
 	if (!e || !(e->mlx = mlx_init()))
 		return ;

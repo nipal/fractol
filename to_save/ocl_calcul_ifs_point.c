@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:21:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 18:23:12 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	{{657.534241, 341.694916},{250.684937, 919.322021},{1035.616455, 1004.745789},{661.643860, 341.694916}};
 
 	int			i;
+	t_polygone	*node;
 	double		col_val[6]; // param de couleur (les v1 et v2 des button)
 
 	if (!data)
@@ -40,6 +41,10 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	bzero(data, sizeof(t_ifs_ocl));
 	data->base_len = HARD_BASE_LEN;
 	data->trans_len = HARD_TRANS_LEN;
+//	printf();
+
+	//	on copie juste la valeur des point de la base dans la structure de buffer
+	node = base;
 	i = 0;
 	while (i < 4)
 	{
@@ -48,6 +53,45 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 		i++;
 	}
 
+
+//	/*
+	while (i < MAX_NODE)
+	{
+		data->pt_base[i][0] = 100;
+		data->pt_base[i][1] = 100;
+		i++;
+	}
+//	*/
+
+	//	on copie juste la valeur des point de la transformation dans la structure de buffer
+	node = transform;
+	i = 1;
+	data->pt_trans[i][0] = 0;
+	data->pt_trans[i][1] = 0;
+	while (i < MAX_NODE && node)
+	{
+		data->pt_trans[i][0] = (float) node->pos->m[0];
+		data->pt_trans[i][1] = (float) node->pos->m[1];
+		node = node->next;
+		i++;
+	}
+//	/*
+	while (i < MAX_NODE)
+	{
+		data->pt_trans[i][0] = 0;
+		data->pt_trans[i][1] = 0;
+		i++;
+	}
+//	*/
+	data->max_iter = nb_iter;
+	
+	//	on copie les parametre de couleur
+	i = 0;
+	while (i < 6)
+	{
+		data->col_val[i] = i % 2; // la voila il faudrait un truc plustard
+		i++;
+	}
 	return (0);
 }
 
@@ -58,7 +102,12 @@ int	ocl_writeto_ifs_calcul(t_ocl_ker *ifs_cl, t_ifs_ocl *data)
 	cl_int	ret[1];
 
 
+//	ft_bzero(tab_id, sizeof(tab_id));
+//	set_id_isf_ptbuff(data->base_len, data->trans_len, data->max_iter, tab_id);
+
 	ret[0] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_pt_ifs].gpu_buff, CL_TRUE	, 0, MAX_NODE * sizeof(float) * 2, data->pt_base, 0, NULL, NULL);
+
+	// Il me manque les write buffer pour les parametre qui ne sont pas forcement des buffer si non bah il le faut quoi
 	return (check_ocl_err(ret, 1, __func__, __FILE__));
 }
 

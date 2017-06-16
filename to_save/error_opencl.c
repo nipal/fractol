@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 01:24:46 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:27:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/04/18 06:56:45 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,36 @@ void	init_ocl_error(void)
 
 int		print_ocl_error(int err_cl, int no_err, const char *file, const char *func)
 {
-	printf("file:%s	func:%s	err:%d	***", file, func, no_err);
+	ft_putstr("file:");
+	ft_putstr((char*)file);
+	ft_putstr("	func:");
+	ft_putstr((char*)func);
+	ft_putstr("	err:");
+	ft_putnbr(no_err);
+	ft_putstr("		*** ");
 	if (err_cl > 0)
 	{
-		printf("not a cl error ***\n");
+		ft_putstr("not a cl error ***\n");
 		return (1);
 	}
 	err_cl *= -1;
 	if ((err_cl > 12 && err_cl < 30) || err_cl > 63 || err_cl < 0)
 	{
-		printf("invalid cl error ***\n");
+		ft_putstr("invalid cl error ***\n");
 	}
 	else if (g_ocl_error[err_cl])
 	{
-		printf("%s ***\n", g_ocl_error[err_cl]);
+		ft_putstr(g_ocl_error[err_cl]);
+		ft_putstr(" ***\n");
 	}
 	exit(1);
 	return (1);
 }
+
+/*
+void	print_ocl_error(int err_cl, int nbl, char *name)
+{
+	printf("line:%d	on file:%s", nbl, name);
+	print_ocl_error(err_cl);
+}
+*/

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:21:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 18:26:26 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,21 @@ void	set_dc_spec(t_ifs_spec *spec, t_env *e, t_win *w, int *id_tab)
 	int			i;
 	t_polygone	*node;
 
+	node = e->transform;
+
+	/*
+	spec->pt_trans[0][0] = trans_raw[id_trans][0][0];
+	spec->pt_trans[0][1] = trans_raw[id_trans][0][1];
+	for (i = 1; i < MAX_NODE - 1 && node; i++)
+	{
+		spec->pt_trans[i][0] = node->pos->m[0];
+		spec->pt_trans[i][1] = node->pos->m[1];
+		node = node->next;
+	}
+	spec->pt_trans[i][0] = 1;
+	spec->pt_trans[i][1] = 0;
+	spec->len_trans = get_polygone_len(e->transform);
+*/
 
 	for (i = 0; i < 4; i++)
 	{

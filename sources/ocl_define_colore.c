@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 13:39:06 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 14:22:52 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,21 @@ void	set_range_val(t_range *value, float beg, float end)
 void	set_dc_spec(t_ifs_spec *spec, t_env *e, t_win *w, int *id_tab)
 {
 	int			i;
-	t_polygone	*node_b;
-	t_polygone	*node_t;
+	t_polygone	*node;
 
-	node_b = e->base;
-	node_t = e->transform;
-	for (i = 0; i < MAX_NODE; i++)
+	node = e->transform;
+
+	spec->pt_trans[0][0] = 0;
+	spec->pt_trans[0][1] = 0;
+	for (i = 1; i < MAX_NODE - 1 && node; i++)
 	{
-		spec->pt_base[i][0] = (node_b) ? node_b->pos->m[0]: 0;
-		spec->pt_base[i][1] = (node_b) ? node_b->pos->m[1]: 0;
-		spec->pt_trans[i][0] = (node_t) ? node_t->pos->m[0]: 0;
-		spec->pt_trans[i][1] = (node_t) ? node_t->pos->m[1]: 0;
-		node_b = (node_b) ? node_b->next: NULL;
-		node_t = (node_t) ? node_t->next: NULL;
+		spec->pt_trans[i][0] = node->pos->m[0];
+		spec->pt_trans[i][1] = node->pos->m[1];
+		node = node->next;
 	}
+	spec->pt_trans[i][0] = 1;
+	spec->pt_trans[i][1] = 0;
+
 	spec->len_base = get_polygone_len(e->base);
 	spec->len_trans = get_polygone_len(e->transform);
 	spec->max_iter = e->max_iter;

@@ -125,8 +125,6 @@ __kernel	void	draw_line(__global int *img
 									   , __global char4 *col
 									   , __global t_ifs_spec *spec)
 {
-	float2	diff_pos;
-	float4	diff_col;
 	char4	dc;
 	float2	unit_pos;
 	float4	unit_col;
@@ -142,13 +140,11 @@ __kernel	void	draw_line(__global int *img
 
 	id_col = get_global_id(0);
 	id = id_col + spec->beg_id[spec->nb_iter - 1];
-	diff_pos = pt[id + 1] - pt[id];
 	dc = col[id + 1] - col[id];
-	diff_col = (float4)(dc.x, dc.y, dc.z, 0);
 	dist = get_line_length(pt[id], pt[id + 1]);
 	nb_point = dist;
-	unit_pos = diff_pos / dist;
-	unit_col = diff_col / dist;
+	unit_pos = (pt[id + 1] - pt[id]) / dist;
+	unit_col = (float4)(dc.x, dc.y, dc.z, 0) / dist;
 	i = 0;
 	p = pt[id];
 	c = (float4)(col[id].x, col[id].y, col[id].z, 0);
@@ -185,4 +181,5 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	uy = (float2)(-ux.y, ux.x);
 
 	pt_ifs[id_now] = pt_ifs[id_parent] + spec->pt_trans[id_trans].x * ux + spec->pt_trans[id_trans].y * uy;
+	//printf("glob_id:%d	dad[%d]:{%f, %f}	\n", glob_id, id_parent, pt_ifs[id_parent].x, pt_ifs[id_parent].y);
 }

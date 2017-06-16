@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 13:35:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 14:16:34 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	ocl_writeto_ifs_calcul(t_ocl_ker *ifs_cl, t_ifs_ocl *data)
 	cl_int	ret[1];
 
 
-	ft_bzero(tab_id, sizeof(tab_id));
-	set_id_isf_ptbuff(data->base_len, data->trans_len, data->max_iter, tab_id);
+//	ft_bzero(tab_id, sizeof(tab_id));
+//	set_id_isf_ptbuff(data->base_len, data->trans_len, data->max_iter, tab_id);
 
 	ret[0] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_pt_ifs].gpu_buff, CL_TRUE	, 0, MAX_NODE * sizeof(float) * 2, data->pt_base, 0, NULL, NULL);
 
@@ -155,7 +155,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 	ocl_writeto_ifs_calcul(ifs_cl, &data);
 //	print_id_tab(id_tab, MAX_ITER);
 	i = 1;
-	while (i < nb_iter)
+	while (i <= nb_iter)
 	{
 		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
 

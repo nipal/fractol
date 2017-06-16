@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/03 23:48:33 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/12 22:09:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 21:36:37 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static	int		copy_stack_in_str(t_buff_file *beg, int nb_buff, int size, char *str
 		return (0);
 	while (node && nb_buff > 0)
 	{
-		ft_memmove((str + (nb_buff - 1) * BUFF_FILE_SIZE), node->buff, node->size);
+		memmove((str + (nb_buff - 1) * BUFF_FILE_SIZE), node->buff, node->size);
 		node = node->next;
 		--nb_buff;
 	}
@@ -122,7 +122,7 @@ char	*read_file(const char *name, size_t *str_size)
 	if (!(beg_stack = stack_buff_file(fd, &size, &nb_buff)))
 		return (NULL);
 	close(fd);
-	if (size <= 0 || !(str_file = (char*)ft_strnew(size + 1)))
+	if (size <= 0 || !(str_file = (char*)malloc(size + 1)))
 		return (NULL);
 	if (!copy_stack_in_str(beg_stack, nb_buff, size, str_file))
 		return (NULL);

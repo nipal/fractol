@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/26 07:31:16 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:15:56 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 21:37:12 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_win		*window_init(t_env *e, int size_x, int size_y, char *name)
 			|| !(w->img = mlx_new_image(e->mlx, size_x, size_y))
 			|| !(w->data = (t_pix*)mlx_get_data_addr(w->img, &(w->depth)
 					, &(w->size_line), &(w->endian)))
-			|| !(w->name = ft_strdup(name))
 			|| !(w->z_buff = (double*)malloc(sizeof(double) * size_x * size_y)))
 		return (NULL);
 	w->e = e;
@@ -45,7 +44,7 @@ void					actu_win_rest(t_win *w)
 {
 	mlx_put_image_to_window(w->e->mlx, w->win, w->img, 0, 0);
 	mlx_do_sync(w->e->mlx);
-	ft_bzero(w->data, sizeof(t_pix) * w->size_x * w->size_y);
+	bzero(w->data, sizeof(t_pix) * w->size_x * w->size_y);
 }
 
 void					actu_win(t_win *w)

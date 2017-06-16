@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:21:16 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 21:42:13 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker)
 	return (check_ocl_err(ret, 2, __func__, __FILE__));
 }
 
-int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])
+int		format_data_to_ocl(t_ifs_ocl *data, int nb_iter, float col[6])
 {
 	float	hard_base[4][2] =
 	{{657.534241, 341.694916},{250.684937, 919.322021},{1035.616455, 1004.745789},{661.643860, 341.694916}};
@@ -95,7 +95,7 @@ int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg)
 
 
 //	le truc qui lance le calcule de tout les point
-int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])
+int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, int nb_iter, float col[6])
 {
 	int			i;
 	int			id_tab[MAX_ITER];
@@ -105,7 +105,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 	size_t		local_work_size[3] = {1, 0, 0};
 
 	// les work_size c'est le nombre de coeur qu'on execute en meme temps
-	format_data_to_ocl(&data, transform, base, nb_iter, col);	
+	format_data_to_ocl(&data, nb_iter, col);	
 	set_id_isf_ptbuff(4, 2, nb_iter, id_tab);
 	ocl_writeto_ifs_calcul(ifs_cl, &data);
 //	print_id_tab(id_tab, MAX_ITER);

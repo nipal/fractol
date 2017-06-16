@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:21:38 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 21:42:34 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,6 @@ void	set_dc_spec(t_ifs_spec *spec, t_env *e, t_win *w, int *id_tab)
 {
 	static		int id_trans = 0;
 	int			i;
-	t_polygone	*node;
 
 
 	for (i = 0; i < 4; i++)
@@ -242,9 +241,9 @@ int		need_col_update(t_ifs_spec *spec)
 		if (spec->len_trans != prev_spec.len_trans
 			|| spec->len_base != prev_spec.len_trans
 			|| spec->max_iter != prev_spec.max_iter
-			|| ft_memcmp(&spec->hue, &prev_spec.hue, sizeof(t_range))
-			|| ft_memcmp(&spec->sat, &prev_spec.sat, sizeof(t_range))
-			|| ft_memcmp(&spec->val, &prev_spec.val, sizeof(t_range)))
+			|| memcmp(&spec->hue, &prev_spec.hue, sizeof(t_range))
+			|| memcmp(&spec->sat, &prev_spec.sat, sizeof(t_range))
+			|| memcmp(&spec->val, &prev_spec.val, sizeof(t_range)))
 		{
 			ret = 1;
 			prev_spec = *spec;

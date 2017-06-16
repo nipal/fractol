@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/19 01:24:46 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:27:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 21:33:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char* g_ocl_error[100];
 
 void	init_ocl_error(void)
 {
-	ft_bzero(g_ocl_error, sizeof(g_ocl_error));
+	bzero(g_ocl_error, sizeof(g_ocl_error));
 	g_ocl_error[0]	= "CL_SUCCESS";
 	g_ocl_error[1]	= "CL_DEVICE_NOT_FOUND";
 	g_ocl_error[2]	= "CL_DEVICE_NOT_AVAILABLE";

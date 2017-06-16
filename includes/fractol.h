@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/15 20:54:37 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 21:19:46 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 21:45:50 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 
 # define MAX_NODE 16	// c'est deja enorme on aurra des gros problem de perfe a partir de 9
 
-#include "libft.h"
-//# include "c_maths.h"
-//# include "key.h"
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -42,10 +39,8 @@
 # define Y 1
 
 
-typedef	struct s_polygone	t_polygone;
 typedef	struct s_env		t_env;
 typedef	struct s_win		t_win;
-typedef	struct	s_data_nw	t_data_nw;
 typedef	unsigned	long	ulong;
 
 ///////////// ocl_render /////////////
@@ -173,7 +168,7 @@ int	init_kernel(t_ocl_core *core, t_ocl_ker *ker, const char *kernel_name);
  *	tout les osl run, il faudra un peu faire le menage la c'est tout sal
  * */
 int	ocl_render_run(t_env *e);
-int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *base, int nb_iter, float col[6]);
+int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, int nb_iter, float col[6]);
 int	ocl_run_draw_line(t_ocl_ker *dl, int *id_tab, int max_iter);
 int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab);
 
@@ -182,13 +177,6 @@ int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab);
 void			actu_win_rest(t_win *w);
 void			actu_win(t_win *w);
 
-struct			s_polygone
-{
-	int			lvl;
-//	t_matrix	*pos;
-//	t_matrix	*col;
-	t_polygone	*next;
-};
 
 typedef	union	u_pix
 {
@@ -227,8 +215,6 @@ struct			s_env
 	int			depth;
 	int			endian;
 	int			max_iter;
-//	t_polygone	*base;	// coordonner reel
-//	t_polygone	*transform; // coordonner reel
 	t_win		*fractal;
 	//////// openCl ////////////
 	t_ocl_core	ocl;

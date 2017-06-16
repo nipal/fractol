@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 02:15:07 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 13:35:42 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg);
 
 int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker)
 {
-	cl_int	ret[3];
+	cl_int	ret[2];
 
-	ifs_ker->nb_arg = 3;
+	ifs_ker->nb_arg = 2;
 	ret[0] = ocl_create_mem(ifs_ker, 0	, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2);
 	ret[1] = ocl_create_mem(ifs_ker, 1, CL_MEM_READ_WRITE, sizeof(t_ifs_spec));
-	//	en fait il faudrai tester avec un set kernel arg pck on a pas besoind de plus
-	ret[2] = ocl_create_mem(ifs_ker, 2	, CL_MEM_READ_WRITE, sizeof(int));
-	branch_arg_to_kernel(ifs_ker, 3);
-	return (check_ocl_err(ret, 3, __func__, __FILE__));
+	//	en fait il faudrai tester avec un set kernel arg pck on a pas besoind de plus ==> normalement c'est fait
+	branch_arg_to_kernel(ifs_ker, 2);
+	return (check_ocl_err(ret, 2, __func__, __FILE__));
 }
 
 int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])
@@ -92,34 +91,20 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	return (0);
 }
 
-/*
- *	tr:	3
- *	ba:	2
- *
- * aa, aba, acbca, adcdbdcda
- * a
- * 
- * */
-//	On va commencer par juste copier la base il faut encore
-
 //	on recupere toutes les data et on les envoie aux kernel
 int	ocl_writeto_ifs_calcul(t_ocl_ker *ifs_cl, t_ifs_ocl *data)
 {
 	int		tab_id[MAX_ITER];
-	cl_int	ret[5], ret2;
+	cl_int	ret[1];
 
 
 	ft_bzero(tab_id, sizeof(tab_id));
 	set_id_isf_ptbuff(data->base_len, data->trans_len, data->max_iter, tab_id);
 
 	ret[0] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_pt_ifs].gpu_buff, CL_TRUE	, 0, MAX_NODE * sizeof(float) * 2, data->pt_base, 0, NULL, NULL);
-	ret[1] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_transform].gpu_buff, CL_TRUE, 0, MAX_NODE * sizeof(float) * 2, data->pt_trans, 0, NULL, NULL);
-	ret[2] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_beg_id].gpu_buff, CL_TRUE	, 0, sizeof(int) * MAX_ITER, tab_id, 0, NULL, NULL);
-	ret[3] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_trans_len].gpu_buff, CL_TRUE, 0, ifs_cl->data[3].size, &(data->trans_len), 0, NULL, NULL);
-	ret[4] = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff, CL_TRUE	, 0, ifs_cl->data[4].size, &(data->max_iter), 0, NULL, NULL);
 
 	// Il me manque les write buffer pour les parametre qui ne sont pas forcement des buffer si non bah il le faut quoi
-	return (check_ocl_err(ret, 5, __func__, __FILE__));
+	return (check_ocl_err(ret, 1, __func__, __FILE__));
 }
 
 void	print_id_tab(int *tab, int size)
@@ -174,9 +159,9 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 	{
 		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
 
-	 	ret2 = clEnqueueWriteBuffer(ifs_cl->command_queue, ifs_cl->data[e_cip_num_iter].gpu_buff,CL_TRUE, 0, ifs_cl->data[e_cip_num_iter].size, &(i), 0, NULL, NULL);
+		ret2 = clSetKernelArg(ifs_cl->kernel, 2, sizeof(int), &i);
 		if (ret2)
-			check_ocl_err(&ret2, 1, "tata truc", __FILE__);
+			check_ocl_err(&ret2, 1, "tata yoyo", __FILE__);
 		ret[i] = clEnqueueNDRangeKernel(ifs_cl->command_queue, ifs_cl->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
 		if (ret[i])
 			check_ocl_err(ret, i + 1, __func__, __FILE__);

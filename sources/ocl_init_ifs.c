@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 02:17:57 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 13:32:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	init_ifs(t_env *e, t_win *w)
 	init_kernel(&(e->ocl), &(e->ker[e_draw_line]), "draw_line");
 
 	ocl_mem_creat_calcul_ifs(&(e->ker[e_ifs_calcul_pt]));
-	ocl_mem_creat_define_color(&(e->ker[e_define_color]), size_colore);
+	ocl_mem_creat_define_color(&(e->ker[e_define_color]), size_colore
+			, &(e->ker[e_ifs_calcul_pt].data[e_cip_param]));
 	ocl_mem_creat_draw_line(&(e->ker[e_draw_line]), size_img,
 					&(e->ker[e_ifs_calcul_pt].data[e_cip_pt_ifs]),
 					&(e->ker[e_define_color].data[e_dc_col]),
@@ -65,3 +66,17 @@ int	ocl_render_run(t_env *e)
 	ocl_read_from_draw_line(e->fractal, &(e->ker[e_draw_line]));
 	return (0);
 }
+
+/*
+	while (i < nb_iter)
+	{
+		global_work_size[0] = id_tab[i + 1] - id_tab[i]; // Soit calcul une id de plus; Soit avoir une varible qui stoque le resulta
+
+		ret2 = clSetKernelArg(ifs_cl->kernel, 2, sizeof(int), &i);
+		if (ret2)
+			check_ocl_err(&ret2, 1, "tata yoyo", __FILE__);
+		if (ret[i])
+			check_ocl_err(ret, i + 1, __func__, __FILE__);
+		i++;
+	}
+ * */

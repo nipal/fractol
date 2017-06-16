@@ -167,7 +167,7 @@ __kernel	void	draw_line(__global int *img
 
 __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 									, __global t_ifs_spec *spec
-									, __global int *num_iter)
+									, __const int num_iter)
 {
 	int		glob_id;
 	float2	ux;
@@ -177,9 +177,9 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	int		id_now;
 
 	glob_id = get_global_id(0);
-	id_trans = glob_id % (spec->len_trans[0] + 1);
-	id_parent = (glob_id / (spec->len_trans[0] + 1)) + spec->beg_id[num_iter[0] - 1];
-	id_now = glob_id + spec->beg_id[num_iter[0]];
+	id_trans = glob_id % (spec->len_trans + 1);
+	id_parent = (glob_id / (spec->len_trans + 1)) + spec->beg_id[num_iter - 1];
+	id_now = glob_id + spec->beg_id[num_iter];
 
 	ux = pt_ifs[id_parent + 1] - pt_ifs[id_parent];
 	uy = (float2)(-ux.y, ux.x);

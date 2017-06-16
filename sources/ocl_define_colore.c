@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 02:15:08 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 13:39:06 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ocl_mem_creat_define_color(t_ocl_ker *def_col, size_t size_colore, t_ocl_me
 
 	def_col->nb_arg = 2;
 	ret[0] = ocl_create_mem(def_col, 0, CL_MEM_READ_WRITE, size_colore);
-	memmove(ifs_ker->data + 1, ifs_spec, sizeof(t_ocl_mem));
+	memmove(def_col->data + 1, spec, sizeof(t_ocl_mem));
 	branch_arg_to_kernel(def_col, 2);
 	return (check_ocl_err(ret, 2, __func__, __FILE__));
 }
@@ -95,6 +95,7 @@ int		need_col_update(t_ifs_spec *spec)
 	static	t_ifs_spec	prev_spec;
 	int		ret;
 
+	return (1);
 	ret = 0;
 	if (first)
 	{

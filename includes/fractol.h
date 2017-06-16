@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/15 20:54:37 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 02:16:53 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 12:35:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,8 @@ enum	e_ocl_kernel
 enum	e_ker_calcul_ifs_point
 {
 	e_cip_pt_ifs		= 0,
-	e_cip_transform,
-	e_cip_beg_id,
-	e_cip_trans_len,
-	e_cip_num_iter
+	e_cip_param,
+	e_cip_iter,
 };
 
 enum	e_ker_define_color

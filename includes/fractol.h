@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/15 20:54:37 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 12:35:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 17:28:21 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FRACTOL_H
 
 # define NB_KER 4
+
+# define HARD_ITER 7
 
 # define STACK_SIZE 100
 # define SERVEUR 0

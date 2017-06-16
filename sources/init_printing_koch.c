@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 23:23:51 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 00:26:40 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 16:32:12 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void							print_fractal(t_env *e)
 {
 
-	if (e->transform && e->base)
+//	if (e->transform && e->base)
 		ocl_render_run(e);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fjanoty <fjanoty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/09 12:17:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/15 22:28:43 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 15:59:16 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void	ocl_exit(t_ocl_core *core, t_ocl_ker *ker, int nb_ker, int nb_mem)
 	}
 	ret = clReleaseContext(core->context);
 	ret = clReleaseProgram(core->program);
-	printf("size ocl_mem:%zu\n", sizeof(ker[i].data[j].gpu_buff));
 }
 
 int		ft_exit(t_env *e)

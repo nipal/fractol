@@ -151,7 +151,7 @@ __kernel	void	draw_line(__global int *img
 	while(i <= nb_point)
 	{
 		indice = ((int) p.x) + (int)((int)(p.y) * spec->ecr_y);
-		col_value = ((((int)c.x) & 0xFF) << 16) | ((((int)c.y) & 0xFF) << 8) | ((((int)c.z)) & 0xFF);
+		col_value = 0xFFFFFF;//((((int)c.x) & 0xFF) << 16) | ((((int)c.y) & 0xFF) << 8) | ((((int)c.z)) & 0xFF);
 		is_inside = ((p.x >= 0 && p.x < spec->ecr_x) && (p.y >= 0 && p.y < spec->ecr_y));	
 		if (is_inside)
 			img[indice] = col_value;

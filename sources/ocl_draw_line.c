@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 19:58:57 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/10 20:24:43 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 17:33:32 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ocl_run_draw_line(t_ocl_ker *dl, int *id_tab, int max_iter)
 	size_t		local_work_size[3] = {1, 0, 0};
 	cl_int	ret[1];
 
-	global_work_size[0] = id_tab[max_iter - 1] - id_tab[max_iter - 2] - 1;
+	global_work_size[0] = id_tab[HARD_ITER - 1] - id_tab[HARD_ITER - 2] - 1;
 //	printf("drwa_line:%zu\n", global_work_size[0]);
 	ret[0] = clEnqueueNDRangeKernel(dl->command_queue, dl->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);
 

@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 14:19:32 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 17:26:50 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	ocl_read_from_draw_line(t_win *w, t_ocl_ker *ker);
 int	ocl_render_run(t_env *e)
 {
 	int			id_tab[MAX_ITER];
-	float		col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
-						e->sliders[1]->v1, e->sliders[1]->v2,
-						e->sliders[2]->v1, e->sliders[2]->v2};
+//	float		col[6] = {e->sliders[0]->v1, e->sliders[0]->v2,
+//						e->sliders[1]->v1, e->sliders[1]->v2,
+//						e->sliders[2]->v1, e->sliders[2]->v2};
 
 	ocl_run_define_colore(e, &(e->ker[e_define_color]), id_tab);
-	ocl_ifs_calcul_run(&(e->ker[e_ifs_calcul_pt]), e->transform, e->base, e->max_iter, col);
+	ocl_ifs_calcul_run(&(e->ker[e_ifs_calcul_pt]), e->transform, e->base, e->max_iter, NULL);
 	ocl_run_draw_line(&(e->ker[e_draw_line]), id_tab, e->max_iter);
 
 	ocl_read_from_draw_line(e->fractal, &(e->ker[e_draw_line]));

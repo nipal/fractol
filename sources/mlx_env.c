@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/15 22:53:52 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/15 22:54:37 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 17:25:28 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -72,27 +72,27 @@ void		env(t_env *e)
 		return ;
 	if (!(e->fractal = window_init(e, SIZE_KOCH_X, SIZE_KOCH_Y, "fractal")))
 		return ;
-	if (!(e->param = window_init(e, SIZE_PARAM_X, SIZE_PARAM_Y, "param")))
-		return ;
+//	if (!(e->param = window_init(e, SIZE_PARAM_X, SIZE_PARAM_Y, "param")))
+//		return ;
 	init_win_event(e->fractal, e);
-	init_win_event(e->param, e);
-	init_koch_param_border(e, e->param);
-	init_border_totranslate(&(e->base_cadre), e->fractal, e->tr_base);
+//	init_win_event(e->param, e);
+//	init_koch_param_border(e, e->param);
+//	init_border_totranslate(&(e->base_cadre), e->fractal, e->tr_base);
 
 	
-	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
-	e->border_abox = &border_abox;
+//	init_border(&border_abox, SIZE_PARAM_X / 3	, 2 * SIZE_PARAM_X / 3, 0, SIZE_PARAM_Y / 2);
+//	e->border_abox = &border_abox;
 
-	e->periode = 10000000;
-	e->id_anime_clicked = 0;
-	e->zoom = ZOOM;
-	e->zoom_finished = 1;
+//	e->periode = 10000000;
+//	e->id_anime_clicked = 0;
+//	e->zoom = ZOOM;
+//	e->zoom_finished = 1;
 	mlx_loop_hook(e->mlx, main_work, e);
-	init_koch(e);
-	init_the_sliders(e->param, &(e->border_b));
-	init_statment(e);
+//	init_koch(e);
+//	init_the_sliders(e->param, &(e->border_b));
+//	init_statment(e);
 
-	init_lst_anime(e);
+//	init_lst_anime(e);
 	
 	ocl_init_ifs(e);
 	mlx_loop(e->mlx);

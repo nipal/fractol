@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/15 18:35:56 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 17:35:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,20 +147,21 @@ int	periode = 10000;
 
 int			main_work(t_env *e)
 {
-	gettimeofday(&(e->time),NULL);
+//	gettimeofday(&(e->time),NULL);
 
 	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
 	// ou pour l'atente de quoi ecrire pou enfin voila
 //	wait_for_event(e->sock, &(e->read_fd), e->status);
 
 	/////////////////////////////
-	polygone_destroy(&(e->trans_model2));
-	e->trans_model2 = apply_ellipse_anime(e->trans_model);
-	polygone_destroy(&(e->transform));
-	e->transform = transform(e->trans_model2);
+//	polygone_destroy(&(e->trans_model2));
+//	e->trans_model2 = apply_ellipse_anime(e->trans_model);
+//	polygone_destroy(&(e->transform));
+//	e->transform = transform(e->trans_model2);
+	e->max_iter = HARD_ITER;
 	print_fractal(e);
 	//////////////
 
-	draw_param_ui(e);
+//	draw_param_ui(e);
 	return (1);
 }

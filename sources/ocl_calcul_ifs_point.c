@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 14:16:34 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 17:32:39 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker)
 
 int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])
 {
+	float	hard_base[4][2] =
+	{{657.534241, 341.694916},{250.684937, 919.322021},{1035.616455, 1004.745789},{661.643860, 341.694916}};
+
 	int			i;
 	t_polygone	*node;
 	double		col_val[6]; // param de couleur (les v1 et v2 des button)
@@ -43,13 +46,14 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	//	on copie juste la valeur des point de la base dans la structure de buffer
 	node = base;
 	i = 0;
-	while (i < MAX_NODE && node)
+	while (i < 4)
 	{
-		data->pt_base[i][0] = (float) node->pos->m[0];
-		data->pt_base[i][1] = (float) node->pos->m[1];
-		node = node->next;
+		data->pt_base[i][0] = hard_base[i][0];
+		data->pt_base[i][1] = hard_base[i][1];
 		i++;
 	}
+
+
 //	/*
 	while (i < MAX_NODE)
 	{
@@ -85,7 +89,7 @@ int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base
 	i = 0;
 	while (i < 6)
 	{
-		data->col_val[i] = (float) col[i];
+		data->col_val[i] = i % 2; // la voila il faudrait un truc plustard
 		i++;
 	}
 	return (0);
@@ -151,7 +155,7 @@ int	ocl_ifs_calcul_run(t_ocl_ker *ifs_cl, t_polygone *transform, t_polygone *bas
 
 	// les work_size c'est le nombre de coeur qu'on execute en meme temps
 	format_data_to_ocl(&data, transform, base, nb_iter, col);	
-	set_id_isf_ptbuff(data.base_len, data.trans_len, nb_iter, id_tab);
+	set_id_isf_ptbuff(4, 2, nb_iter, id_tab);
 	ocl_writeto_ifs_calcul(ifs_cl, &data);
 //	print_id_tab(id_tab, MAX_ITER);
 	i = 1;

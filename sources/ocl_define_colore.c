@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/19 22:38:20 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/05/10 20:36:42 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 02:15:08 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ typedef	struct	s_ifs_spec
 }				t_ifs_spec;
 */
 
-int		ocl_mem_creat_define_color(t_ocl_ker *def_col, size_t size_colore)
+int		ocl_mem_creat_define_color(t_ocl_ker *def_col, size_t size_colore, t_ocl_mem *spec)
 {
 	cl_int	ret[2];
 
 	def_col->nb_arg = 2;
 	ret[0] = ocl_create_mem(def_col, 0, CL_MEM_READ_WRITE, size_colore);
-	ret[1] = ocl_create_mem(def_col, 1, CL_MEM_READ_WRITE, sizeof(t_ifs_spec));
+	memmove(ifs_ker->data + 1, ifs_spec, sizeof(t_ocl_mem));
 	branch_arg_to_kernel(def_col, 2);
 	return (check_ocl_err(ret, 2, __func__, __FILE__));
 }
@@ -52,9 +52,25 @@ void	set_range_val(t_range *value, float beg, float end)
 	value->delta = end - beg;
 }
 
+//	ici on remplis tout les champ de la structure pour envoyer
+//	tout d'un coup a l'api opencl
 void	set_dc_spec(t_ifs_spec *spec, t_env *e, t_win *w, int *id_tab)
 {
+	int			i;
+	t_polygone	*node_b;
+	t_polygone	*node_t;
 
+	node_b = e->base;
+	node_t = e->transform;
+	for (i = 0; i < MAX_NODE; i++)
+	{
+		spec->pt_base[i][0] = (node_b) ? node_b->pos->m[0]: 0;
+		spec->pt_base[i][1] = (node_b) ? node_b->pos->m[1]: 0;
+		spec->pt_trans[i][0] = (node_t) ? node_t->pos->m[0]: 0;
+		spec->pt_trans[i][1] = (node_t) ? node_t->pos->m[1]: 0;
+		node_b = (node_b) ? node_b->next: NULL;
+		node_t = (node_t) ? node_t->next: NULL;
+	}
 	spec->len_base = get_polygone_len(e->base);
 	spec->len_trans = get_polygone_len(e->transform);
 	spec->max_iter = e->max_iter;
@@ -116,9 +132,9 @@ int	ocl_run_define_colore(t_env *e, t_ocl_ker *def_col, int *id_tab)
 
 	//	on initialise les data pour le kernel 
 	set_dc_spec(&spec, e, e->fractal, id_tab);
+	ret[0] = clEnqueueWriteBuffer(def_col->command_queue, def_col->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &spec, 0, NULL, NULL);
 	if (!need_col_update(&spec))
 		return (0);
-	ret[0] = clEnqueueWriteBuffer(def_col->command_queue, def_col->data[e_dc_param].gpu_buff, CL_TRUE, 0, sizeof(t_ifs_spec), &spec, 0, NULL, NULL);
 	global_work_size[0] = id_tab[e->max_iter - 1] - id_tab[e->max_iter - 2];
 	//printf("define_color:%zu\n", global_work_size[0]);
 	ret[1] = clEnqueueNDRangeKernel(def_col->command_queue, def_col->kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL);

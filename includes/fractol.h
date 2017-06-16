@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/15 20:54:37 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 00:37:27 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 02:16:53 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define STACK_SIZE 100
 # define SERVEUR 0
 # define CLIENT  1
-# define MAX_NODE 20	// c'est deja enorme on aurra des gros problem de perfe a partir de 9
+# define MAX_NODE 16	// c'est deja enorme on aurra des gros problem de perfe a partir de 9
 
 # include "c_maths.h"
 # include "key.h"
@@ -156,12 +156,12 @@ typedef	struct	s_range
 	float		none;
 }				t_range;
 
-#define NB_MAX_SEG	16
 
 typedef	struct	s_ifs_spec
 {
-	float	pt_base[NB_MAX_SEG][2];
-	float	pt_trans[NB_MAX_SEG][2];
+	float	pt_base[MAX_NODE][2];
+	float	pt_trans[MAX_NODE][2];
+	int		beg_id[MAX_ITER];
 	int		len_base;
 	int		len_trans;
 	int		max_iter;
@@ -169,7 +169,6 @@ typedef	struct	s_ifs_spec
 	int		ecr_x;
 	int		ecr_y;
 	int		nb_iter;
-	int		beg_id[MAX_ITER];
 	t_range	hue;
 	t_range	sat;
 	t_range	val;
@@ -177,14 +176,15 @@ typedef	struct	s_ifs_spec
 
 /*
  *	
+ *
  * */
+
 int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker);
-int	ocl_mem_creat_define_color(t_ocl_ker *def_col,  size_t size_colore);
+int	ocl_mem_creat_define_color(t_ocl_ker *def_col, size_t size_colore, t_ocl_mem *spec);
 int	ocl_mem_creat_draw_line(t_ocl_ker *ifs_ker, size_t img_size, t_ocl_mem *buff_pt, t_ocl_mem *buff_col, t_ocl_mem *ifs_spec);
 
 int	check_ocl_err(cl_int *ret, int nb_ret, const char *func_name, const char *file_name);
 
-int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc);
 int	init_ifs(t_env *e, t_win *w);
 /*
  *	error_opencl.c	

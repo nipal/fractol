@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:22 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 00:01:08 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 02:15:07 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@ int		set_id_isf_ptbuff(int nb_base, int nb_trans, int nb_iter, int *indice_beg);
 
 int	ocl_mem_creat_calcul_ifs(t_ocl_ker *ifs_ker)
 {
-	cl_int	ret[5];
+	cl_int	ret[3];
 
-	ifs_ker->nb_arg = 5;
-	ret[0] = ocl_create_mem(ifs_ker, e_cip_pt_ifs	, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2);
-	ret[1] = ocl_create_mem(ifs_ker, e_cip_transform, CL_MEM_READ_WRITE, MAX_ITER * sizeof(int) * 2);
-	ret[2] = ocl_create_mem(ifs_ker, e_cip_beg_id	, CL_MEM_READ_WRITE, sizeof(int) * MAX_ITER);
-	ret[3] = ocl_create_mem(ifs_ker, e_cip_trans_len, CL_MEM_READ_WRITE, sizeof(int));
-	ret[4] = ocl_create_mem(ifs_ker, e_cip_num_iter	, CL_MEM_READ_WRITE, sizeof(int));
-	branch_arg_to_kernel(ifs_ker, 5);
-	return (check_ocl_err(ret, 5, __func__, __FILE__));
+	ifs_ker->nb_arg = 3;
+	ret[0] = ocl_create_mem(ifs_ker, 0	, CL_MEM_READ_WRITE, BIG_OCL_BUF_SIZE * sizeof(float) * 2);
+	ret[1] = ocl_create_mem(ifs_ker, 1, CL_MEM_READ_WRITE, sizeof(t_ifs_spec));
+	//	en fait il faudrai tester avec un set kernel arg pck on a pas besoind de plus
+	ret[2] = ocl_create_mem(ifs_ker, 2	, CL_MEM_READ_WRITE, sizeof(int));
+	branch_arg_to_kernel(ifs_ker, 3);
+	return (check_ocl_err(ret, 3, __func__, __FILE__));
 }
 
 int		format_data_to_ocl(t_ifs_ocl *data, t_polygone *transform, t_polygone *base, int nb_iter, float col[6])

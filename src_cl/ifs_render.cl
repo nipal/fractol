@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #define MAX_ITER 20
-#define NB_MAX_SEG	16
+#define MAX_NODE	16
 
 
 typedef	struct	s_range
@@ -23,8 +23,9 @@ typedef	struct	s_range
 
 typedef	struct	s_ifs_spec
 {
-	float2	pt_base[NB_MAX_SEG];
-	float2	pt_trans[NB_MAX_SEG];
+	float2	pt_base[MAX_NODE];
+	float2	pt_trans[MAX_NODE];
+	int		beg_id[MAX_ITER];
 	int		len_base;
 	int		len_trans;
 	int		max_iter;
@@ -32,12 +33,10 @@ typedef	struct	s_ifs_spec
 	int		ecr_x;
 	int		ecr_y;
 	int		nb_iter;
-	int		beg_id[MAX_ITER];
 	t_range	hue;
 	t_range	sat;
 	t_range	val;
 }				t_ifs_spec;
-
 
 __kernel void test_image(__global int *time, __global int *data)
 {
@@ -121,7 +120,10 @@ float	get_line_length(float2 p1, float2 p2)
 	return (max_p[id_max]);
 }
 
-__kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *col, __global t_ifs_spec *spec)
+__kernel	void	draw_line(__global int *img
+									   , __global float2 *pt
+									   , __global char4 *col
+									   , __global t_ifs_spec *spec)
 {
 	float2	diff_pos;
 	float4	diff_col;
@@ -164,12 +166,9 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 }
 
 __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
-									, __global float2 *transform
-									, __global int *beg_data_id
-									, __global int *trans_len
+									, __global t_ifs_spec *spec
 									, __global int *num_iter)
 {
-
 	int		glob_id;
 	float2	ux;
 	float2	uy;
@@ -178,12 +177,12 @@ __kernel	void	calcul_ifs_point(__global float2 *pt_ifs
 	int		id_now;
 
 	glob_id = get_global_id(0);
-	id_trans = glob_id % (trans_len[0] + 1);
-	id_parent = (glob_id / (trans_len[0] + 1)) + beg_data_id[num_iter[0] - 1];
-	id_now = glob_id + beg_data_id[num_iter[0]];
+	id_trans = glob_id % (spec->len_trans[0] + 1);
+	id_parent = (glob_id / (spec->len_trans[0] + 1)) + spec->beg_id[num_iter[0] - 1];
+	id_now = glob_id + spec->beg_id[num_iter[0]];
 
 	ux = pt_ifs[id_parent + 1] - pt_ifs[id_parent];
 	uy = (float2)(-ux.y, ux.x);
 
-	pt_ifs[id_now] = pt_ifs[id_parent] + transform[id_trans].x * ux + transform[id_trans].y * uy;
+	pt_ifs[id_now] = pt_ifs[id_parent] + spec->pt_trans[id_trans].x * ux + spec->pt_trans[id_trans].y * uy;
 }

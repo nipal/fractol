@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/20 05:18:36 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/16 00:21:17 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/16 02:17:57 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,6 @@ int	init_ifs(t_env *e, t_win *w)
 					&(e->ker[e_ifs_calcul_pt].data[e_cip_pt_ifs]),
 					&(e->ker[e_define_color].data[e_dc_col]),
 					&(e->ker[e_define_color].data[e_dc_param]));
-	return (0);
-}
-
-//	on va faire du sale ==> on doit l'appeler avec le kernel dc pck je suis mauvais...
-int	ocl_ifs_push_spec(t_win *w, t_data_nw *data, t_ocl_ker *ker_dc)
-{
-	cl_int		ret;
-	t_ifs_spec	param;
-
-	param.len_base = data->base_len;
-	param.len_trans = data->trans_len;
-	param.max_iter = data->max_iter;
-	param.max_pt = data->base_len * pow(data->trans_len, data->max_iter);
-	param.ecr_x = w->size_x;
-	param.ecr_y = w->size_y;
-	ret = clEnqueueWriteBuffer(ker_dc->command_queue, ker_dc->data[e_dc_param].gpu_buff,
-			CL_TRUE, 0, sizeof(t_ifs_spec), &param, 0, NULL, NULL);
 	return (0);
 }
 

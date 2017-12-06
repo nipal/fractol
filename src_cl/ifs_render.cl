@@ -155,19 +155,10 @@ __kernel	void	draw_line(__global int *img, __global float2 *pt, __global char4 *
 		is_inside = ((p.x >= 0 && p.x < spec->ecr_x) && (p.y >= 0 && p.y < spec->ecr_y));	
 		if (is_inside)
 			img[indice] = col_value;
-// printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
-// printf("line[%d][%d]==>	ok(%d)	p.x:%f	p.y:%fcol:[%d][%d][%d]=%d\n", id, i, is_inside, p.x, p.y, ((int)c.x),  ((int)c.y),  ((int)c.z), col_value);
-// printf("ecr_X:%f	ecr_Y:%f\n", spec->ecr_x, spec->ecr_y);
-// printf("=========spec->ecrX:%d	spec->ecrY:%d\n", spec->ecr_x, spec->ecr_y);
 		p += unit_pos;
 		c += unit_col;
 		i++;
 	}
-//printf("p1[%d]:{%f, %f};	p2[%d]:{%f, %f}\n", id, pt[id].x, pt[id].y, (id + 1), pt[id + 1].y, pt[id + 1].y);
-
-//	printf("len_base:%d	len_trans:%d	max_iter:%d	max_pt:%d	ecr_x:%d	ecr_y:%d\n", spec->len_base, spec->len_trans, spec->max_iter, spec->max_pt, spec->ecr_x, spec->ecr_y);
-//print_spec(spec);
-//	printf("nb_point:%d\n", nb_point);		
 }
 
 __kernel	void	calcul_ifs_point(__global float2 *pt_ifs

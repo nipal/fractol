@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 01:26:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/04 22:46:13 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/25 20:05:24 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,136 @@ void	draw_param_ui(t_env *e)
 
 }
 
+float	cross(float x1, float y1,float x2, float y2)
+{
+	return (x1 * x2 + y1 * y2);
+}
+
+void	nrm(float vec[2], float fact)
+{
+	vec[0] *= fact;
+	vec[1] *= fact;
+}
+
+void	print_direct_trans(t_env *e)
+{
+	t_polygone	*node;
+	char		c;
+	float		x, y;
+
+	node = e->transform;
+	printf("{");
+	printf("{%f, %f}, ", 0.0, 0.0);
+	while (node)
+	{
+		x = node->pos->m[0];
+		y = node->pos->m[1];
+		printf("{%f, %f} ", x, y);
+		node = node->next;
+	}
+	printf("{%f, %f} ", 1.0, 0.0);
+	printf("},\n");
+}
+
+void	print_param(t_env *e)
+{
+	int			i;
+	int			end;
+	float		beg_pos[MAX_NODE][2];
+	float		norme_pos[MAX_NODE][2];
+	float		rot[MAX_NODE][3][2];
+	float		ux[2], uy[2], org[2], dist;
+	t_polygone	*node;
+	float tmp_x, tmp_y;
+
+	i = 0;
+	node = e->trans_model;
+	if (node)
+	{
+		//	GET beg_pos
+		while (node && i < MAX_NODE)
+		{
+			beg_pos[i][0] =  node->pos->m[0];
+			beg_pos[i][1] =  node->pos->m[1];
+//			printf("{%f, %f}, ", beg_pos[i][0], beg_pos[i][1]);
+			node = node->next;
+			i++;
+		}
+		end = i - 1;
+//		printf("\n");
+		//	Def ux, uy
+		if (i >= 2)
+		{
+			org[0] = beg_pos[0][0];
+			org[1] = beg_pos[0][1];
+			ux[0] = beg_pos[end][0] - beg_pos[0][0];
+			ux[1] = beg_pos[end][1] - beg_pos[0][1];
+			dist = sqrt(ux[0] * ux[0] + ux[1] * ux[1]);
+			nrm(ux, 1.0 / dist);
+		//	nrm(uy, 1.0 / dist);
+			uy[0] = -ux[1];
+			uy[1] = ux[0];
+
+//			printf("{%f, %f}, {%f, %f}\n", ux[0], ux[1], uy[0], uy[1]);
+//			printf("---------->	");
+			i = 0;
+			while (i <= end)
+			{
+
+				norme_pos[i][0] = beg_pos[i][0] - org[0];
+				norme_pos[i][1] = beg_pos[i][1] - org[1];
+				tmp_x = cross(norme_pos[i][0], norme_pos[i][1], ux[0], ux[1]) / dist;
+				tmp_y = cross(norme_pos[i][0], norme_pos[i][1], uy[0], uy[1]) / dist;
+				norme_pos[i][0] = tmp_x;
+				norme_pos[i][1] = tmp_y;
+//				printf("{%f, %f}, ", norme_pos[i][0], norme_pos[i][1]);
+				i++;
+			}
+//			printf("\n");
+
+			
+			for (i = 0; i <= end; i++)
+			{
+				//	on copie
+				rot[i][0][0] = lst_anime[i].ovaloide->pos->m[0];
+				rot[i][0][1] = lst_anime[i].ovaloide->pos->m[1];
+				rot[i][1][0] = lst_anime[i].ovaloide->next->pos->m[0];
+				rot[i][1][1] = lst_anime[i].ovaloide->next->pos->m[1];
+				rot[i][2][0] = lst_anime[i].ovaloide->next->next->pos->m[0];
+				rot[i][2][1] = lst_anime[i].ovaloide->next->next->pos->m[1];
+			
+
+				// on calcul
+				rot[i][0][0] = (rot[i][0][0] - rot[i][1][0]) / dist;
+				rot[i][0][1] = (rot[i][0][1] - rot[i][1][1]) / dist;
+
+				rot[i][1][0] = (rot[i][2][0] - rot[i][1][0]) / dist;
+				rot[i][1][1] = (rot[i][2][1] - rot[i][1][1]) / dist;
+
+				// on change de repere
+				
+				tmp_x = cross(rot[i][0][0], rot[i][0][1], ux[0], ux[1]);
+				tmp_y = cross(rot[i][0][0], rot[i][0][1], uy[0], uy[1]);
+				rot[i][0][0] = tmp_x;
+				rot[i][0][1] = tmp_y;
+
+				tmp_x = cross(rot[i][1][0], rot[i][1][1], ux[0], ux[1]);
+				tmp_y = cross(rot[i][1][0], rot[i][1][1], uy[0], uy[1]);
+				rot[i][1][0] = tmp_x;
+				rot[i][1][1] = tmp_y;
+				float speed = (1 - (lst_anime[i].speed->v2 - lst_anime[i].speed->v1)) * 10;
+				float offset = (1 - (lst_anime[i].offset->v2 - lst_anime[i].offset->v1));
+				printf(" {%f, %f, %f, %f, %f, %f, %f, %f},\n", norme_pos[i][0], norme_pos[i][1], rot[i][0][0], rot[i][0][1], rot[i][1][0], rot[i][1][1], speed, offset);
+			}
+			printf("-----------------------------\n");
+		}
+//	-------------------- TRANS_POS normalized -------------------
+		
+		
+	}
+}
+
+
 int time_prg = 0;	
 int	periode = 10000;
 
@@ -151,13 +281,16 @@ int			main_work(t_env *e)
 
 	// pour l'atente de nouveu client--> c'est aussi la qu'on peu les ecouter
 	// ou pour l'atente de quoi ecrire pou enfin voila
-	wait_for_event(e->sock, &(e->read_fd), e->status);
+//	wait_for_event(e->sock, &(e->read_fd), e->status);
 
 	/////////////////////////////
 	polygone_destroy(&(e->trans_model2));
 	e->trans_model2 = apply_ellipse_anime(e->trans_model);
 	polygone_destroy(&(e->transform));
 	e->transform = transform(e->trans_model2);
+//	--------------------------
+//	print_param(e);
+//	--------------------------
 	print_fractal(e);
 	//////////////
 

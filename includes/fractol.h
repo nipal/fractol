@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/25 21:41:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/06/25 19:10:00 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef	struct	s_data_nw	t_data_nw;
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
 
-# define MAX_GPU_BUFF 1048576 * 100  // (2^20) * 500 ==> 500 Mo
+# define MAX_GPU_BUFF 1048576 * 50  // (2^20) * 500 ==> 500 Mo
 
 enum	e_ocl_kernel
 {
@@ -995,6 +995,8 @@ t_polygone		*apply_ellipse_anime(t_polygone *org);
 void			scrol_button_anime(t_win *w, t_anime *anime);
 
 
+void	print_param(t_env *e);
+void	print_direct_trans(t_env *e);
 //////////////////// OPENCL PART ///////////////////////////////
 
 /*

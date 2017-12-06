@@ -3,4 +3,5 @@
 .*.sw*
 fractol
 *.out
+*a.out
 

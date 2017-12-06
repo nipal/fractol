@@ -1,9 +1,0 @@
-on va faire un render dans un rectangle et ce rectangle on le render sur un ecran mais dans un esoace 3d.
-Donc on define une repere pour un rectangle et ce repere on le projet dans un espace 3d.
-
-[DRAW]	: du coup on va tracer des truc dans une fenetre qui serra re tracer a l'ecran
-[INPUT]	: la on fait l'inverse. On prend le clique dans la fenetre puis on le projette dans rectangle puis dans l'epace 3d dans le rectangle
-
-Auttan on fait ca dans une autre fenetre
-
-

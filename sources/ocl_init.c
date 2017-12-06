@@ -6,7 +6,7 @@
 /*   By: fjanoty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/12 15:23:10 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/04/22 21:22:39 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/12/06 18:07:09 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init_ocl_core(t_ocl_core *core, const char *file_name)
 		return (2);
 
 	ret[0] = clGetPlatformIDs(1, &(core->platform_id), &(ret_num_platforms));
-	ret[1] = clGetDeviceIDs(core->platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &(core->device_id), &ret_num_devices);
+	ret[1] = clGetDeviceIDs(core->platform_id, CL_DEVICE_TYPE_CPU, 1, &(core->device_id), &ret_num_devices);
 	core->context = clCreateContext(NULL, 1, &(core->device_id), NULL, NULL, ret + 2);
 	core->program = clCreateProgramWithSource(core->context, 1, (const char **)&source_str, (const size_t *)&source_size, ret + 3);
 	ret[4] = clBuildProgram(core->program, 1, &(core->device_id), NULL, NULL, NULL);

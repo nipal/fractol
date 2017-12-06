@@ -6,7 +6,7 @@
 /*   By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/10 10:54:24 by fjanoty           #+#    #+#             */
-/*   Updated: 2017/06/25 19:10:00 by fjanoty          ###   ########.fr       */
+/*   Updated: 2017/12/06 20:01:18 by fjanoty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ typedef	struct	s_data_nw	t_data_nw;
 ///////////// ocl_render /////////////
 #include <OpenCL/opencl.h>	
 
-# define BIG_OCL_BUF_SIZE 37500000 // pour retomber sur 300 mo
 # define MAX_ITER 20 // vraiment... c'est trop pour un buffer mais bon... OK
 # define ARG_KER_MAX 10
 # define IFS_CALCUL_PT 0	// il faut vraiment queje me mette au enum, mais j'ai tellement la fleme
 # define DRAW_LINE 1		// no comment 
 
-# define MAX_GPU_BUFF 1048576 * 50  // (2^20) * 500 ==> 500 Mo
+# define MAX_GPU_BUFF 1048576 * 500  // (2^20) * 500 ==> 500 Mo
+# define BIG_OCL_BUF_SIZE MAX_GPU_BUFF
 
 enum	e_ocl_kernel
 {
@@ -585,6 +585,7 @@ void			size_window_copy(double pos_low[4], double pos_height[4]);
 **	new_hook
 */
 
+void			change_iter(t_win *w, int incr);
 int				mouse_inside(int x, int y, t_win *w);
 int				press_key(int key_code, t_win *w);
 int				release_key(int key_code, t_win *w);

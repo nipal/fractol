@@ -6,7 +6,7 @@
 #    By: nperrin <nperrin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 01:32:20 by fjanoty           #+#    #+#              #
-#    Updated: 2017/05/01 07:01:42 by fjanoty          ###   ########.fr        #
+#    Updated: 2018/01/09 03:59:11 by fjanoty          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ PRELIB		= -I $(SPACE)
 
 LIB_DIR		= -L ../libft -L ../c_maths -L ../vec_math -L ../minilibx_macos
 
-LIB_NAME	= -lft -lc_maths -lvec_math -lmlx
+LIB_NAME	= -lft -lc_maths  -lmlx
 
 FRAMEWORK	= -framework OpenGl -framework AppKit -framework opencl
 
